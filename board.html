@@ -20,16 +20,26 @@
   <div id="canvas-container"></div>
 
   <!-- Layer 2: Navbar -->
-  <nav>
-    <div class="logo">HANWHA AEROSPACE</div>
+  <nav class="notranslate">
+    <a href="https://www.hanwhaaerospace.com/kor/index.do" target="_blank" style="text-decoration: none; display: flex; align-items: center;">
+      <div class="logo" style="cursor: pointer; transition: 0.3s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color=''">HANWHA AEROSPACE</div>
+    </a>
     <ul style="align-items: center;">
       <li><a href="index.html#hero">HOME</a></li>
-      <li><a href="index.html#protect">TRUST</a></li>
       <li><a href="tech.html">TECH</a></li>
       <li><a href="innovation.html">INNOVATION</a></li>
-      <li><a href="board.html" class="active">BOARD</a></li>
+      <li><a href="board.html" class="active">LOUNGE</a></li>
       <li><a href="index.html#contact">JOIN</a></li>
-      <li><button id="lang-toggle" class="lang-btn">🇰🇷 KR</button></li>
+      <li class="lang-dropdown" style="position: relative;">
+        <button id="lang-toggle" class="lang-btn" style="background: transparent; border: none; font-size: 1.5rem; cursor: pointer; outline: none; padding: 0;" title="Select Language">🌍</button>
+        <div id="lang-menu" style="display: none; position: absolute; right: 0; top: 40px; background: rgba(0,0,0,0.9); border: 1px solid var(--hanwha-orange); border-radius: 10px; padding: 10px; flex-direction: column; gap: 10px; z-index: 10000; min-width: 140px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-align: left;">
+          <span onclick="setLang('kr')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇰🇷 한국어</span>
+          <span onclick="setLang('en')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇺🇸 English</span>
+          <span onclick="setLang('ar')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇸🇦 العربية</span>
+          <span onclick="setLang('zh')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇨🇳 中文</span>
+          <span onclick="setLang('ja')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇯🇵 日本語</span>
+        </div>
+      </li>
     </ul>
   </nav>
 
@@ -58,12 +68,18 @@
 
         <!-- Form for posting (hidden initially) -->
         <div id="board-form-container" class="board-form card" style="display: none; width: 100%;">
-          <h3 id="form-title" style="margin-bottom: 2rem; color: var(--hanwha-orange);" class="i18n" data-kr="새 게시글 작성" data-en="Write a New Post">새 게시글 작성</h3>
-          <div class="form-group">
-            <input type="text" id="board-name" placeholder="이름 (Name)">
-            <input type="email" id="board-email" placeholder="이메일 (Email)">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h3 id="form-title" style="color: var(--hanwha-orange); margin: 0;" class="i18n" data-kr="새 게시글 작성" data-en="Write a New Post">새 게시글 작성</h3>
+            <label style="color: white; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" id="board-anon" onchange="window.toggleAnonMode(this.checked)">
+              <span class="i18n" data-kr="익명으로 작성하기" data-en="Post Anonymously">익명으로 작성하기</span>
+            </label>
           </div>
-          <textarea id="board-content" placeholder="내용을 입력하세요 (Enter your message...)"></textarea>
+          <div class="form-group" id="user-info-group">
+            <input type="text" id="board-name" class="i18n-placeholder" data-kr="이름 (Name)" data-en="Name" placeholder="이름 (Name)">
+            <input type="email" id="board-email" class="i18n-placeholder" data-kr="이메일 (반드시 @ 포함)" data-en="Email (Requires @)" placeholder="이메일 (반드시 @ 포함)">
+          </div>
+          <textarea id="board-content" class="i18n-placeholder" data-kr="내용을 입력하세요..." data-en="Enter your message..." placeholder="내용을 입력하세요..."></textarea>
           <div style="display: flex; gap: 1rem; margin-top: 1rem;">
             <button id="submit-post" class="btn-contact i18n" data-kr="등록" data-en="Submit" style="flex: 1; padding: 0.8rem;">등록</button>
             <button id="cancel-post" class="btn-contact i18n" data-kr="취소" data-en="Cancel"
@@ -75,5 +91,12 @@
   </main>
 
   <script src="script.js"></script>
+  <div id="google_translate_element" style="display:none;"></div>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'ko', includedLanguages: 'ko,en,zh-CN,ja,ar', autoDisplay: false}, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>

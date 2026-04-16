@@ -20,16 +20,43 @@
   <div id="canvas-container"></div>
 
   <!-- Layer 2: Navbar (Innovative Navigation) -->
-  <nav>
-    <div class="logo">HANWHA AEROSPACE</div>
+  <nav class="notranslate">
+    <a href="https://www.hanwhaaerospace.com/kor/index.do" target="_blank"
+      style="text-decoration: none; display: flex; align-items: center;">
+      <div class="logo" style="cursor: pointer; transition: 0.3s;" onmouseover="this.style.color='var(--hanwha-orange)'"
+        onmouseout="this.style.color=''">HANWHA AEROSPACE</div>
+    </a>
     <ul style="align-items: center;">
       <li><a href="index.html#hero">HOME</a></li>
-      <li><a href="index.html#protect">TRUST</a></li>
       <li><a href="tech.html" class="active">TECH</a></li>
       <li><a href="innovation.html">INNOVATION</a></li>
-      <li><a href="board.html">BOARD</a></li>
+      <li><a href="board.html">LOUNGE</a></li>
       <li><a href="index.html#contact">JOIN</a></li>
-      <li><button id="lang-toggle" class="lang-btn">🇰🇷 KR</button></li>
+      <li class="lang-dropdown" style="position: relative;">
+        <button id="lang-toggle" class="lang-btn"
+          style="background: transparent; border: none; font-size: 1.5rem; cursor: pointer; outline: none; padding: 0;"
+          title="Select Language">🌍</button>
+        <div id="lang-menu"
+          style="display: none; position: absolute; right: 0; top: 40px; background: rgba(0,0,0,0.9); border: 1px solid var(--hanwha-orange); border-radius: 10px; padding: 10px; flex-direction: column; gap: 10px; z-index: 10000; min-width: 140px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-align: left;">
+          <span onclick="setLang('kr')"
+            style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+            onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇰🇷 한국어</span>
+          <span onclick="setLang('en')"
+            style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+            onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇺🇸
+            English</span>
+          <span onclick="setLang('ar')"
+            style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+            onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇸🇦
+            العربية</span>
+          <span onclick="setLang('zh')"
+            style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+            onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇨🇳 中文</span>
+          <span onclick="setLang('ja')"
+            style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+            onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇯🇵 日本語</span>
+        </div>
+      </li>
     </ul>
   </nav>
 
@@ -60,9 +87,9 @@
       </div>
     </div>
     <p style="color: var(--text-secondary); margin-top: 1.5rem; line-height: 1.6; font-size: 0.95rem;" class="i18n"
-      data-kr="XG5000을 활용한 XGK 시리즈 제어 시나리오입니다. 스마트 빌딩의 자동 온도 제어 및 방문객 카운팅 시스템을 위한 복잡한 인터록(Interlock) 회로를 설계하고 시뮬레이션하여 한화의 차세대 생산 라인 안정성을 보장합니다."
-      data-en="XGK series control scenario using XG5000. Designed complex interlock circuits for smart building automation and counting systems, ensuring the reliability of Hanwha's next-gen production lines.">
-      XG5000을 활용한 XGK 시리즈 제어 시나리오입니다. 스마트 빌딩의 자동 온도 제어 및 방문객 카운팅 시스템을 위한 복잡한 인터록(Interlock) 회로를 설계하고 시뮬레이션하여 한화의 차세대 생산
+      data-kr="GX Works2를 활용한 제어 시나리오입니다. 스마트 빌딩의 자동 온도 제어 및 방문객 카운팅 시스템을 위한 복잡한 인터록(Interlock) 회로를 설계하고 시뮬레이션하여 한화의 차세대 생산 라인 안정성을 보장합니다."
+      data-en="Control scenario using GX Works2. Designed complex interlock circuits for smart building automation and counting systems, ensuring the reliability of Hanwha's next-gen production lines.">
+      GX Works2를 활용한 제어 시나리오입니다. 스마트 빌딩의 자동 온도 제어 및 방문객 카운팅 시스템을 위한 복잡한 인터록(Interlock) 회로를 설계하고 시뮬레이션하여 한화의 차세대 생산
       라인 안정성을 보장합니다.
     </p>
   </div>
@@ -109,9 +136,9 @@
       <!-- Featured Highlight: Semiconductor Micro-degree & PLC -->
       <div class="featured-grid" style="margin-bottom: 4rem;">
         <div class="card gsap-card featured-card" onclick="openModal('modal-plc')" style="cursor: pointer;">
-          <div class="tech-tag">MICRO-DEGREE : SEMICONDUCTOR</div>
-          <h3 style="color: var(--hanwha-orange); font-size: 2.2rem; margin-bottom: 1.5rem;" class="i18n"
-            data-kr="몰입형 PLC 실무 (XGK & XG5000)" data-en="Immersive PLC Practice">몰입형 PLC 실무 (XGK & XG5000)</h3>
+          <div class="tech-tag">PLC & UI/UX</div>
+          <h3 class="i18n" style="font-weight: 300; margin-bottom: 1.5rem;" data-kr="몰입형 PLC 실무 (GX Works2)"
+            data-en="Immersive PLC Practice">몰입형 PLC 실무 (GX Works2)</h3>
           <div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;">
             <div class="ladder-container" style="flex: 1; min-width: 250px; height: 220px;">
               <div class="scan-line"></div>
@@ -150,12 +177,12 @@
 
       <!-- Category 1: Smart Manufacturing & Core -->
       <h3 class="i18n" data-kr="SMART MANUFACTURING & CORE" data-en="SMART MANUFACTURING & CORE"
-        style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.9rem; letter-spacing: 5px; text-align: left; width: 100%; max-width: 1100px;">
+        style="color: var(--text-primary); font-weight: 800; font-size: 1.1rem; margin-bottom: 1.5rem; letter-spacing: 5px; text-align: left; width: 100%; max-width: 1100px;">
         SMART MANUFACTURING & CORE</h3>
       <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); margin-bottom: 4rem;">
         <div class="card gsap-card">
           <div class="tech-id">TECH-01</div>
-          <h4 class="neon-text">반도체 장비 S/W 실무</h4>
+          <h4 class="neon-text i18n" data-kr="반도체 장비 S/W 실무" data-en="Semi-Equipment S/W Practice">반도체 장비 S/W 실무</h4>
           <p class="i18n"
             data-kr="[반도체] 정밀 장비 제어 프로토콜 학습. AI를 활용한 고정밀 모터 오차 보정 알고리즘 설계.<br><strong>[한화]</strong> 항공 엔진 부품 자립화를 위한 고정밀 가공 설비 S/W 최적화 즉시 투입 가능."
             data-en="[Semi] Equipment control protocols & AI-based motor error compensation.<br><strong>[Hanwha]</strong> Ready for S/W optimization of aerospace engine precision machining.">
@@ -165,7 +192,7 @@
         </div>
         <div class="card gsap-card">
           <div class="tech-id">TECH-02</div>
-          <h4 class="neon-text">PC 기반 제어 & SCADA</h4>
+          <h4 class="neon-text i18n" data-kr="PC 기반 제어 & SCADA" data-en="PC-Based Control & SCADA">PC 기반 제어 & SCADA</h4>
           <p class="i18n"
             data-kr="[제어] LabVIEW 데이터 분석 및 SCADA HMI 작화. 압력 제어 시스템 및 HMI 디자인.<br><strong>[한화]</strong> 공장 전체 가동 상태 원격 관제 및 통합 제어 시스템 구축을 통한 운영 효율 극대화."
             data-en="[Control] LabVIEW analytics & SCADA HMI design. Pressure control system implementation.<br><strong>[Hanwha]</strong> Maximizing operational efficiency via integrated remote control systems.">
@@ -175,7 +202,7 @@
         </div>
         <div class="card gsap-card" onclick="openModal('modal-cad')" style="cursor: pointer;">
           <div class="tech-id">TECH-03</div>
-          <h4 class="neon-text">CAD/SOLIDWORKS</h4>
+          <h4 class="neon-text i18n" data-kr="CAD/SOLIDWORKS" data-en="CAD/SOLIDWORKS">CAD/SOLIDWORKS</h4>
           <p class="i18n"
             data-kr="[설계] KS 규격 도면 해독 및 부품 모델링/어셈블리 설계 전 과정 학습.<br><strong>[한화]</strong> K9 및 레드백의 복잡한 기구부 도면 해독 및 생산 라인 레이아웃 최적화 기여."
             data-en="[Design] KS drafting & Solidworks assembly Modeling.<br><strong>[Hanwha]</strong> Precise decryption of K9/REDBACK mechanism blueprints & layout optimization.">
@@ -185,7 +212,7 @@
         </div>
         <div class="card gsap-card">
           <div class="tech-id">TECH-04</div>
-          <h4 class="neon-text">전기/전자회로 실습</h4>
+          <h4 class="neon-text i18n" data-kr="전기/전자회로 실습" data-en="Electric/Electronic Circuit Labs">전기/전자회로 실습</h4>
           <p class="i18n"
             data-kr="[회로] RLC 이론, 반도체 소자(BJT, FET), Op-Amp 계측 실무.<br><strong>[한화]</strong> 자동화 시스템 하드웨어 이상 유무 검증 및 제어 시스템 물리 회로 유지보수 역량."
             data-en="[Circuit] RLC, BJT/FET, Op-Amp measurement practice.<br><strong>[Hanwha]</strong> Essential hardware verification & physical circuit maintenance for automation.">
@@ -195,7 +222,7 @@
         </div>
         <div class="card gsap-card">
           <div class="tech-id">TECH-05</div>
-          <h4 class="neon-text">아두이노 & 마이크로컨트롤러</h4>
+          <h4 class="neon-text i18n" data-kr="아두이노 & 마이크로컨트롤러" data-en="Arduino & Microcontrollers">아두이노 & 마이크로컨트롤러</h4>
           <p class="i18n"
             data-kr="[임베디드] Bluetooth/IoT 통신 및 다양한 액추에이터(Servo/Step) 연동.<br><strong>[한화]</strong> 현장 실시간 정보 수집을 위한 맞춤형 IoT 노드 및 소형 자동화 장치 프로토타이핑."
             data-en="[Embedded] IoT communication & actuator control (Servo/Step).<br><strong>[Hanwha]</strong> Custom IoT node development & micro-automation prototyping.">
@@ -207,14 +234,16 @@
 
       <!-- Category 2: Semiconductor Boot Camp -->
       <h3 class="i18n" data-kr="MICRO-DEGREE CURRICULUM" data-en="MICRO-DEGREE CURRICULUM"
-        style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.9rem; letter-spacing: 5px; text-align: left; width: 100%; max-width: 1100px;">
+        style="color: var(--text-primary); font-weight: 800; font-size: 1.1rem; margin-bottom: 1.5rem; letter-spacing: 5px; text-align: left; width: 100%; max-width: 1100px;">
         MICRO-DEGREE CURRICULUM</h3>
       <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); margin-bottom: 2rem;">
 
         <div class="card gsap-card">
           <div class="tech-id">STEP-01</div>
-          <h4 class="neon-text">기초 및 공통 역량</h4>
-          <p style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">반도체개론, 디지털공학, 전자회로, 전기전자측정, 반도체소자</p>
+          <h4 class="neon-text i18n" data-kr="기초 및 공통 역량" data-en="Foundation & Core Competencies">기초 및 공통 역량</h4>
+          <p class="i18n" data-kr="반도체개론, 디지털공학, 전자회로, 전기전자측정, 반도체소자"
+            data-en="Semiconductors, Digital Eng, Electronic Circuits, Electrical Measurement, Devices"
+            style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">반도체개론, 디지털공학, 전자회로, 전기전자측정, 반도체소자</p>
           <p class="i18n"
             data-kr="[역량] 전자 회로의 동작 원리를 분석하고 측정 장비를 활용해 신호를 검증하는 능력. 반도체 소자의 특성을 이해하여 시스템 설계 시 최적의 부품을 선정하는 판단력.<br><strong>[적용]</strong> 기초 전자공학 및 반도체 소자에 대한 깊은 이해를 바탕으로 내부 제어 회로를 안정적으로 설계할 수 있는 이론적 기틀을 다졌습니다."
             data-en="[Skills] Component analysis & signal verification via test equipment. Understanding semiconductor characteristics for optimal part selection.<br><strong>[Application]</strong> Theoretical foundation for stable internal control circuit designs.">
@@ -225,8 +254,10 @@
 
         <div class="card gsap-card">
           <div class="tech-id">STEP-02</div>
-          <h4 class="neon-text">하드웨어 제어 및 자동화</h4>
-          <p style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">PLC제어실습, 마이크로프로세서, 센서공학, 모터제어, CAD/CAM</p>
+          <h4 class="neon-text i18n" data-kr="하드웨어 제어 및 자동화" data-en="Hardware Control & Automation">하드웨어 제어 및 자동화</h4>
+          <p class="i18n" data-kr="PLC제어실습, 마이크로프로세서, 센서공학, 모터제어, CAD/CAM"
+            data-en="PLC Control Labs, Microprocessor, Sensor Eng, Motor Control, CAD/CAM"
+            style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">PLC제어실습, 마이크로프로세서, 센서공학, 모터제어, CAD/CAM</p>
           <p class="i18n"
             data-kr="[역량] 산업 현장의 표준 제어기인 PLC를 활용한 시스템 자동화. 다양한 센서 데이터를 수집하고 이를 통해 모터를 정밀 제어하는 기술.<br><strong>[적용]</strong> PLC 및 마이크로프로세서 실습으로 산업용 자동화 로직을 익혀, 센서 융합 데이터 처리 및 정밀 주행 제어 능력을 갖추었습니다."
             data-en="[Skills] System automation using PLC. Precise motor control via sensor data collection.<br><strong>[Application]</strong> Mastered industrial automation logic for sensor fusion data processing and precise motion control.">
@@ -237,8 +268,10 @@
 
         <div class="card gsap-card">
           <div class="tech-id">STEP-03</div>
-          <h4 class="neon-text">설계 및 제조 공정</h4>
-          <p style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">반도체공정기술, PCB설계실습, 반도체장비유지보수, 팹(Fab) 실습</p>
+          <h4 class="neon-text i18n" data-kr="설계 및 제조 공정" data-en="Design & Manufacturing Process">설계 및 제조 공정</h4>
+          <p class="i18n" data-kr="반도체공정기술, PCB설계실습, 반도체장비유지보수, 팹(Fab) 실습"
+            data-en="Semiconductor Proc Tech, PCB Design, Semi Equip Maintenance, Fab Labs"
+            style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">반도체공정기술, PCB설계실습, 반도체장비유지보수, 팹(Fab) 실습</p>
           <p class="i18n"
             data-kr="[역량] 반도체 8대 공정 실무 및 클린룸 장비 운용. 회로를 실제 기판으로 구현하는 PCB 설계 및 장비 유지보수 능력.<br><strong>[적용]</strong> 단순한 프로토타입 제작을 넘어, 반도체 공정 수준의 정밀한 PCB 설계 및 설비 유지보수 프로세스를 익힘으로써 상용화 가능한 하드웨어 제작 역량을 증명합니다."
             data-en="[Skills] 8-core fab processes & cleanroom equipment operation. PCB design & equipment maintenance.<br><strong>[Application]</strong> Evolved beyond simple prototypes to commercial-level hardware fabrication via precision PCB design and equipment maintenance skills.">
@@ -249,8 +282,10 @@
 
         <div class="card gsap-card">
           <div class="tech-id">STEP-04</div>
-          <h4 class="neon-text">소프트웨어 및 문제 해결</h4>
-          <p style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">C언어/C++, 파이썬 프로그래밍, 반도체 캡스톤디자인, AI 기초</p>
+          <h4 class="neon-text i18n" data-kr="소프트웨어 및 문제 해결" data-en="Software & Problem Solving">소프트웨어 및 문제 해결</h4>
+          <p class="i18n" data-kr="C언어/C++, 파이썬 프로그래밍, 반도체 캡스톤디자인, AI 기초"
+            data-en="C/C++, Python, Semiconductor Capstone, AI Foundations"
+            style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">C언어/C++, 파이썬 프로그래밍, 반도체 캡스톤디자인, AI 기초</p>
           <p class="i18n"
             data-kr="[역량] 임베디드 시스템에 최적화된 저수준 언어(C/C++) 활용. 데이터 분석 및 인공지능 알고리즘을 제어 시스템에 접목.<br><strong>[적용]</strong> 캡스톤 디자인을 통해 문제 정의부터 해결까지 전 과정을 경험했으며, 효율적인 경로 최적화 및 제어 알고리즘 구현 가능성을 확인했습니다."
             data-en="[Skills] Low-level programming (C/C++) for embedded systems. Integrating AI algorithms into control systems.<br><strong>[Application]</strong> Experienced full problem-solving cycles through Capstone Design, demonstrating capability to implement efficient routing and control algorithms.">
@@ -280,6 +315,14 @@
   </main>
 
   <script src="script.js"></script>
+  <div id="google_translate_element" style="display:none;"></div>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({ pageLanguage: 'ko', includedLanguages: 'ko,en,zh-CN,ja,ar', autoDisplay: false }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript"
+    src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 
 </html>

@@ -746,3 +746,9 @@ body.light-theme .post-card {
 body.light-theme .neon-text {
   color: var(--hanwha-orange);
 }
+
+/* Hide Google Translate Default UI */
+body { top: 0px !important; }
+.skiptranslate, .goog-te-banner-frame { display: none !important; }
+#google_translate_element { display: none !important; }
+body > .skiptranslate { display: none !important; }

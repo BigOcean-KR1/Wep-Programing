@@ -282,29 +282,82 @@ window.addEventListener('scroll', () => {
   });
 });
 
-// 4. Language Toggle Logic (Modified to English Priority UI)
-let isEnglish = true; // Default to English as requested
+// 4. Language Dropdown Logic
+let isEnglish = true; // Default or track explicitly
+let currentLangCode = 'kr';
 const langToggleBtn = document.getElementById('lang-toggle');
+const langMenu = document.getElementById('lang-menu');
 const i18nElements = document.querySelectorAll('.i18n');
 
-langToggleBtn.addEventListener('click', () => {
-  isEnglish = !isEnglish;
-  langToggleBtn.innerText = isEnglish ? "🇰🇷 KR" : "🇺🇸 EN";
+if (langToggleBtn && langMenu) {
+  langToggleBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    langMenu.style.display = langMenu.style.display === 'none' ? 'flex' : 'none';
+  });
+
+  window.addEventListener('click', () => {
+    langMenu.style.display = 'none';
+  });
+}
+
+window.setLang = function(lang) {
+  currentLangCode = lang;
+  isEnglish = (lang === 'en');
+  localStorage.setItem('hanwha_lang_pref', lang);
   
+  // 1. Restore exact Korean or exact English manual strings first!
+  // This resets the text so Google Translate can translate purely from Korean base.
   i18nElements.forEach(el => {
-    const krText = el.getAttribute('data-kr');
-    const enText = el.getAttribute('data-en');
-    if (krText && enText) {
-      el.innerHTML = isEnglish ? enText : krText;
+    const targetText = el.getAttribute(`data-${lang === 'en' ? 'en' : 'kr'}`);
+    if (targetText) {
+      el.innerHTML = targetText;
     }
   });
 
-  // Switch Placeholders
   document.querySelectorAll('.i18n-placeholder').forEach(el => {
-    el.placeholder = isEnglish ? el.getAttribute('data-en') : el.getAttribute('data-kr');
+    const targetText = el.getAttribute(`data-${lang === 'en' ? 'en' : 'kr'}`);
+    if (targetText) {
+      el.placeholder = targetText;
+    }
   });
+
+  // 2. Trigger Google Translate Widget
+  const gtMap = {
+    'kr': 'ko',
+    'en': 'en',
+    'zh': 'zh-CN',
+    'ja': 'ja',
+    'ar': 'ar'
+  };
   
+  const gtCode = gtMap[lang] || 'ko';
+  const selectField = document.querySelector('select.goog-te-combo');
+  if (selectField) {
+    selectField.value = gtCode;
+    selectField.dispatchEvent(new Event('change'));
+  } else {
+    // If google translate hasn't loaded yet, try again slightly later safely
+    setTimeout(() => {
+      const retryField = document.querySelector('select.goog-te-combo');
+      if (retryField) {
+        retryField.value = gtCode;
+        retryField.dispatchEvent(new Event('change'));
+      }
+    }, 800);
+  }
+
   if (typeof window.loadPosts === 'function') { window.loadPosts(); }
+  if (langMenu) langMenu.style.display = 'none';
+};
+
+window.addEventListener('DOMContentLoaded', () => {
+  const savedLang = localStorage.getItem('hanwha_lang_pref');
+  if (savedLang && savedLang !== 'kr') {
+    // Add a short delay to ensure DOM and Google Translate are both fully mapped
+    setTimeout(() => {
+      window.setLang(savedLang);
+    }, 600);
+  }
 });
 
 // ----------------------------------------------------
@@ -340,37 +393,76 @@ if (boardList) {
       
       let replyHTML = '';
       if (post.reply) {
-        replyHTML = `
-          <div class="post-reply">
+        replyHTML += `
+          <div class="post-reply" style="margin-top: 15px;">
             <span class="reply-badge">RE:</span> ${post.reply}
           </div>
         `;
       }
+      if (post.comments && post.comments.length > 0) {
+        post.comments.forEach(comment => {
+          replyHTML += `
+            <div class="post-reply" style="margin-top: 10px; background: rgba(255,255,255,0.03); border-left: 2px solid #00d4ff;">
+              <span style="font-weight: 700; color: #00d4ff;">💬 ${comment.author}</span>: ${comment.text}
+              <span style="font-size:0.7rem; color:#888; display:block; margin-top:5px;">${comment.date}</span>
+            </div>
+          `;
+        });
+      }
 
       postEl.innerHTML = `
-        <div class="post-header">
-          <span>${post.name}</span>
-          <div class="post-options">
-            <span onclick="event.stopPropagation(); replyPost(${post.id})">${isEnglish ? 'Reply' : '답변'}</span>
+        <div class="post-header" style="align-items: center;">
+          <span style="font-size: 1.1rem; font-weight: 800;">🙎 ${post.name}</span>
+          <div class="post-options" style="display: flex; align-items: center; gap: 15px;">
+            <div onclick="event.stopPropagation(); toggleLike(${post.id})" style="cursor: pointer; display: flex; align-items: center; gap: 5px; padding: 4px 12px; border-radius: 20px; background: rgba(243, 115, 33, 0.1); border: 1px solid rgba(243, 115, 33, 0.3); transition: 0.3s;" onmouseover="this.style.background='rgba(243, 115, 33, 0.2)'" onmouseout="this.style.background='rgba(243, 115, 33, 0.1)'">
+              <span style="font-size:1.2rem;">👍</span> 
+              <span style="color:var(--hanwha-orange); font-weight:bold;">${isEnglish ? 'Like' : '추천'} ${post.likes || 0}</span>
+            </div>
+            <span onclick="event.stopPropagation(); addComment(${post.id})" style="cursor: pointer;">${isEnglish ? 'Reply' : '답글달기'}</span>
             <span onclick="event.stopPropagation(); editPost(${post.id})">${isEnglish ? 'Edit' : '수정'}</span>
             <span onclick="event.stopPropagation(); deletePost(${post.id})" class="delete-btn">${isEnglish ? 'Delete' : '삭제'}</span>
           </div>
         </div>
-        <div class="post-content">${post.content}</div>
+        <div class="post-content" style="margin: 1.5rem 0; line-height: 1.7; font-size: 1rem;">${post.content.replace(/\n/g, '<br>')}</div>
         ${replyHTML}
-        <div style="display:flex; justify-content: space-between; margin-top: 1rem; font-size: 0.8rem; color: var(--text-secondary);">
-          <span>${post.email}</span>
-          <span>${post.date}</span>
+        <div style="display:flex; justify-content: space-between; margin-top: 1.5rem; font-size: 0.8rem; color: var(--text-secondary); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
+          <span>${post.email.includes('비공개') || post.email.includes('anonymous.com') ? (isEnglish ? '🔒 Private' : '🔒 비공개') : '📧 ' + post.email}</span>
+          <span>🗓️ ${post.date}</span>
         </div>
       `;
       boardList.appendChild(postEl);
     });
   };
 
+  window.toggleLike = function(id) {
+    let posts = JSON.parse(localStorage.getItem('board_posts') || '[]');
+    const index = posts.findIndex(p => p.id === id);
+    if (index !== -1) {
+      posts[index].likes = (posts[index].likes || 0) + 1;
+      localStorage.setItem('board_posts', JSON.stringify(posts));
+      window.loadPosts();
+    }
+  };
+
+  window.addComment = function(id) {
+    const author = prompt(isEnglish ? "Enter your name:" : "답글 작성자의 이름을 입력하세요:");
+    if (!author) return;
+    const text = prompt(isEnglish ? "Enter your reply:" : "답글 내용을 입력하세요:");
+    if (!text) return;
+    
+    let posts = JSON.parse(localStorage.getItem('board_posts') || '[]');
+    const index = posts.findIndex(p => p.id === id);
+    if (index !== -1) {
+      if(!posts[index].comments) posts[index].comments = [];
+      posts[index].comments.push({ author, text, date: new Date().toLocaleString() });
+      localStorage.setItem('board_posts', JSON.stringify(posts));
+      window.loadPosts();
+    }
+  };
+
   window.replyPost = function(id) {
     const reply = prompt(isEnglish ? "Enter your reply:" : "답변을 입력하세요:");
     if (!reply) return;
-    
     let posts = JSON.parse(localStorage.getItem('board_posts') || '[]');
     const index = posts.findIndex(p => p.id === id);
     if (index !== -1) {
@@ -420,13 +512,41 @@ if (boardList) {
     toggleFormBtn.style.display = 'block';
   });
 
-  submitPostBtn.addEventListener('click', () => {
-    const name = msgName.value;
-    const email = msgEmail.value;
-    const content = msgContent.value;
+  window.toggleAnonMode = function(checked) {
+    const userInfoGroup = document.getElementById('user-info-group');
+    if (userInfoGroup) {
+      if (checked) {
+        userInfoGroup.style.display = 'none';
+        msgName.value = '익명(Anonymous)';
+        msgEmail.value = '비공개 (Private)';
+      } else {
+        userInfoGroup.style.display = 'flex';
+        msgName.value = '';
+        msgEmail.value = '';
+      }
+    }
+  };
 
-    if(!name || !email || !content) {
-      alert(isEnglish ? "Please fill in all fields." : "모든 항목을 입력해주세요.");
+  submitPostBtn.addEventListener('click', () => {
+    const name = msgName.value.trim();
+    const email = msgEmail.value.trim();
+    const content = msgContent.value.trim();
+    const anonCheckbox = document.getElementById('board-anon');
+    const isAnon = anonCheckbox ? anonCheckbox.checked : false;
+
+    if (!isAnon) {
+      if(!name || !email) {
+        alert(isEnglish ? "Please fill in Name and Email." : "이름과 이메일을 입력해주세요.");
+        return;
+      }
+      if (!email.includes('@') || !email.includes('.')) {
+        alert(isEnglish ? "Email must be a valid @domain.com format." : "이메일은 반드시 @ 닷컴 형태로 써주세요.");
+        return;
+      }
+    }
+
+    if(!content) {
+      alert(isEnglish ? "Please write your message." : "내용을 입력해주세요.");
       return;
     }
 

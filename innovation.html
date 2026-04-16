@@ -20,16 +20,26 @@
   <div id="canvas-container"></div>
 
   <!-- Layer 2: Navbar (Innovative Navigation) -->
-  <nav>
-    <div class="logo">HANWHA AEROSPACE</div>
+  <nav class="notranslate">
+    <a href="https://www.hanwhaaerospace.com/kor/index.do" target="_blank" style="text-decoration: none; display: flex; align-items: center;">
+      <div class="logo" style="cursor: pointer; transition: 0.3s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color=''">HANWHA AEROSPACE</div>
+    </a>
     <ul style="align-items: center;">
       <li><a href="index.html#hero">HOME</a></li>
-      <li><a href="index.html#protect">TRUST</a></li>
       <li><a href="tech.html">TECH</a></li>
       <li><a href="innovation.html" class="active">INNOVATION</a></li>
-      <li><a href="board.html">BOARD</a></li>
+      <li><a href="board.html">LOUNGE</a></li>
       <li><a href="index.html#contact">JOIN</a></li>
-      <li><button id="lang-toggle" class="lang-btn">🇰🇷 KR</button></li>
+      <li class="lang-dropdown" style="position: relative;">
+        <button id="lang-toggle" class="lang-btn" style="background: transparent; border: none; font-size: 1.5rem; cursor: pointer; outline: none; padding: 0;" title="Select Language">🌍</button>
+        <div id="lang-menu" style="display: none; position: absolute; right: 0; top: 40px; background: rgba(0,0,0,0.9); border: 1px solid var(--hanwha-orange); border-radius: 10px; padding: 10px; flex-direction: column; gap: 10px; z-index: 10000; min-width: 140px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-align: left;">
+          <span onclick="setLang('kr')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇰🇷 한국어</span>
+          <span onclick="setLang('en')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇺🇸 English</span>
+          <span onclick="setLang('ar')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇸🇦 العربية</span>
+          <span onclick="setLang('zh')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇨🇳 中文</span>
+          <span onclick="setLang('ja')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇯🇵 日本語</span>
+        </div>
+      </li>
     </ul>
   </nav>
 
@@ -93,10 +103,16 @@
         <h3 class="i18n" data-kr="창의적 공학설계 경진대회 입상" data-en="Creative Engineering Design Award"
           style="font-weight: 300; margin-bottom: 2rem;">창의적 공학설계 경진대회 입상</h3>
         <div class="highlight-8 gsap-zoom" style="margin: 1rem 0;">8位</div>
-        <p style="font-size: 1.2rem; margin-bottom: 3rem;" class="gsap-text i18n"
+        <p style="font-size: 1.2rem; margin-bottom: 2rem;" class="gsap-text i18n"
           data-kr="TRIZ 기법을 적용한 오토마타 기구 설계 및 실무 문제 해결 능력 증명"
           data-en="Proved practical problem-solving skills through TRIZ-based automata mechanism design.">TRIZ 기법을 적용한
           오토마타 기구 설계 및 실무 문제 해결 능력 증명</p>
+
+        <!-- Automata Images (You can replace this with YouTube iframe or other images) -->
+        <div style="display: flex; gap: 1.5rem; justify-content: center; align-items: stretch; margin-bottom: 3rem; flex-wrap: wrap;">
+          <img src="assets/automata_3d.jpg" style="width: 100%; max-width: 48%; height: 350px; object-fit: cover; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);" alt="3D Automata Design">
+          <img src="assets/automata.jpg" style="width: 100%; max-width: 48%; height: 350px; object-fit: cover; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);" alt="Actual Automata Assembly">
+        </div>
 
         <div class="timeline gsap-timeline">
           <div class="timeline-item">
@@ -120,6 +136,13 @@
   </main>
 
   <script src="script.js"></script>
+  <div id="google_translate_element" style="display:none;"></div>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'ko', includedLanguages: 'ko,en,zh-CN,ja,ar', autoDisplay: false}, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 
 </html>
