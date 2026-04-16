@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hanwha Aerospace | TECH</title>
+  <link rel="stylesheet" href="style.css?v=5">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- GSAP Suite for Scroll Animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+
+  <!-- Layer 1: Universal Space (Particles) -->
+  <div id="canvas-container"></div>
+
+  <!-- Layer 2: Navbar (Innovative Navigation) -->
+  <nav>
+    <div class="logo">HANWHA AEROSPACE</div>
+    <ul style="align-items: center;">
+      <li><a href="index.html#hero">HOME</a></li>
+      <li><a href="index.html#protect">TRUST</a></li>
+      <li><a href="tech.html" class="active" target="_blank">TECH</a></li>
+      <li><a href="innovation.html" target="_blank">INNOVATION</a></li>
+      <li><a href="index.html#board-section">BOARD</a></li>
+      <li><a href="index.html#contact">JOIN</a></li>
+      <li><button id="lang-toggle" class="lang-btn">🇰🇷 KR</button></li>
+    </ul>
+  </nav>
+
+  <!-- Modals -->
+  <div id="modal-plc" class="modal">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+      <h3 style="color: var(--hanwha-orange);" class="i18n" data-kr="PLC 래더 로직 및 스마트 팩토리 제어"
+        data-en="PLC Ladder Logic & Smart Factory Control">PLC 래더 로직 및 스마트 팩토리 제어</h3>
+      <span style="cursor: pointer; color: #fff; font-size: 2rem;" onclick="closeModal('modal-plc')">&times;</span>
+    </div>
+    <div class="ladder-container">
+      <div class="scan-line"></div>
+      <div class="ladder-rung">
+        <div class="ladder-component contact active-glow"></div>
+        <div class="ladder-component coil active-glow" style="animation-delay: 0.8s;"></div>
+      </div>
+      <div class="ladder-rung">
+        <div style="display: flex; gap: 5px;">
+          <div class="ladder-component contact active-glow" style="animation-delay: 0.2s;"></div>
+          <div class="ladder-component contact active-glow" style="animation-delay: 0.4s;"></div>
+        </div>
+        <div class="ladder-component coil active-glow" style="animation-delay: 1.2s;"></div>
+      </div>
+      <div class="ladder-rung">
+        <div class="ladder-component contact active-glow" style="animation-delay: 0.6s;"></div>
+        <div class="timer-block active-glow" style="animation-delay: 1s;">T01: 5.0s</div>
+        <div class="ladder-component coil active-glow" style="animation-delay: 1.6s;"></div>
+      </div>
+    </div>
+    <p style="color: var(--text-secondary); margin-top: 1.5rem; line-height: 1.6; font-size: 0.95rem;" class="i18n"
+      data-kr="XG5000을 활용한 XGK 시리즈 제어 시나리오입니다. 스마트 빌딩의 자동 온도 제어 및 방문객 카운팅 시스템을 위한 복잡한 인터록(Interlock) 회로를 설계하고 시뮬레이션하여 한화의 차세대 생산 라인 안정성을 보장합니다."
+      data-en="XGK series control scenario using XG5000. Designed complex interlock circuits for smart building automation and counting systems, ensuring the reliability of Hanwha's next-gen production lines.">
+      XG5000을 활용한 XGK 시리즈 제어 시나리오입니다. 스마트 빌딩의 자동 온도 제어 및 방문객 카운팅 시스템을 위한 복잡한 인터록(Interlock) 회로를 설계하고 시뮬레이션하여 한화의 차세대 생산
+      라인 안정성을 보장합니다.
+    </p>
+  </div>
+
+  <div id="modal-cad" class="modal">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+      <h3 style="color: var(--hanwha-orange);" class="i18n" data-kr="기구 설계 및 생산 레이아웃 최적화"
+        data-en="Mechanism Design & Layout Optimization">기구 설계 및 생산 레이아웃 최적화
+      </h3>
+      <span style="cursor: pointer; color: #fff; font-size: 2rem;" onclick="closeModal('modal-cad')">&times;</span>
+    </div>
+    <img src="assets/robot_arm.png" style="width: 100%; border-radius: 15px; margin-bottom: 1.5rem;" alt="CAD Model">
+    <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem;" class="i18n"
+      data-kr="AutoCAD 및 Solidworks를 통한 KS 규격 정밀 도면 해독 역량입니다. K9 자주포 및 레드백 장갑차의 복잡한 기구부 설계를 이해하고, 한화에어로스페이스의 스마트 팩토리 생산 라인 레이아웃을 최적화하여 공정 정확성을 극대화합니다."
+      data-en="KS standard precision blueprint decryption via AutoCAD & Solidworks. Expert in understanding K9/REDBACK complex mechanisms and maximizing Hanwha Aerospace's smart factory efficiency through layout optimization.">
+      AutoCAD 및 Solidworks를 통한 KS 규격 정밀 도면 해독 역량입니다. K9 자주포 및 레드백 장갑차의 복잡한 기구부 설계를 이해하고, 한화에어로스페이스의 스마트 팩토리 생산 라인 레이아웃을
+      최적화하여 공정 정확성을 극대화합니다.
+    </p>
+  </div>
+
+  <main id="main-content" style="padding-top: 100px;">
+    <!-- Fixed Go Back Button -->
+    <a href="index.html" style="position: fixed; top: 90px; left: 20px; z-index: 9999; color: var(--text-primary); text-decoration: none; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 20px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); transition: 0.3s;" class="i18n" data-kr="◀ 돌아가기" data-en="◀ Back" onmouseover="this.style.background='var(--hanwha-orange)'; this.style.color='#000'; this.style.borderColor='var(--hanwha-orange)';" onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.color='var(--text-primary)'; this.style.borderColor='rgba(255,255,255,0.2)';">◀ 돌아가기</a>
+
+    <!-- Step 4: Section 2 - SUSTAINABLE: Technical Mastery -->
+    <section id="sustainable">
+      <h2 class="gsap-header">SUSTAINABLE: Technical Mastery</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 3rem;" class="gsap-text i18n"
+        data-kr="시대를 앞서가는 스마트 팩토리 설계 및 정밀 제어 솔루션"
+        data-en="Pioneering Smart Factory Design & Precision Control Solutions.">
+        시대를 앞서가는 스마트 팩토리 설계 및 정밀 제어 솔루션
+      </p>
+
+      <!-- Featured Highlight: Semiconductor Micro-degree & PLC -->
+      <div class="featured-grid" style="margin-bottom: 4rem;">
+        <div class="card gsap-card featured-card" onclick="openModal('modal-plc')" style="cursor: pointer;">
+          <div class="tech-tag">MICRO-DEGREE : SEMICONDUCTOR</div>
+          <h3 style="color: var(--hanwha-orange); font-size: 2.2rem; margin-bottom: 1.5rem;" class="i18n"
+            data-kr="몰입형 PLC 실무 (XGK & XG5000)" data-en="Immersive PLC Practice">몰입형 PLC 실무 (XGK & XG5000)</h3>
+          <div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;">
+            <div class="ladder-container" style="flex: 1; min-width: 250px; height: 220px;">
+              <div class="scan-line"></div>
+              <div class="ladder-rung">
+                <div class="ladder-component contact active-glow"></div>
+                <div class="ladder-component coil active-glow" style="animation-delay: 0.8s;"></div>
+              </div>
+              <div class="ladder-rung">
+                <div style="display: flex; gap: 5px;">
+                  <div class="ladder-component contact active-glow" style="animation-delay: 0.2s;"></div>
+                  <div class="ladder-component contact active-glow" style="animation-delay: 0.4s;"></div>
+                </div>
+                <div class="ladder-component coil active-glow" style="animation-delay: 1.2s;"></div>
+              </div>
+              <div class="ladder-rung">
+                <div class="ladder-component contact active-glow" style="animation-delay: 0.6s;"></div>
+                <div class="timer-block active-glow" style="animation-delay: 1s;">T01: 5.0s</div>
+                <div class="ladder-component coil active-glow" style="animation-delay: 1.6s;"></div>
+              </div>
+              <div class="ladder-rung">
+                <div class="ladder-component contact active-glow" style="animation-delay: 0.8s;"></div>
+                <div class="ladder-component coil active-glow" style="animation-delay: 2s;"></div>
+              </div>
+            </div>
+            <div style="flex: 1.5; min-width: 300px; text-align: left;">
+              <p class="i18n" style="font-size: 1.1rem; line-height: 1.8;"
+                data-kr="[교육] XGK 시리즈 하드웨어 구성부터 XG5000 래더 로직 설계, 시퀀스 제어 마스터.<br>[프로젝트] 스마트 빌딩 인터록 및 방문객 카운팅 시스템 시뮬레이션.<br><strong>[한화 연계]</strong> K9 자주포 및 레드백 생산 라인의 자동 이송/조립 공정 설계 및 고장 진단 핵심 기술."
+                data-en="[EDU] Mastered XGK Hardware & XG5000 Ladder Logic.<br>[Project] Smart building interlock & counting system simulation.<br><strong>[Hanwha]</strong> Core tech for K9/REDBACK automated assembly line and maintenance.">
+                [교육] XGK 시리즈 하드웨어 구성부터 XG5000 래더 로직 설계, 시퀀스 제어 마스터.<br>[프로젝트] 스마트 빌딩 인터록 및 방문객 카운팅 시스템
+                시뮬레이션.<br><strong>[한화 연계]</strong> K9 자주포 및 레드백 생산 라인의 자동 이송/조립 공정 설계 및 고장 진단 핵심 기술.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 1: Smart Manufacturing & Core -->
+      <h3 class="i18n" data-kr="SMART MANUFACTURING & CORE" data-en="SMART MANUFACTURING & CORE"
+        style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.9rem; letter-spacing: 5px; text-align: left; width: 100%; max-width: 1100px;">
+        SMART MANUFACTURING & CORE</h3>
+      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); margin-bottom: 4rem;">
+        <div class="card gsap-card">
+          <div class="tech-id">TECH-01</div>
+          <h4 class="neon-text">반도체 장비 S/W 실무</h4>
+          <p class="i18n"
+            data-kr="[반도체] 정밀 장비 제어 프로토콜 학습. AI를 활용한 고정밀 모터 오차 보정 알고리즘 설계.<br><strong>[한화]</strong> 항공 엔진 부품 자립화를 위한 고정밀 가공 설비 S/W 최적화 즉시 투입 가능."
+            data-en="[Semi] Equipment control protocols & AI-based motor error compensation.<br><strong>[Hanwha]</strong> Ready for S/W optimization of aerospace engine precision machining.">
+            [반도체] 정밀 장비 제어 프로토콜 학습. AI를 활용한 고정밀 모터 오차 보정 알고리즘 설계.<br><strong>[한화]</strong> 항공 엔진 부품 자립화를 위한 고정밀 가공 설비
+            S/W 최적화 즉시 투입 가능.
+          </p>
+        </div>
+        <div class="card gsap-card">
+          <div class="tech-id">TECH-02</div>
+          <h4 class="neon-text">PC 기반 제어 & SCADA</h4>
+          <p class="i18n"
+            data-kr="[제어] LabVIEW 데이터 분석 및 SCADA HMI 작화. 압력 제어 시스템 및 HMI 디자인.<br><strong>[한화]</strong> 공장 전체 가동 상태 원격 관제 및 통합 제어 시스템 구축을 통한 운영 효율 극대화."
+            data-en="[Control] LabVIEW analytics & SCADA HMI design. Pressure control system implementation.<br><strong>[Hanwha]</strong> Maximizing operational efficiency via integrated remote control systems.">
+            [제어] LabVIEW 데이터 분석 및 SCADA HMI 작화. 압력 제어 시스템 및 HMI 디자인.<br><strong>[한화]</strong> 공장 전체 가동 상태 원격 관제 및 통합 제어
+            시스템 구축을 통한 운영 효율 극대화.
+          </p>
+        </div>
+        <div class="card gsap-card" onclick="openModal('modal-cad')" style="cursor: pointer;">
+          <div class="tech-id">TECH-03</div>
+          <h4 class="neon-text">CAD/SOLIDWORKS</h4>
+          <p class="i18n"
+            data-kr="[설계] KS 규격 도면 해독 및 부품 모델링/어셈블리 설계 전 과정 학습.<br><strong>[한화]</strong> K9 및 레드백의 복잡한 기구부 도면 해독 및 생산 라인 레이아웃 최적화 기여."
+            data-en="[Design] KS drafting & Solidworks assembly Modeling.<br><strong>[Hanwha]</strong> Precise decryption of K9/REDBACK mechanism blueprints & layout optimization.">
+            [설계] KS 규격 도면 해독 및 부품 모델링/어셈블리 설계 전 과정 학습.<br><strong>[한화]</strong> K9 및 레드백의 복잡한 기구부 도면 해독 및 생산 라인 레이아웃 최적화
+            기여.
+          </p>
+        </div>
+        <div class="card gsap-card">
+          <div class="tech-id">TECH-04</div>
+          <h4 class="neon-text">전기/전자회로 실습</h4>
+          <p class="i18n"
+            data-kr="[회로] RLC 이론, 반도체 소자(BJT, FET), Op-Amp 계측 실무.<br><strong>[한화]</strong> 자동화 시스템 하드웨어 이상 유무 검증 및 제어 시스템 물리 회로 유지보수 역량."
+            data-en="[Circuit] RLC, BJT/FET, Op-Amp measurement practice.<br><strong>[Hanwha]</strong> Essential hardware verification & physical circuit maintenance for automation.">
+            [회로] RLC 이론, 반도체 소자(BJT, FET), Op-Amp 계측 실무.<br><strong>[한화]</strong> 자동화 시스템 하드웨어 이상 유무 검증 및 제어 시스템 물리 회로
+            유지보수 역량.
+          </p>
+        </div>
+        <div class="card gsap-card">
+          <div class="tech-id">TECH-05</div>
+          <h4 class="neon-text">아두이노 & 마이크로컨트롤러</h4>
+          <p class="i18n"
+            data-kr="[임베디드] Bluetooth/IoT 통신 및 다양한 액추에이터(Servo/Step) 연동.<br><strong>[한화]</strong> 현장 실시간 정보 수집을 위한 맞춤형 IoT 노드 및 소형 자동화 장치 프로토타이핑."
+            data-en="[Embedded] IoT communication & actuator control (Servo/Step).<br><strong>[Hanwha]</strong> Custom IoT node development & micro-automation prototyping.">
+            [임베디드] Bluetooth/IoT 통신 및 다양한 액추에이터(Servo/Step) 연동.<br><strong>[한화]</strong> 현장 실시간 정보 수집을 위한 맞춤형 IoT 노드 및
+            소형 자동화 장치 프로토타이핑.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
