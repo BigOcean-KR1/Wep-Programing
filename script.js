@@ -1,5 +1,18 @@
 gsap.registerPlugin(ScrollTrigger);
 
+// --- Lenis Premium Smooth Scroll Setup ---
+const lenis = new Lenis({
+  duration: 1.5,
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
+  smooth: true,
+  wheelMultiplier: 1,
+});
+
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+gsap.ticker.lagSmoothing(0);
+// -----------------------------------------
+
 // 1. Particle System (The Universe of Hanwha)
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -10,8 +23,10 @@ document.getElementById('canvas-container').appendChild(renderer.domElement);
 const geometry = new THREE.BufferGeometry();
 const particlesCount = 2000;
 const posArray = new Float32Array(particlesCount * 3);
-for(let i=0; i < particlesCount * 3; i++) {
-    posArray[i] = (Math.random() - 0.5) * 25; // x, y, z
+for(let i=0; i < particlesCount * 3; i+=3) {
+    posArray[i] = (Math.random() - 0.5) * 100; // x
+    posArray[i+1] = (Math.random() - 0.5) * 100; // y
+    posArray[i+2] = (Math.random() - 0.5) * 100; // z
 }
 geometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 

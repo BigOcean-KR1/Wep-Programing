@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hanwha Aerospace | COMMUNITY</title>
+  <link rel="stylesheet" href="style.css?v=5">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- Lenis for 120fps Smooth Scroll -->
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+  <!-- GSAP Suite for Scroll Animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+
+  <!-- Layer 1: Universal Space (Particles) -->
+  <div id="canvas-container"></div>
+
+  <!-- Layer 2: Navbar -->
+  <nav>
+    <div class="logo">HANWHA AEROSPACE</div>
+    <ul style="align-items: center;">
+      <li><a href="index.html#hero">HOME</a></li>
+      <li><a href="index.html#protect">TRUST</a></li>
+      <li><a href="tech.html">TECH</a></li>
+      <li><a href="innovation.html">INNOVATION</a></li>
+      <li><a href="board.html" class="active">BOARD</a></li>
+      <li><a href="index.html#contact">JOIN</a></li>
+      <li><button id="lang-toggle" class="lang-btn">🇰🇷 KR</button></li>
+    </ul>
+  </nav>
+
+  <!-- Layer 3: Scrollable Content -->
+  <main id="main-content" style="padding-top: 100px;">
+    <!-- Sleek Back Button -->
+    <a href="index.html" style="position: fixed; top: 30px; left: 30px; width: 45px; height: 45px; border-radius: 50%; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); display: flex; justify-content: center; align-items: center; z-index: 9999; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" title="이전 화면으로" onmouseover="this.style.background='var(--hanwha-orange)'; this.style.borderColor='var(--hanwha-orange)'; this.style.transform='scale(1.1)';" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.borderColor='rgba(255,255,255,0.2)'; this.style.transform='scale(1)';">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    </a>
+
+    <!-- Step 6: Free Bulletin Board -->
+    <section id="board-section">
+      <h2 class="gsap-header i18n" data-kr="커뮤니티 라운지" data-en="Community Lounge">커뮤니티 라운지</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 2rem;" class="gsap-text i18n" data-kr="자유롭게 소통하며 아이디어를 나누는 공간입니다." data-en="A space to communicate freely and share ideas.">
+        자유롭게 소통하며 아이디어를 나누는 공간입니다.
+      </p>
+
+      <div class="board-container">
+        <!-- Post list -->
+        <div id="board-list" class="board-list">
+          <!-- Posts will be injected here -->
+        </div>
+
+        <button id="toggle-form-btn" class="btn-contact i18n" data-kr="글쓰기" data-en="Write Post"
+          style="margin: 3rem 0; width: 140px; font-size: 0.9rem; padding: 0.6rem;">글쓰기</button>
+
+        <!-- Form for posting (hidden initially) -->
+        <div id="board-form-container" class="board-form card" style="display: none; width: 100%;">
+          <h3 id="form-title" style="margin-bottom: 2rem; color: var(--hanwha-orange);" class="i18n" data-kr="새 게시글 작성" data-en="Write a New Post">새 게시글 작성</h3>
+          <div class="form-group">
+            <input type="text" id="board-name" placeholder="이름 (Name)">
+            <input type="email" id="board-email" placeholder="이메일 (Email)">
+          </div>
+          <textarea id="board-content" placeholder="내용을 입력하세요 (Enter your message...)"></textarea>
+          <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <button id="submit-post" class="btn-contact i18n" data-kr="등록" data-en="Submit" style="flex: 1; padding: 0.8rem;">등록</button>
+            <button id="cancel-post" class="btn-contact i18n" data-kr="취소" data-en="Cancel"
+              style="flex: 1; padding: 0.8rem; border-color: #555;">취소</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

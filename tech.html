@@ -7,6 +7,8 @@
   <title>Hanwha Aerospace | TECH</title>
   <link rel="stylesheet" href="style.css?v=5">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- Lenis for 120fps Smooth Scroll -->
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
   <!-- GSAP Suite for Scroll Animations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -23,9 +25,9 @@
     <ul style="align-items: center;">
       <li><a href="index.html#hero">HOME</a></li>
       <li><a href="index.html#protect">TRUST</a></li>
-      <li><a href="tech.html" class="active" target="_blank">TECH</a></li>
-      <li><a href="innovation.html" target="_blank">INNOVATION</a></li>
-      <li><a href="index.html#board-section">BOARD</a></li>
+      <li><a href="tech.html" class="active">TECH</a></li>
+      <li><a href="innovation.html">INNOVATION</a></li>
+      <li><a href="board.html">BOARD</a></li>
       <li><a href="index.html#contact">JOIN</a></li>
       <li><button id="lang-toggle" class="lang-btn">🇰🇷 KR</button></li>
     </ul>
@@ -82,8 +84,18 @@
   </div>
 
   <main id="main-content" style="padding-top: 100px;">
-    <!-- Fixed Go Back Button -->
-    <a href="index.html" style="position: fixed; top: 90px; left: 20px; z-index: 9999; color: var(--text-primary); text-decoration: none; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 20px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); transition: 0.3s;" class="i18n" data-kr="◀ 돌아가기" data-en="◀ Back" onmouseover="this.style.background='var(--hanwha-orange)'; this.style.color='#000'; this.style.borderColor='var(--hanwha-orange)';" onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.color='var(--text-primary)'; this.style.borderColor='rgba(255,255,255,0.2)';">◀ 돌아가기</a>
+    <!-- Sleek Back Button -->
+    <a href="index.html"
+      style="position: fixed; top: 30px; left: 30px; width: 45px; height: 45px; border-radius: 50%; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); display: flex; justify-content: center; align-items: center; z-index: 9999; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.3);"
+      title="이전 화면으로"
+      onmouseover="this.style.background='var(--hanwha-orange)'; this.style.borderColor='var(--hanwha-orange)'; this.style.transform='scale(1.1)';"
+      onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.borderColor='rgba(255,255,255,0.2)'; this.style.transform='scale(1)';">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+    </a>
 
     <!-- Step 4: Section 2 - SUSTAINABLE: Technical Mastery -->
     <section id="sustainable">
@@ -192,6 +204,78 @@
           </p>
         </div>
       </div>
+
+      <!-- Category 2: Semiconductor Boot Camp -->
+      <h3 class="i18n" data-kr="MICRO-DEGREE CURRICULUM" data-en="MICRO-DEGREE CURRICULUM"
+        style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.9rem; letter-spacing: 5px; text-align: left; width: 100%; max-width: 1100px;">
+        MICRO-DEGREE CURRICULUM</h3>
+      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); margin-bottom: 2rem;">
+
+        <div class="card gsap-card">
+          <div class="tech-id">STEP-01</div>
+          <h4 class="neon-text">기초 및 공통 역량</h4>
+          <p style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">반도체개론, 디지털공학, 전자회로, 전기전자측정, 반도체소자</p>
+          <p class="i18n"
+            data-kr="[역량] 전자 회로의 동작 원리를 분석하고 측정 장비를 활용해 신호를 검증하는 능력. 반도체 소자의 특성을 이해하여 시스템 설계 시 최적의 부품을 선정하는 판단력.<br><strong>[적용]</strong> 기초 전자공학 및 반도체 소자에 대한 깊은 이해를 바탕으로 내부 제어 회로를 안정적으로 설계할 수 있는 이론적 기틀을 다졌습니다."
+            data-en="[Skills] Component analysis & signal verification via test equipment. Understanding semiconductor characteristics for optimal part selection.<br><strong>[Application]</strong> Theoretical foundation for stable internal control circuit designs.">
+            [역량] 전자 회로의 동작 원리를 분석하고 측정 장비를 활용해 신호를 검증하는 능력. 반도체 소자의 특성을 이해하여 시스템 설계 시 최적의 부품을 선정하는
+            판단력.<br><strong>[적용]</strong> 기초 전자공학 및 반도체 소자에 대한 깊은 이해를 바탕으로 내부 제어 회로를 안정적으로 설계할 수 있는 이론적 기틀을 다졌습니다.
+          </p>
+        </div>
+
+        <div class="card gsap-card">
+          <div class="tech-id">STEP-02</div>
+          <h4 class="neon-text">하드웨어 제어 및 자동화</h4>
+          <p style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">PLC제어실습, 마이크로프로세서, 센서공학, 모터제어, CAD/CAM</p>
+          <p class="i18n"
+            data-kr="[역량] 산업 현장의 표준 제어기인 PLC를 활용한 시스템 자동화. 다양한 센서 데이터를 수집하고 이를 통해 모터를 정밀 제어하는 기술.<br><strong>[적용]</strong> PLC 및 마이크로프로세서 실습으로 산업용 자동화 로직을 익혀, 센서 융합 데이터 처리 및 정밀 주행 제어 능력을 갖추었습니다."
+            data-en="[Skills] System automation using PLC. Precise motor control via sensor data collection.<br><strong>[Application]</strong> Mastered industrial automation logic for sensor fusion data processing and precise motion control.">
+            [역량] 산업 현장의 표준 제어기인 PLC를 활용한 시스템 자동화. 다양한 센서 데이터를 수집하고 이를 통해 모터를 정밀 제어하는 기술.<br><strong>[적용]</strong> PLC 및
+            마이크로프로세서 실습으로 산업용 자동화 로직을 익혀, 센서 융합 데이터 처리 및 정밀 주행 제어 능력을 갖추었습니다.
+          </p>
+        </div>
+
+        <div class="card gsap-card">
+          <div class="tech-id">STEP-03</div>
+          <h4 class="neon-text">설계 및 제조 공정</h4>
+          <p style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">반도체공정기술, PCB설계실습, 반도체장비유지보수, 팹(Fab) 실습</p>
+          <p class="i18n"
+            data-kr="[역량] 반도체 8대 공정 실무 및 클린룸 장비 운용. 회로를 실제 기판으로 구현하는 PCB 설계 및 장비 유지보수 능력.<br><strong>[적용]</strong> 단순한 프로토타입 제작을 넘어, 반도체 공정 수준의 정밀한 PCB 설계 및 설비 유지보수 프로세스를 익힘으로써 상용화 가능한 하드웨어 제작 역량을 증명합니다."
+            data-en="[Skills] 8-core fab processes & cleanroom equipment operation. PCB design & equipment maintenance.<br><strong>[Application]</strong> Evolved beyond simple prototypes to commercial-level hardware fabrication via precision PCB design and equipment maintenance skills.">
+            [역량] 반도체 8대 공정 실무 및 클린룸 장비 운용. 회로를 실제 기판으로 구현하는 PCB 설계 및 장비 유지보수 능력.<br><strong>[적용]</strong> 단순한 프로토타입 제작을
+            넘어, 반도체 공정 수준의 정밀한 PCB 설계 및 설비 유지보수 프로세스를 익힘으로써 상용화 가능한 하드웨어 제작 역량을 증명합니다.
+          </p>
+        </div>
+
+        <div class="card gsap-card">
+          <div class="tech-id">STEP-04</div>
+          <h4 class="neon-text">소프트웨어 및 문제 해결</h4>
+          <p style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">C언어/C++, 파이썬 프로그래밍, 반도체 캡스톤디자인, AI 기초</p>
+          <p class="i18n"
+            data-kr="[역량] 임베디드 시스템에 최적화된 저수준 언어(C/C++) 활용. 데이터 분석 및 인공지능 알고리즘을 제어 시스템에 접목.<br><strong>[적용]</strong> 캡스톤 디자인을 통해 문제 정의부터 해결까지 전 과정을 경험했으며, 효율적인 경로 최적화 및 제어 알고리즘 구현 가능성을 확인했습니다."
+            data-en="[Skills] Low-level programming (C/C++) for embedded systems. Integrating AI algorithms into control systems.<br><strong>[Application]</strong> Experienced full problem-solving cycles through Capstone Design, demonstrating capability to implement efficient routing and control algorithms.">
+            [역량] 임베디드 시스템에 최적화된 저수준 언어(C/C++) 활용. 데이터 분석 및 인공지능 알고리즘을 제어 시스템에 접목.<br><strong>[적용]</strong> 캡스톤 디자인을 통해
+            문제 정의부터 해결까지 전 과정을 경험했으며, 효율적인 경로 최적화 및 제어 알고리즘 구현 가능성을 확인했습니다.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Core Summary -->
+      <div class="card gsap-card"
+        style="width: 100%; max-width: 1100px; padding: 3rem 2rem; border-color: var(--hanwha-orange); margin-bottom: 4rem;">
+        <div class="tech-tag" style="background: rgba(243, 115, 33, 0.2); color: var(--hanwha-orange);">T-SHAPED TALENT
+        </div>
+        <h3 class="i18n" data-kr="초융합 엔지니어링 실무 역량 검증" data-en="Verified T-Shaped Engineering Competency"
+          style="font-weight: 300; margin-bottom: 1.5rem;">초융합 엔지니어링 실무 역량 검증</h3>
+        <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-primary);" class="i18n"
+          data-kr="동양미래대학교 부트캠프를 통해 전자회로 설계(PCB), 산업용 제어(PLC), 임베디드 프로그래밍, 반도체 공정 기술을 아우르는 융합적 실무 역량을 습득했습니다. 특히 이론에 그치지 않고 <strong>300시간 이상의 실무 집중 교육</strong>을 통해 복합적인 엔지니어링 문제를 해결하는 능력을 입증하여 이수증을 취득했습니다."
+          data-en="Through the Micro-degree boot camp, I acquired multidisciplinary skills encompassing PCB design, PLC industrial control, embedded programming, and semiconductor processes. Rather than staying at the theoretical level, I completed over 300 hours of intensive practical training, proving my ability to solve complex engineering problems and earning the official certification.">
+          동양미래대학교 부트캠프를 통해 전자회로 설계(PCB), 산업용 제어(PLC), 임베디드 프로그래밍, 반도체 공정 기술을 아우르는 융합적 실무 역량을 습득했습니다. 특히 이론에 그치지 않고
+          <strong>300시간 이상의 실무 집중 교육</strong>을 통해 복합적인 엔지니어링 문제를 해결하는 능력을 입증하여 이수증을 취득했습니다.
+        </p>
+      </div>
+
     </section>
   </main>
 
