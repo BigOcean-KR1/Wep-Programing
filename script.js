@@ -304,151 +304,164 @@ langToggleBtn.addEventListener('click', () => {
     el.placeholder = isEnglish ? el.getAttribute('data-en') : el.getAttribute('data-kr');
   });
   
-  loadPosts();
+  if (typeof window.loadPosts === 'function') { window.loadPosts(); }
 });
 
-// 5. Board Logic (LocalStorage with Reply/Edit/Delete in English)
+// ----------------------------------------------------
+// Board Logic (Free Bulletin Board)
+// ----------------------------------------------------
 const boardList = document.getElementById('board-list');
-const submitBtn = document.getElementById('submit-post');
-const toggleFormBtn = document.getElementById('toggle-form-btn');
-const cancelPostBtn = document.getElementById('cancel-post');
-const boardFormContainer = document.getElementById('board-form-container');
-const formTitle = document.getElementById('form-title');
 
-let editingId = null;
+if (boardList) {
+  const toggleFormBtn = document.getElementById('toggle-form-btn');
+  const formContainer = document.getElementById('board-form-container');
+  const submitPostBtn = document.getElementById('submit-post');
+  const cancelPostBtn = document.getElementById('cancel-post');
+  const formTitle = document.getElementById('form-title');
+  const msgName = document.getElementById('board-name');
+  const msgEmail = document.getElementById('board-email');
+  const msgContent = document.getElementById('board-content');
 
-function loadPosts() {
-  const posts = JSON.parse(localStorage.getItem('board_posts') || '[]');
-  boardList.innerHTML = '';
-  
-  if (posts.length === 0) {
-    boardList.innerHTML = `<p style="text-align: center; color: var(--text-secondary);">No posts yet.</p>`;
-  }
+  let editingId = null;
 
-  posts.sort((a, b) => b.id - a.id).forEach(post => {
-    const postEl = document.createElement('div');
-    postEl.className = 'post-card';
-    postEl.id = `post-${post.id}`;
+  window.loadPosts = function() {
+    const posts = JSON.parse(localStorage.getItem('board_posts') || '[]');
+    boardList.innerHTML = '';
     
-    let replyHTML = '';
-    if (post.reply) {
-      replyHTML = `
-        <div class="post-reply">
-          <span class="reply-badge">RE:</span> ${post.reply}
+    if (posts.length === 0) {
+      boardList.innerHTML = `<p style="text-align: center; color: var(--text-secondary);">${isEnglish ? 'No posts yet.' : '등록된 게시글이 없습니다.'}</p>`;
+      return;
+    }
+
+    posts.sort((a, b) => b.id - a.id).forEach(post => {
+      const postEl = document.createElement('div');
+      postEl.className = 'post-card';
+      postEl.id = `post-${post.id}`;
+      
+      let replyHTML = '';
+      if (post.reply) {
+        replyHTML = `
+          <div class="post-reply">
+            <span class="reply-badge">RE:</span> ${post.reply}
+          </div>
+        `;
+      }
+
+      postEl.innerHTML = `
+        <div class="post-header">
+          <span>${post.name}</span>
+          <div class="post-options">
+            <span onclick="event.stopPropagation(); replyPost(${post.id})">${isEnglish ? 'Reply' : '답변'}</span>
+            <span onclick="event.stopPropagation(); editPost(${post.id})">${isEnglish ? 'Edit' : '수정'}</span>
+            <span onclick="event.stopPropagation(); deletePost(${post.id})" class="delete-btn">${isEnglish ? 'Delete' : '삭제'}</span>
+          </div>
+        </div>
+        <div class="post-content">${post.content}</div>
+        ${replyHTML}
+        <div style="display:flex; justify-content: space-between; margin-top: 1rem; font-size: 0.8rem; color: var(--text-secondary);">
+          <span>${post.email}</span>
+          <span>${post.date}</span>
         </div>
       `;
-    }
+      boardList.appendChild(postEl);
+    });
+  };
 
-    postEl.innerHTML = `
-      <div class="post-header">
-        <span>${post.name}</span>
-        <div class="post-options">
-          <span onclick="event.stopPropagation(); replyPost(${post.id})">답변</span>
-          <span onclick="event.stopPropagation(); editPost(${post.id})">수정</span>
-          <span onclick="event.stopPropagation(); deletePost(${post.id})" class="delete-btn">삭제</span>
-        </div>
-      </div>
-      <div class="post-content">${post.content}</div>
-      ${replyHTML}
-      <div style="display:flex; justify-content: space-between; margin-top: 1rem; font-size: 0.8rem; color: var(--text-secondary);">
-        <span>${post.email}</span>
-        <span>${post.date}</span>
-      </div>
-    `;
-    boardList.appendChild(postEl);
-  });
-}
-
-window.replyPost = function(id) {
-  const reply = prompt("답변을 입력하세요:");
-  if (!reply) return;
-  
-  let posts = JSON.parse(localStorage.getItem('board_posts') || '[]');
-  const index = posts.findIndex(p => p.id === id);
-  if (index !== -1) {
-    posts[index].reply = reply;
-    localStorage.setItem('board_posts', JSON.stringify(posts));
-    loadPosts();
-  }
-};
-
-window.deletePost = function(id) {
-  if (!confirm("이 글을 삭제하시겠습니까?")) return;
-  let posts = JSON.parse(localStorage.getItem('board_posts') || '[]');
-  posts = posts.filter(p => p.id !== id);
-  localStorage.setItem('board_posts', JSON.stringify(posts));
-  loadPosts();
-};
-
-window.editPost = function(id) {
-  const posts = JSON.parse(localStorage.getItem('board_posts') || '[]');
-  const post = posts.find(p => p.id === id);
-  if (!post) return;
-
-  editingId = id;
-  document.getElementById('board-name').value = post.name;
-  document.getElementById('board-email').value = post.email;
-  document.getElementById('board-content').value = post.content;
-  
-  formTitle.innerText = "게시글 수정";
-  submitBtn.innerText = "수정 완료";
-  boardFormContainer.style.display = 'block';
-  toggleFormBtn.style.display = 'none';
-  boardFormContainer.scrollIntoView({ behavior: 'smooth' });
-};
-
-toggleFormBtn.addEventListener('click', () => {
-  editingId = null;
-  formTitle.innerText = "새 게시글 작성";
-  submitBtn.innerText = "등록";
-  boardFormContainer.style.display = 'block';
-  toggleFormBtn.style.display = 'none';
-  boardFormContainer.scrollIntoView({ behavior: 'smooth' });
-});
-
-cancelPostBtn.addEventListener('click', () => {
-  boardFormContainer.style.display = 'none';
-  toggleFormBtn.style.display = 'block';
-});
-
-submitBtn.addEventListener('click', () => {
-  const name = document.getElementById('board-name').value;
-  const email = document.getElementById('board-email').value;
-  const content = document.getElementById('board-content').value;
-
-  if(!name || !email || !content) {
-    alert(isEnglish ? "Please fill in all fields." : "모든 항목을 입력해주세요.");
-    return;
-  }
-
-  let posts = JSON.parse(localStorage.getItem('board_posts') || '[]');
-
-  if (editingId) {
-    const index = posts.findIndex(p => p.id === editingId);
+  window.replyPost = function(id) {
+    const reply = prompt(isEnglish ? "Enter your reply:" : "답변을 입력하세요:");
+    if (!reply) return;
+    
+    let posts = JSON.parse(localStorage.getItem('board_posts') || '[]');
+    const index = posts.findIndex(p => p.id === id);
     if (index !== -1) {
-      posts[index] = { ...posts[index], name, email, content, date: new Date().toLocaleString() + " (Edited)" };
+      posts[index].reply = reply;
+      localStorage.setItem('board_posts', JSON.stringify(posts));
+      window.loadPosts();
     }
-  } else {
-    const newPost = {
-      name, email, content,
-      date: new Date().toLocaleString(),
-      id: Date.now()
-    };
-    posts.push(newPost);
-  }
+  };
 
-  localStorage.setItem('board_posts', JSON.stringify(posts));
+  window.deletePost = function(id) {
+    if (!confirm(isEnglish ? "Are you sure you want to delete this post?" : "이 글을 삭제하시겠습니까?")) return;
+    let posts = JSON.parse(localStorage.getItem('board_posts') || '[]');
+    posts = posts.filter(p => p.id !== id);
+    localStorage.setItem('board_posts', JSON.stringify(posts));
+    window.loadPosts();
+  };
 
-  // Reset
-  document.getElementById('board-name').value = '';
-  document.getElementById('board-email').value = '';
-  document.getElementById('board-content').value = '';
-  boardFormContainer.style.display = 'none';
-  toggleFormBtn.style.display = 'block';
-  editingId = null;
+  window.editPost = function(id) {
+    const posts = JSON.parse(localStorage.getItem('board_posts') || '[]');
+    const post = posts.find(p => p.id === id);
+    if (!post) return;
 
-  loadPosts();
-});
+    editingId = id;
+    msgName.value = post.name;
+    msgEmail.value = post.email;
+    msgContent.value = post.content;
+    
+    formTitle.innerText = isEnglish ? "Edit Post" : "게시글 수정";
+    submitPostBtn.innerText = isEnglish ? "Save Edit" : "수정 완료";
+    formContainer.style.display = 'flex';
+    toggleFormBtn.style.display = 'none';
+    formContainer.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  toggleFormBtn.addEventListener('click', () => {
+    editingId = null;
+    formTitle.innerText = isEnglish ? "Write a New Post" : "새 게시글 작성";
+    submitPostBtn.innerText = isEnglish ? "Submit" : "등록";
+    msgName.value = ''; msgEmail.value = ''; msgContent.value = '';
+    formContainer.style.display = 'flex';
+    toggleFormBtn.style.display = 'none';
+    formContainer.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  cancelPostBtn.addEventListener('click', () => {
+    formContainer.style.display = 'none';
+    toggleFormBtn.style.display = 'block';
+  });
+
+  submitPostBtn.addEventListener('click', () => {
+    const name = msgName.value;
+    const email = msgEmail.value;
+    const content = msgContent.value;
+
+    if(!name || !email || !content) {
+      alert(isEnglish ? "Please fill in all fields." : "모든 항목을 입력해주세요.");
+      return;
+    }
+
+    let posts = JSON.parse(localStorage.getItem('board_posts') || '[]');
+
+    if (editingId) {
+      const index = posts.findIndex(p => p.id === editingId);
+      if (index !== -1) {
+        posts[index] = { ...posts[index], name, email, content, date: new Date().toLocaleString() + (isEnglish ? " (Edited)" : " (수정됨)") };
+      }
+    } else {
+      const newPost = {
+        name, email, content,
+        date: new Date().toLocaleString(),
+        id: Date.now()
+      };
+      posts.push(newPost);
+    }
+
+    localStorage.setItem('board_posts', JSON.stringify(posts));
+
+    // Reset
+    msgName.value = '';
+    msgEmail.value = '';
+    msgContent.value = '';
+    formContainer.style.display = 'none';
+    toggleFormBtn.style.display = 'block';
+    editingId = null;
+
+    window.loadPosts();
+  });
+
+  // Initial load
+  window.loadPosts();
+}
 
 // 6. Direct Contact Form Logic (JOIN Section)
 const contactForm = document.getElementById('direct-message-form');
@@ -469,14 +482,10 @@ if (contactForm) {
     const content = document.getElementById('msg-content').value;
 
     try {
-      // Logic: Using mailto as a zero-config fallback
-      // In production, recommend using: action="https://formspree.io/f/your_id"
       const subject = encodeURIComponent(`[Portfolio Inquiry] From ${name}`);
       const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${content}`);
       
-      // Simulate API delay for premium feel
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
       window.location.href = `mailto:iyang0705@naver.com?subject=${subject}&body=${body}`;
 
       // Show Success
@@ -484,7 +493,6 @@ if (contactForm) {
       formStatus.style.color = '#00ff88';
       formStatus.innerText = isEnglish ? "Successfully prepared! Please send the generated email." : "성공적으로 준비되었습니다! 생성된 메일을 발송해 주세요.";
       
-      // Reset Form
       contactForm.reset();
     } catch (error) {
       formStatus.style.display = 'block';
@@ -497,6 +505,3 @@ if (contactForm) {
     }
   });
 }
-
-// Initial load
-loadPosts();

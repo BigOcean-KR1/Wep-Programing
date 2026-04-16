@@ -610,6 +610,7 @@ body.light-theme .board-form {
   font-family: 'Pretendard', sans-serif;
   font-size: 1rem;
   outline: none;
+  box-sizing: border-box;
   transition: background-color 2.5s ease-in-out, color 2.5s ease-in-out, border-color 2.5s ease-in-out, box-shadow 2.5s ease-in-out, transform 0.3s ease;
 }
 
@@ -619,6 +620,7 @@ body.light-theme .board-form {
 
 .board-form input {
   flex: 1;
+  width: 100%;
 }
 
 .board-form textarea {
