@@ -159,14 +159,11 @@
     // Show notice on every page load as requested
     window.addEventListener('load', () => {
       document.getElementById('notice-modal').style.display = 'flex';
-      // Disable scroll while modal is up
-      if (typeof lenis !== 'undefined') lenis.stop();
     });
 
     function closeNotice() {
       document.getElementById('notice-modal').style.display = 'none';
-      // Enable scroll again
-      if (typeof lenis !== 'undefined') lenis.start();
+      if (window.lenis) window.lenis.start(); // Ensure it's started just in case
     }
   </script>
 

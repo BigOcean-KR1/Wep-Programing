@@ -2,7 +2,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 // --- Lenis Premium Smooth Scroll Setup ---
 const lenis = new Lenis({
-  duration: 1.2,
+  duration: 1.5,
   easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
   smooth: true,
   wheelMultiplier: 1,
@@ -21,7 +21,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('canvas-container').appendChild(renderer.domElement);
 
 const geometry = new THREE.BufferGeometry();
-const particlesCount = 1000; // Reduced for performance
+const particlesCount = 2000;
 const posArray = new Float32Array(particlesCount * 3);
 for (let i = 0; i < particlesCount * 3; i += 3) {
   posArray[i] = (Math.random() - 0.5) * 100; // x
@@ -149,7 +149,7 @@ gsap.utils.toArray('section').forEach((sec) => {
 gsap.utils.toArray('.grid').forEach((grid) => {
   gsap.from(grid.querySelectorAll('.gsap-card'), {
     scrollTrigger: { trigger: grid, start: "top 85%", toggleActions: "play none none none" },
-    y: 30, opacity: 0, duration: 0.8, stagger: 0
+    y: 30, opacity: 0, duration: 0.8, stagger: 0.15
   });
 });
 
@@ -312,14 +312,35 @@ if (boardList) {
   window.togglePost = (id) => {
     const row = document.getElementById(`post-row-${id}`);
     const expanded = row.classList.contains('expanded');
-    document.querySelectorAll('.post-row').forEach(r => r.classList.remove('expanded'));
-    if (!expanded) row.classList.add('expanded');
 
-    // Fix: Refresh scroll calculations after content expands
+    // 모든 열린 것 닫기
+    document.querySelectorAll('.post-row.expanded').forEach(r => {
+      r.classList.remove('expanded');
+      const content = r.querySelector('.post-expanded-content');
+      if (content) content.style.height = '0';
+    });
+
+    // 클릭한 것 열기
+    if (!expanded) {
+      row.classList.add('expanded');
+      const content = row.querySelector('.post-expanded-content');
+      if (content) {
+        content.style.height = 'auto';
+        const h = content.scrollHeight;
+        content.style.height = '0';
+        requestAnimationFrame(() => {
+          content.style.height = h + 'px';
+        });
+      }
+    }
+
+    // 트랜지션 끝난 후 Lenis 높이 재계산
     setTimeout(() => {
-      ScrollTrigger.refresh();
-      if (typeof lenis !== 'undefined') lenis.resize();
-    }, 300); // Wait for CSS transition
+      if (window.lenis) {
+        window.lenis.start();
+        window.lenis.resize();
+      }
+    }, 450);
   };
 
   window.toggleLike = (id) => {
@@ -353,12 +374,11 @@ if (boardList) {
     msgContent.value = '';
     formContainer.style.display = 'flex';
     toggleFormBtn.style.display = 'none';
-    // Fix: Refresh scroll calculations so new content is scrollable
     setTimeout(() => {
-      ScrollTrigger.refresh();
-      if (typeof lenis !== 'undefined') {
-        lenis.resize();
-        lenis.scrollTo(formContainer, { offset: -100, duration: 1.2 });
+      if (window.lenis) {
+        window.lenis.start();
+        window.lenis.resize();
+        window.lenis.scrollTo(formContainer, { offset: -100, duration: 1.2 });
       }
     }, 100);
   };
@@ -367,8 +387,10 @@ if (boardList) {
     formContainer.style.display = 'none';
     toggleFormBtn.style.display = 'block';
     setTimeout(() => {
-      ScrollTrigger.refresh();
-      if (typeof lenis !== 'undefined') lenis.resize();
+      if (window.lenis) {
+        window.lenis.start();
+        window.lenis.resize();
+      }
     }, 100);
   };
 

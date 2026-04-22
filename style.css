@@ -920,24 +920,22 @@ body.light-theme .board-form {
 
 /* Expanded Content */
 .post-expanded-content {
-  max-height: 0;
+  height: 0;
   overflow: hidden;
-  transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+  transition: height 0.4s ease;
   background: rgba(0, 0, 0, 0.2);
 }
 
 .post-row.expanded .post-expanded-content {
-  max-height: 2000px;
-  /* Large enough to fit any content */
-  transition: max-height 0.5s cubic-bezier(1, 0, 1, 0);
   border-top: 1px solid rgba(243, 115, 33, 0.1);
+  padding: 2rem;
 }
 
-.post-expanded-content > div:first-child {
+.post-expanded-content>div:first-child {
   padding-top: 2rem;
 }
 
-.post-expanded-content > div:last-child {
+.post-expanded-content>div:last-child {
   padding-bottom: 2rem;
 }
 
@@ -994,25 +992,28 @@ body.light-theme .board-form {
   .form-group {
     flex-direction: column;
   }
-  
+
   .post-header-summary {
-    grid-template-columns: 40px 1fr 60px; /* Simplified for mobile */
+    grid-template-columns: 40px 1fr 60px;
+    /* Simplified for mobile */
     font-size: 0.8rem;
     padding: 1rem 0.5rem;
   }
-  
-  .post-author-summary, .post-date-summary {
-    display: none; /* Hide less important info on mobile list view */
+
+  .post-author-summary,
+  .post-date-summary {
+    display: none;
+    /* Hide less important info on mobile list view */
   }
-  
+
   .post-likes-summary {
     text-align: right;
   }
-  
+
   .post-expanded-content {
     padding: 1.2rem !important;
   }
-  
+
   .post-full-body {
     font-size: 0.9rem;
   }
@@ -1199,7 +1200,7 @@ body>.skiptranslate {
     padding: 0 0.8rem;
     font-size: 0.75rem;
   }
-  
+
   .lang-btn {
     margin-left: 0.5rem;
     padding: 0.3rem 0.6rem;
@@ -1209,8 +1210,9 @@ body>.skiptranslate {
 @media (max-width: 768px) {
   nav {
     height: 60px;
-    grid-template-columns: auto 1fr auto; 
-    padding: 0 5px 0 10px; /* More room on right for globe */
+    grid-template-columns: auto 1fr auto;
+    padding: 0 5px 0 10px;
+    /* More room on right for globe */
   }
 
   .logo {
@@ -1222,7 +1224,8 @@ body>.skiptranslate {
   }
 
   .logo-detail {
-    display: none; /* Hide 'AEROSPACE' on mobile */
+    display: none;
+    /* Hide 'AEROSPACE' on mobile */
   }
 
   nav ul {
@@ -1240,7 +1243,7 @@ body>.skiptranslate {
     font-weight: 700;
     color: #fff;
   }
-  
+
   nav ul li:last-child a.active {
     color: var(--hanwha-orange);
   }
@@ -1248,7 +1251,8 @@ body>.skiptranslate {
   .lang-btn {
     padding: 0.2rem 0.3rem;
     margin-left: 0.1rem;
-    font-size: 1.3rem !important; /* Larger globe, less padding */
+    font-size: 1.3rem !important;
+    /* Larger globe, less padding */
   }
 
   section {
@@ -1285,7 +1289,7 @@ body>.skiptranslate {
   .gallery-grid img {
     height: 250px !important;
   }
-  
+
   blockquote {
     font-size: 0.95rem !important;
     padding-left: 1rem !important;
@@ -1294,28 +1298,32 @@ body>.skiptranslate {
 
   /* Board Mobile Fixes */
   .post-header-summary {
-    grid-template-columns: 40px 1fr 60px; /* Simplified for mobile */
+    grid-template-columns: 40px 1fr 60px;
+    /* Simplified for mobile */
     font-size: 0.8rem;
     padding: 1rem 0.5rem;
   }
-  
+
   /* Hide columns in header as well as rows */
   .post-header-summary span:nth-child(3),
   .post-header-summary span:nth-child(4),
-  .post-author-summary, 
+  .post-author-summary,
   .post-date-summary {
     display: none !important;
   }
-  
+
   .post-likes-summary {
     text-align: right;
   }
-  
+
   .post-expanded-content {
-    padding: 0 !important; /* Remove padding to prevent peeking */
+    padding: 0 !important;
+    /* Remove padding to prevent peeking */
   }
 
-  .post-full-body, .post-reply-box, .post-footer-actions {
+  .post-full-body,
+  .post-reply-box,
+  .post-footer-actions {
     padding-left: 1.2rem;
     padding-right: 1.2rem;
   }
