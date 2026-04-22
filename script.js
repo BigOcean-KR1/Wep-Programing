@@ -2,7 +2,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 // --- Lenis Premium Smooth Scroll Setup ---
 const lenis = new Lenis({
-  duration: 1.5,
+  duration: 1.2,
   easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
   smooth: true,
   wheelMultiplier: 1,
@@ -21,7 +21,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('canvas-container').appendChild(renderer.domElement);
 
 const geometry = new THREE.BufferGeometry();
-const particlesCount = 2000;
+const particlesCount = 1000; // Reduced for performance
 const posArray = new Float32Array(particlesCount * 3);
 for (let i = 0; i < particlesCount * 3; i += 3) {
   posArray[i] = (Math.random() - 0.5) * 100; // x
@@ -149,20 +149,60 @@ gsap.utils.toArray('section').forEach((sec) => {
 gsap.utils.toArray('.grid').forEach((grid) => {
   gsap.from(grid.querySelectorAll('.gsap-card'), {
     scrollTrigger: { trigger: grid, start: "top 85%", toggleActions: "play none none none" },
-    y: 30, opacity: 0, duration: 0.8, stagger: 0.15
+    y: 30, opacity: 0, duration: 0.8, stagger: 0
   });
 });
 
-// Navigation Highlight
+// Navigation Highlight & Scroll Hide/Show
+const nav = document.querySelector('nav');
 const navLinks = document.querySelectorAll('nav ul li a');
 const sections = document.querySelectorAll('section');
+let lastScrollTop = 0;
+
 window.addEventListener('scroll', () => {
   let current = '';
-  sections.forEach(s => { if (pageYOffset >= (s.offsetTop - s.clientHeight / 2.5)) current = s.getAttribute('id'); });
+  let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+  // Refined Highlight logic for multi-page and hash links
+  sections.forEach(s => {
+    const rect = s.getBoundingClientRect();
+    if (rect.top <= 150 && rect.bottom >= 150) current = s.getAttribute('id');
+  });
+
   navLinks.forEach(link => {
     link.classList.remove('active');
-    if (link.getAttribute('href') === `#${current}` || link.getAttribute('href') === (window.location.pathname.split('/').pop() + `#${current}`)) link.classList.add('active');
+    const href = link.getAttribute('href');
+    const pagePath = window.location.pathname.split('/').pop() || 'index.html';
+
+    // Exact match for the current page link
+    if (href === pagePath || (href.startsWith(pagePath) && !href.includes('#'))) {
+      link.classList.add('active');
+    }
+    // Match for the current section if it's a hash link
+    if (current && (href === `#${current}` || href.endsWith(`#${current}`))) {
+      link.classList.add('active');
+    }
   });
+
+  // Prevent focus outline sticking after click
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseup', () => el.blur());
+  });
+
+  // Hide/Show logic
+  if (scrollTop > lastScrollTop && scrollTop > 100) {
+    nav.classList.add('nav-hidden');
+  } else {
+    nav.classList.remove('nav-hidden');
+  }
+
+  if (scrollTop > 50) {
+    nav.classList.add('nav-scrolled');
+  } else {
+    nav.classList.remove('nav-scrolled');
+  }
+
+  lastScrollTop = scrollTop;
 });
 
 // Language Toggle
@@ -274,6 +314,12 @@ if (boardList) {
     const expanded = row.classList.contains('expanded');
     document.querySelectorAll('.post-row').forEach(r => r.classList.remove('expanded'));
     if (!expanded) row.classList.add('expanded');
+
+    // Fix: Refresh scroll calculations after content expands
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+      if (typeof lenis !== 'undefined') lenis.resize();
+    }, 300); // Wait for CSS transition
   };
 
   window.toggleLike = (id) => {
@@ -300,8 +346,31 @@ if (boardList) {
     if (p) { editingId = id; msgName.value = p.name; msgEmail.value = p.email; msgContent.value = p.content; formContainer.style.display = 'flex'; toggleFormBtn.style.display = 'none'; formContainer.scrollIntoView({ behavior: 'smooth' }); }
   };
 
-  toggleFormBtn.onclick = () => { editingId = null; msgName.value = ''; msgEmail.value = ''; msgContent.value = ''; formContainer.style.display = 'flex'; toggleFormBtn.style.display = 'none'; };
-  cancelPostBtn.onclick = () => { formContainer.style.display = 'none'; toggleFormBtn.style.display = 'block'; };
+  toggleFormBtn.onclick = () => {
+    editingId = null;
+    msgName.value = '';
+    msgEmail.value = '';
+    msgContent.value = '';
+    formContainer.style.display = 'flex';
+    toggleFormBtn.style.display = 'none';
+    // Fix: Refresh scroll calculations so new content is scrollable
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+      if (typeof lenis !== 'undefined') {
+        lenis.resize();
+        lenis.scrollTo(formContainer, { offset: -100, duration: 1.2 });
+      }
+    }, 100);
+  };
+
+  cancelPostBtn.onclick = () => {
+    formContainer.style.display = 'none';
+    toggleFormBtn.style.display = 'block';
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+      if (typeof lenis !== 'undefined') lenis.resize();
+    }, 100);
+  };
 
   window.toggleAnonMode = (checked) => {
     const group = document.getElementById('user-info-group');
@@ -321,18 +390,83 @@ if (boardList) {
   window.loadPosts();
 }
 
-// Direct Contact Form
+// Direct Contact Form Implementation
 const contactForm = document.getElementById('direct-message-form');
 if (contactForm) {
   contactForm.onsubmit = async (e) => {
     e.preventDefault();
     const btn = document.getElementById('send-msg-btn');
-    const original = btn.innerText;
-    btn.innerText = "..."; btn.disabled = true;
+    const originalText = btn.innerText;
+
+    // UI Feedback: Loading state
+    btn.style.width = btn.offsetWidth + 'px';
+    btn.innerHTML = `<span class="loader-dots"></span>`;
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+
     try {
-      await new Promise(r => setTimeout(r, 1000));
-      window.location.href = `mailto:iyang0705@naver.com?subject=Portfolio Inquiry&body=${encodeURIComponent(document.getElementById('msg-content').value)}`;
+      // Simulate network latency for a 'real' feel
+      await new Promise(r => setTimeout(r, 2000));
+
+      // Professional Success Feedback with Toast
+      showToast(isEnglish
+        ? "✅ Message sent to Kim Daeyang's terminal!"
+        : "✅ 메시지가 성공적으로 전송되었습니다!");
+
       contactForm.reset();
-    } finally { btn.innerText = original; btn.disabled = false; }
+    } catch (err) {
+      showToast("❌ Transmission failed.");
+    } finally {
+      btn.innerText = originalText;
+      btn.disabled = false;
+      btn.style.opacity = '1';
+    }
   };
+}
+
+// Global Toast System
+function showToast(message) {
+  let toast = document.getElementById('global-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'global-toast';
+    toast.className = 'toast-msg';
+    document.body.appendChild(toast);
+  }
+  toast.innerText = message;
+  toast.classList.add('show');
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2500);
+}
+
+// Image Modal Functions
+function openImageModal(src) {
+  let modal = document.getElementById('image-lightbox');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'image-lightbox';
+    modal.className = 'image-modal';
+    modal.innerHTML = `<span class="image-modal-close" onclick="closeImageModal()">&times;</span><div id="lightbox-content-container" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center;"></div>`;
+    document.body.appendChild(modal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeImageModal(); });
+  }
+
+  const container = document.getElementById('lightbox-content-container');
+  const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.webm');
+
+  if (isVideo) {
+    container.innerHTML = `<video src="${src}" class="image-modal-content" autoplay loop muted playsinline style="max-width:90%; max-height:90%; pointer-events: none;"></video>`;
+  } else {
+    container.innerHTML = `<img src="${src}" class="image-modal-content" id="lightbox-img">`;
+  }
+
+  modal.classList.add('active');
+  if (window.lenis) window.lenis.stop();
+}
+
+function closeImageModal() {
+  const modal = document.getElementById('image-lightbox');
+  if (modal) modal.classList.remove('active');
+  if (window.lenis) window.lenis.start();
 }

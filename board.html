@@ -21,45 +21,77 @@
 
   <!-- Layer 2: Navbar -->
   <nav class="notranslate">
-    <a href="https://www.hanwhaaerospace.com/kor/index.do" target="_blank" style="text-decoration: none; display: flex; align-items: center;">
-      <div class="logo" style="cursor: pointer; transition: 0.3s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color=''">HANWHA AEROSPACE</div>
+    <a href="https://www.hanwhaaerospace.com/kor/index.do" target="_blank"
+      style="text-decoration: none; display: flex; align-items: center;">
+      <div class="logo" style="cursor: pointer; transition: 0.3s;" onmouseover="this.style.color='var(--hanwha-orange)'"
+        onmouseout="this.style.color=''">HANWHA AEROSPACE</div>
     </a>
     <ul style="align-items: center;">
       <li><a href="index.html#hero">HOME</a></li>
       <li class="nav-item-dropdown">
         <a href="tech.html">TECH</a>
         <div class="dropdown-menu">
-          <a href="tech.html#smart-core" class="i18n" data-kr="스마트 코어" data-en="SMART CORE">스마트 코어</a>
-          <a href="tech.html#micro-degree" class="i18n" data-kr="마이크로 디그리" data-en="MICRO DEGREE">마이크로 디그리</a>
+          <a href="tech.html#smart-core" class="i18n" data-kr="스마트 코어" data-en="SMART CORE">SMART CORE</a>
+          <a href="tech.html#micro-degree" class="i18n" data-kr="마이크로 디그리" data-en="MICRO DEGREE">MICRO DEGREE</a>
         </div>
       </li>
-      <li><a href="innovation.html">INNOVATION</a></li>
+      <li class="nav-item-dropdown">
+        <a href="innovation.html">INNOVATION</a>
+        <div class="dropdown-menu">
+          <a href="innovation.html#discover" class="i18n" data-kr="공정 혁신" data-en="DISCOVER">DISCOVER</a>
+          <a href="innovation.html#automata" class="i18n" data-kr="오토마타 설계" data-en="AUTOMATA">AUTOMATA</a>
+        </div>
+      </li>
       <li><a href="board.html" class="active">LOUNGE</a></li>
       <li><a href="index.html#contact">JOIN</a></li>
-      <li class="lang-dropdown" style="position: relative;">
-        <button id="lang-toggle" class="lang-btn" style="background: transparent; border: none; font-size: 1.5rem; cursor: pointer; outline: none; padding: 0;" title="Select Language">🌍</button>
-        <div id="lang-menu" style="display: none; position: absolute; right: 0; top: 40px; background: rgba(0,0,0,0.9); border: 1px solid var(--hanwha-orange); border-radius: 10px; padding: 10px; flex-direction: column; gap: 10px; z-index: 10000; min-width: 140px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-align: left;">
-          <span onclick="setLang('kr')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇰🇷 한국어</span>
-          <span onclick="setLang('en')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇺🇸 English</span>
-          <span onclick="setLang('ar')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇸🇦 العربية</span>
-          <span onclick="setLang('zh')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇨🇳 中文</span>
-          <span onclick="setLang('ja')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇯🇵 日本語</span>
-        </div>
-      </li>
     </ul>
+    <div class="lang-dropdown" style="position: relative; justify-self: end;">
+      <button id="lang-toggle" class="lang-btn"
+        style="background: transparent; border: none; font-size: 1.5rem; cursor: pointer; outline: none; padding: 0.5rem 1rem;"
+        title="Select Language">🌍</button>
+      <div id="lang-menu"
+        style="display: none; position: absolute; right: 0; top: 60px; background: rgba(0,0,0,0.9); border: 1px solid var(--hanwha-orange); border-radius: 10px; padding: 10px; flex-direction: column; gap: 10px; z-index: 10000; min-width: 140px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-align: left;">
+        <span onclick="setLang('kr')"
+          style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+          onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇰🇷 한국어</span>
+        <span onclick="setLang('en')"
+          style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+          onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇺🇸
+          English</span>
+        <span onclick="setLang('ar')"
+          style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+          onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇸🇦
+          العربية</span>
+        <span onclick="setLang('zh')"
+          style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+          onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇨🇳 中문</span>
+        <span onclick="setLang('ja')"
+          style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+          onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇯🇵 日本語</span>
+      </div>
+    </div>
   </nav>
 
   <!-- Layer 3: Scrollable Content -->
   <main id="main-content" style="padding-top: 100px;">
     <!-- Sleek Back Button -->
-    <a href="index.html" style="position: fixed; top: 30px; left: 30px; width: 45px; height: 45px; border-radius: 50%; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); display: flex; justify-content: center; align-items: center; z-index: 9999; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" title="이전 화면으로" onmouseover="this.style.background='var(--hanwha-orange)'; this.style.borderColor='var(--hanwha-orange)'; this.style.transform='scale(1.1)';" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.borderColor='rgba(255,255,255,0.2)'; this.style.transform='scale(1)';">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    <a href="index.html"
+      style="position: fixed; top: 30px; left: 30px; width: 45px; height: 45px; border-radius: 50%; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); display: flex; justify-content: center; align-items: center; z-index: 9999; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.3);"
+      title="이전 화면으로"
+      onmouseover="this.style.background='var(--hanwha-orange)'; this.style.borderColor='var(--hanwha-orange)'; this.style.transform='scale(1.1)';"
+      onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.borderColor='rgba(255,255,255,0.2)'; this.style.transform='scale(1)';">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
     </a>
 
     <!-- Step 6: Free Bulletin Board -->
     <section id="board-section">
       <h2 class="gsap-header i18n" data-kr="커뮤니티 라운지" data-en="Community Lounge">커뮤니티 라운지</h2>
-      <p style="color: var(--text-secondary); margin-bottom: 2rem;" class="gsap-text i18n" data-kr="자유롭게 소통하며 아이디어를 나누는 공간입니다." data-en="A space to communicate freely and share ideas.">
+      <p style="color: var(--text-secondary); margin-bottom: 2rem;" class="gsap-text i18n"
+        data-kr="자유롭게 소통하며 아이디어를 나누는 공간입니다." data-en="A space to communicate freely and share ideas.">
         자유롭게 소통하며 아이디어를 나누는 공간입니다.
       </p>
 
@@ -75,19 +107,25 @@
         <!-- Form for posting (hidden initially) -->
         <div id="board-form-container" class="board-form card" style="display: none; width: 100%;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-            <h3 id="form-title" style="color: var(--hanwha-orange); margin: 0;" class="i18n" data-kr="새 게시글 작성" data-en="Write a New Post">새 게시글 작성</h3>
-            <label style="color: white; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+            <h3 id="form-title" style="color: var(--hanwha-orange); margin: 0;" class="i18n" data-kr="새 게시글 작성"
+              data-en="Write a New Post">새 게시글 작성</h3>
+            <label
+              style="color: white; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" id="board-anon" onchange="window.toggleAnonMode(this.checked)">
               <span class="i18n" data-kr="익명으로 작성하기" data-en="Post Anonymously">익명으로 작성하기</span>
             </label>
           </div>
           <div class="form-group" id="user-info-group">
-            <input type="text" id="board-name" class="i18n-placeholder" data-kr="이름 (Name)" data-en="Name" placeholder="이름 (Name)">
-            <input type="email" id="board-email" class="i18n-placeholder" data-kr="이메일 (반드시 @ 포함)" data-en="Email (Requires @)" placeholder="이메일 (반드시 @ 포함)">
+            <input type="text" id="board-name" class="i18n-placeholder" data-kr="이름 (Name)" data-en="Name"
+              placeholder="이름 (Name)">
+            <input type="email" id="board-email" class="i18n-placeholder" data-kr="이메일 (반드시 @ 포함)"
+              data-en="Email (Requires @)" placeholder="이메일 (반드시 @ 포함)">
           </div>
-          <textarea id="board-content" class="i18n-placeholder" data-kr="내용을 입력하세요..." data-en="Enter your message..." placeholder="내용을 입력하세요..."></textarea>
+          <textarea id="board-content" class="i18n-placeholder" data-kr="내용을 입력하세요..." data-en="Enter your message..."
+            placeholder="내용을 입력하세요..."></textarea>
           <div style="display: flex; gap: 1rem; margin-top: 1rem;">
-            <button id="submit-post" class="btn-contact i18n" data-kr="등록" data-en="Submit" style="flex: 1; padding: 0.8rem;">등록</button>
+            <button id="submit-post" class="btn-contact i18n" data-kr="등록" data-en="Submit"
+              style="flex: 1; padding: 0.8rem;">등록</button>
             <button id="cancel-post" class="btn-contact i18n" data-kr="취소" data-en="Cancel"
               style="flex: 1; padding: 0.8rem; border-color: #555;">취소</button>
           </div>
@@ -97,12 +135,49 @@
   </main>
 
   <script src="script.js"></script>
+
+  <!-- Community Caution Modal -->
+  <div id="notice-modal"
+    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 20000; justify-content: center; align-items: center;">
+    <div class="card"
+      style="max-width: 380px; width: 90%; height: auto !important; text-align: center; border: 1px solid var(--hanwha-orange); padding: 1.8rem 1.5rem; box-shadow: 0 0 40px rgba(243, 115, 33, 0.25);">
+      <div style="font-size: 2.2rem; margin-bottom: 0.7rem;">⚠️</div>
+      <h3 style="color: var(--hanwha-orange); margin-bottom: 0.7rem; font-size: 1.2rem;" class="i18n"
+        data-kr="커뮤니티 이용 수칙" data-en="Community Guidelines">커뮤니티 이용 수칙</h3>
+      <p style="color: #ccc; line-height: 1.6; margin-bottom: 1.5rem; font-size: 0.9rem;" class="i18n"
+        data-kr="커뮤니티 라운지는 자유로운 소통 공간입니다.<br>타인에 대한 <strong>욕설, 비방, 허위사실 유포</strong> 등은 예고 없이 삭제될 수 있습니다."
+        data-en="The Community Lounge is a free communication space.<br><strong>Profanity or slander</strong> may result in post deletion without prior notice.">
+        커뮤니티 라운지는 자유로운 소통 공간입니다.<br>타인에 대한 <strong>욕설, 비방, 허위사실 유포</strong> 등은 예고 없이 삭제될 수 있습니다.
+      </p>
+      <button onclick="closeNotice()" class="btn-contact i18n" data-kr="주의사항을 확인했습니다"
+        data-en="I have read the guidelines" style="width: 100%; padding: 0.75rem; font-size: 0.85rem;">주의사항을
+        확인했습니다</button>
+    </div>
+  </div>
+
+  <script>
+    // Show notice on every page load as requested
+    window.addEventListener('load', () => {
+      document.getElementById('notice-modal').style.display = 'flex';
+      // Disable scroll while modal is up
+      if (typeof lenis !== 'undefined') lenis.stop();
+    });
+
+    function closeNotice() {
+      document.getElementById('notice-modal').style.display = 'none';
+      // Enable scroll again
+      if (typeof lenis !== 'undefined') lenis.start();
+    }
+  </script>
+
   <div id="google_translate_element" style="display:none;"></div>
   <script type="text/javascript">
     function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'ko', includedLanguages: 'ko,en,zh-CN,ja,ar', autoDisplay: false}, 'google_translate_element');
+      new google.translate.TranslateElement({ pageLanguage: 'ko', includedLanguages: 'ko,en,zh-CN,ja,ar', autoDisplay: false }, 'google_translate_element');
     }
   </script>
-  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script type="text/javascript"
+    src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
+
 </html>

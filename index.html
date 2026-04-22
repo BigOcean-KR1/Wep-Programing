@@ -21,32 +21,55 @@
 
   <!-- Layer 2: Navbar (Innovative Navigation) -->
   <nav class="notranslate">
-    <a href="https://www.hanwhaaerospace.com/kor/index.do" target="_blank" style="text-decoration: none; display: flex; align-items: center;">
-      <div class="logo" style="cursor: pointer; transition: 0.3s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color=''">HANWHA AEROSPACE</div>
+    <a href="https://www.hanwhaaerospace.com/kor/index.do" target="_blank"
+      style="text-decoration: none; display: flex; align-items: center;">
+      <div class="logo" style="cursor: pointer; transition: 0.3s;" onmouseover="this.style.color='var(--hanwha-orange)'"
+        onmouseout="this.style.color=''">HANWHA AEROSPACE</div>
     </a>
     <ul style="align-items: center;">
       <li><a href="#hero">HOME</a></li>
       <li class="nav-item-dropdown">
         <a href="tech.html">TECH</a>
         <div class="dropdown-menu">
-          <a href="tech.html#smart-core" class="i18n" data-kr="스마트 코어" data-en="SMART CORE">스마트 코어</a>
-          <a href="tech.html#micro-degree" class="i18n" data-kr="마이크로 디그리" data-en="MICRO DEGREE">마이크로 디그리</a>
+          <a href="tech.html#smart-core" class="i18n" data-kr="스마트 코어" data-en="SMART CORE">SMART CORE</a>
+          <a href="tech.html#micro-degree" class="i18n" data-kr="마이크로 디그리" data-en="MICRO DEGREE">MICRO DEGREE</a>
         </div>
       </li>
-      <li><a href="innovation.html">INNOVATION</a></li>
+      <li class="nav-item-dropdown">
+        <a href="innovation.html">INNOVATION</a>
+        <div class="dropdown-menu">
+          <a href="innovation.html#discover" class="i18n" data-kr="공정 혁신" data-en="DISCOVER">DISCOVER</a>
+          <a href="innovation.html#automata" class="i18n" data-kr="오토마타 설계" data-en="AUTOMATA">AUTOMATA</a>
+        </div>
+      </li>
       <li><a href="board.html">LOUNGE</a></li>
       <li><a href="#contact">JOIN</a></li>
-      <li class="lang-dropdown" style="position: relative;">
-        <button id="lang-toggle" class="lang-btn" style="background: transparent; border: none; font-size: 1.5rem; cursor: pointer; outline: none; padding: 0;" title="Select Language">🌍</button>
-        <div id="lang-menu" style="display: none; position: absolute; right: 0; top: 40px; background: rgba(0,0,0,0.9); border: 1px solid var(--hanwha-orange); border-radius: 10px; padding: 10px; flex-direction: column; gap: 10px; z-index: 10000; min-width: 140px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-align: left;">
-          <span onclick="setLang('kr')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇰🇷 한국어</span>
-          <span onclick="setLang('en')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇺🇸 English</span>
-          <span onclick="setLang('ar')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇸🇦 العربية</span>
-          <span onclick="setLang('zh')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇨🇳 中文</span>
-          <span onclick="setLang('ja')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇯🇵 日本語</span>
-        </div>
-      </li>
     </ul>
+    <div class="lang-dropdown" style="position: relative; justify-self: end;">
+      <button id="lang-toggle" class="lang-btn"
+        style="background: transparent; border: none; font-size: 1.5rem; cursor: pointer; outline: none; padding: 0.5rem 1rem;"
+        title="Select Language">🌍</button>
+      <div id="lang-menu"
+        style="display: none; position: absolute; right: 0; top: 60px; background: rgba(0,0,0,0.9); border: 1px solid var(--hanwha-orange); border-radius: 10px; padding: 10px; flex-direction: column; gap: 10px; z-index: 10000; min-width: 140px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-align: left;">
+        <span onclick="setLang('kr')"
+          style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+          onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇰🇷 한국어</span>
+        <span onclick="setLang('en')"
+          style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+          onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇺🇸
+          English</span>
+        <span onclick="setLang('ar')"
+          style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+          onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇸🇦
+          العربية</span>
+        <span onclick="setLang('zh')"
+          style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+          onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇨🇳 中문</span>
+        <span onclick="setLang('ja')"
+          style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+          onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇯🇵 日本語</span>
+      </div>
+    </div>
   </nav>
 
   <!-- Modals -->
@@ -129,10 +152,13 @@
 
         <div style="margin-top: 4rem; max-width: 800px; margin-left: auto; margin-right: auto;">
           <p class="i18n"
-            data-kr="한화에어로스페이스와 함께 로봇 자동화 공학의 미래를 설계하는 준비된 선구자, <strong style='color: var(--hanwha-orange); font-weight: 600;'>김대양</strong>입니다.<br><br>스마트 팩토리 제어(PLC)와 정밀 기구 설계 역량을 기반으로, <strong>의도 중심 프로그래밍(Intent-Driven Development)</strong>을 적용해 개발 프로세스를 혁신했습니다. AI 에이전트 협업 설계를 통해 단순 반복 코딩 시간을 80% 단축하고, 여기서 확보한 시간과 에너지를 시스템 아키텍처 검증과 TRIZ 기반의 핵심 기구적 모순 해결에 오롯이 투자하여 프로젝트의 본질적 완성도를 극대화했습니다.<br><br>이러한 검증된 실력과 문제 해결 역량을 바탕으로 대한민국 우주항공 및 방산 기술의 지속 가능한 내일을 열어가겠습니다."
-            data-en="I am Daeyang Kim, a prepared pioneer designing the future of robotics and automation with Hanwha Aerospace.<br><br>Based on smart factory control (PLC) and precision design skills, I innovated the development process using Intent-Driven Development. By utilizing AI-agentic workflows, I reduced repetitive coding time by 80% and heavily invested that time into system architecture verification and TRIZ-based mechanical problem-solving. <br><br>With these proven skills and efficiency, I will open a sustainable tomorrow for Korea's aerospace and defense technology."
+            data-kr="한화에어로스페이스와 함께 로봇 자동화 공학의 미래를 설계하는 준비된 선구자, <strong style='color: var(--hanwha-orange); font-weight: 600;'>김대양</strong>입니다.<br><br>스마트 팩토리 제어(PLC)와 정밀 기구 설계 역량을 기반으로 시스템 아키텍처 검증과 TRIZ 기반의 핵심 기구적 모순 해결에 오롯이 투자하여 자신 실력의 본질적 완성도를 극대화했습니다.<br><br>이러한 검증된 실력과 문제 해결 역량을 바탕으로 대한민국 우주항공 및 방산 기술의 지속 가능한 내일을 열어가겠습니다."
+            data-en="I am Daeyang Kim, a prepared pioneer designing the future of robotics and automation with Hanwha Aerospace.<br><br>Based on smart factory control (PLC) and precision design skills, I maximized the essential quality of my capabilities by focusing on system architecture verification and TRIZ-based mechanical problem-solving.<br><br>With these proven skills and efficiency, I will open a sustainable tomorrow for Korea's aerospace and defense technology."
             style="font-size: 1.15rem; font-weight: 300; line-height: 2; opacity: 0.85; letter-spacing: 0.5px;">
-            한화에어로스페이스와 함께 로봇 자동화 공학의 미래를 설계하는 준비된 선구자, <strong style="color: var(--hanwha-orange); font-weight: 600;">김대양</strong>입니다.<br><br>스마트 팩토리 제어(PLC)와 정밀 기구 설계 역량을 기반으로, <strong>의도 중심 프로그래밍(Intent-Driven Development)</strong>을 적용해 개발 프로세스를 혁신했습니다. AI 에이전트 협업 설계를 통해 단순 반복 코딩 시간을 80% 단축하고, 여기서 확보한 시간과 에너지를 시스템 아키텍처 검증과 TRIZ 기반의 핵심 기구적 모순 해결에 오롯이 투자하여 프로젝트의 본질적 완성도를 극대화했습니다.<br><br>이러한 검증된 실력과 문제 해결 역량을 바탕으로 대한민국 우주항공 및 방산 기술의 지속 가능한 내일을 열어가겠습니다.
+            한화에어로스페이스와 함께 로봇 자동화 공학의 미래를 설계하는 준비된 선구자, <strong
+              style="color: var(--hanwha-orange); font-weight: 600;">김대양</strong>입니다.<br><br>스마트 팩토리 제어(PLC)와 정밀 기구 설계
+            역량을 기반으로 시스템 아키텍처 검증과 TRIZ 기반의 핵심 기구적 모순 해결에 오롯이 투자하여 자신 실력의 본질적 완성도를 극대화했습니다.<br><br>이러한 검증된 실력과 문제 해결 역량을
+            바탕으로 대한민국 우주항공 및 방산 기술의 지속 가능한 내일을 열어가겠습니다.
           </p>
         </div>
 
@@ -148,8 +174,8 @@
       <div class="grid">
         <div class="card card-depth-back gsap-card">
           <img src="assets/scholarship.png"
-            style="width: 100%; height: 160px; object-fit: cover; border-radius: 10px; margin-bottom: 1rem;"
-            alt="Scholarship">
+            style="width: 100%; height: 160px; object-fit: cover; border-radius: 10px; margin-bottom: 1rem; cursor: pointer;"
+            onclick="openImageModal(this.src)" alt="Scholarship">
           <h3 class="neon-text i18n" data-kr="지적 성실함" data-en="Intellectual Integrity">지적 성실함</h3>
           <p class="i18n" data-kr="1학년 전액 성적 장학금 수혜 사실을 배치하여 로봇자동화공학의 기초(수학, 물리 등)가 탄탄함을 입증합니다."
             data-en="Received full scholarship in the first year, proving a solid foundation in robotics automation engineering.">
@@ -178,7 +204,8 @@
 
     <!-- Step 7: Closing Contact (JOIN) -->
     <section id="contact">
-      <h2 class="gsap-contact i18n" data-kr="내일의 궤도를 함께 개척하겠습니다." data-en="Let's pioneer the orbit of tomorrow together."
+      <h2 class="gsap-contact i18n" data-kr="내일의 궤도를 함께 개척하겠습니다."
+        data-en="Let's pioneer the orbit of tomorrow together."
         style="font-size: 1.5rem; letter-spacing: 5px; font-weight: 300; margin-bottom: 4rem; color: var(--text-secondary);">
         내일의 궤도를 함께 개척하겠습니다.</h2>
 
@@ -191,9 +218,23 @@
           <div style="margin-bottom: 2rem;">
             <p style="margin-bottom: 0.8rem; color: var(--text-primary); font-size: 1.1rem;">📧 iyang0705@naver.com</p>
             <p style="color: var(--text-primary); font-size: 1.1rem; margin-bottom: 0.8rem;">📞 010-2722-2284</p>
-            <a href="https://github.com/BigOcean-KR1" target="_blank" style="color: var(--text-primary); font-size: 1.1rem; text-decoration: none; display: flex; align-items: center; gap: 8px;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='var(--text-primary)'">
-              <svg fill="currentColor" width="20" height="20" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            <a href="https://github.com/BigOcean-KR1" target="_blank"
+              style="color: var(--text-primary); font-size: 1.1rem; text-decoration: none; display: flex; align-items: center; gap: 8px; margin-bottom: 0.8rem;"
+              onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='var(--text-primary)'">
+              <svg fill="currentColor" width="20" height="20" viewBox="0 0 24 24">
+                <path
+                  d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+              </svg>
               GitHub / Code Repository
+            </a>
+            <a href="https://www.instagram.com/d_ocean_k_04/" target="_blank"
+              style="color: var(--text-primary); font-size: 1.1rem; text-decoration: none; display: flex; align-items: center; gap: 8px;"
+              onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='var(--text-primary)'">
+              <svg fill="currentColor" width="20" height="20" viewBox="0 0 24 24">
+                <path
+                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.919-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.441 1.441 1.441c.795 0 1.439-.645 1.439-1.441s-.644-1.44-1.439-1.44z" />
+              </svg>
+              Instagram
             </a>
           </div>
           <p style="font-size: 0.85rem; color: var(--hanwha-orange); opacity: 0.8; letter-spacing: 1px;" class="i18n"
@@ -206,9 +247,13 @@
             <h3 style="color: var(--hanwha-orange); margin-bottom: 1.5rem; font-weight: 400;" class="i18n"
               data-kr="1:1 문의하기" data-en="Direct Message">1:1 문의하기</h3>
             <div style="display: flex; flex-direction: column; gap: 1rem;">
-              <input type="text" name="name" id="msg-name" class="i18n-placeholder" data-kr="이름 (Name)" data-en="Name" placeholder="이름 (Name)" required>
-              <input type="email" name="email" id="msg-email" class="i18n-placeholder" data-kr="이메일 (Email)" data-en="Email" placeholder="이메일 (Email)" required>
-              <textarea name="message" id="msg-content" class="i18n-placeholder" data-kr="궁금한 사항이나 요청사항을 입력해주세요." data-en="Please enter your questions or requests." placeholder="궁금한 사항이나 요청사항을 입력해주세요." style="min-height: 150px;" required></textarea>
+              <input type="text" name="name" id="msg-name" class="i18n-placeholder" data-kr="이름 (Name)" data-en="Name"
+                placeholder="이름 (Name)" required>
+              <input type="email" name="email" id="msg-email" class="i18n-placeholder" data-kr="이메일 (Email)"
+                data-en="Email" placeholder="이메일 (Email)" required>
+              <textarea name="message" id="msg-content" class="i18n-placeholder" data-kr="궁금한 사항이나 요청사항을 입력해주세요."
+                data-en="Please enter your questions or requests." placeholder="궁금한 사항이나 요청사항을 입력해주세요."
+                style="min-height: 150px;" required></textarea>
               <button type="submit" id="send-msg-btn" class="btn-contact i18n" data-kr="보내기 (SEND)" data-en="SEND"
                 style="width: 120px; padding: 0.7rem; background: var(--hanwha-orange); color: white; border: none; align-self: flex-end; font-size: 0.8rem;">SEND</button>
             </div>
@@ -224,10 +269,11 @@
   <div id="google_translate_element" style="display:none;"></div>
   <script type="text/javascript">
     function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'ko', includedLanguages: 'ko,en,zh-CN,ja,ar', autoDisplay: false}, 'google_translate_element');
+      new google.translate.TranslateElement({ pageLanguage: 'ko', includedLanguages: 'ko,en,zh-CN,ja,ar', autoDisplay: false }, 'google_translate_element');
     }
   </script>
-  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script type="text/javascript"
+    src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 
 </html>

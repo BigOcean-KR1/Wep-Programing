@@ -21,38 +21,69 @@
 
   <!-- Layer 2: Navbar (Innovative Navigation) -->
   <nav class="notranslate">
-    <a href="https://www.hanwhaaerospace.com/kor/index.do" target="_blank" style="text-decoration: none; display: flex; align-items: center;">
-      <div class="logo" style="cursor: pointer; transition: 0.3s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color=''">HANWHA AEROSPACE</div>
+    <a href="https://www.hanwhaaerospace.com/kor/index.do" target="_blank"
+      style="text-decoration: none; display: flex; align-items: center;">
+      <div class="logo" style="cursor: pointer; transition: 0.3s;" onmouseover="this.style.color='var(--hanwha-orange)'"
+        onmouseout="this.style.color=''">HANWHA AEROSPACE</div>
     </a>
     <ul style="align-items: center;">
       <li><a href="index.html#hero">HOME</a></li>
       <li class="nav-item-dropdown">
         <a href="tech.html">TECH</a>
         <div class="dropdown-menu">
-          <a href="tech.html#smart-core" class="i18n" data-kr="스마트 코어" data-en="SMART CORE">스마트 코어</a>
-          <a href="tech.html#micro-degree" class="i18n" data-kr="마이크로 디그리" data-en="MICRO DEGREE">마이크로 디그리</a>
+          <a href="tech.html#smart-core" class="i18n" data-kr="스마트 코어" data-en="SMART CORE">SMART CORE</a>
+          <a href="tech.html#micro-degree" class="i18n" data-kr="마이크로 디그리" data-en="MICRO DEGREE">MICRO DEGREE</a>
         </div>
       </li>
-      <li><a href="innovation.html" class="active">INNOVATION</a></li>
+      <li class="nav-item-dropdown">
+        <a href="innovation.html" class="active">INNOVATION</a>
+        <div class="dropdown-menu">
+          <a href="innovation.html#discover" class="i18n" data-kr="공정 혁신" data-en="DISCOVER">DISCOVER</a>
+          <a href="innovation.html#automata" class="i18n" data-kr="오토마타 설계" data-en="AUTOMATA">AUTOMATA</a>
+        </div>
+      </li>
       <li><a href="board.html">LOUNGE</a></li>
       <li><a href="index.html#contact">JOIN</a></li>
-      <li class="lang-dropdown" style="position: relative;">
-        <button id="lang-toggle" class="lang-btn" style="background: transparent; border: none; font-size: 1.5rem; cursor: pointer; outline: none; padding: 0;" title="Select Language">🌍</button>
-        <div id="lang-menu" style="display: none; position: absolute; right: 0; top: 40px; background: rgba(0,0,0,0.9); border: 1px solid var(--hanwha-orange); border-radius: 10px; padding: 10px; flex-direction: column; gap: 10px; z-index: 10000; min-width: 140px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-align: left;">
-          <span onclick="setLang('kr')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇰🇷 한국어</span>
-          <span onclick="setLang('en')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇺🇸 English</span>
-          <span onclick="setLang('ar')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇸🇦 العربية</span>
-          <span onclick="setLang('zh')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇨🇳 中文</span>
-          <span onclick="setLang('ja')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇯🇵 日本語</span>
-        </div>
-      </li>
     </ul>
+    <div class="lang-dropdown" style="position: relative; justify-self: end;">
+      <button id="lang-toggle" class="lang-btn"
+        style="background: transparent; border: none; font-size: 1.5rem; cursor: pointer; outline: none; padding: 0.5rem 1rem;"
+        title="Select Language">🌍</button>
+      <div id="lang-menu"
+        style="display: none; position: absolute; right: 0; top: 60px; background: rgba(0,0,0,0.9); border: 1px solid var(--hanwha-orange); border-radius: 10px; padding: 10px; flex-direction: column; gap: 10px; z-index: 10000; min-width: 140px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-align: left;">
+        <span onclick="setLang('kr')"
+          style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+          onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇰🇷 한국어</span>
+        <span onclick="setLang('en')"
+          style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+          onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇺🇸
+          English</span>
+        <span onclick="setLang('ar')"
+          style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+          onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇸🇦
+          العربية</span>
+        <span onclick="setLang('zh')"
+          style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+          onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇨🇳 中문</span>
+        <span onclick="setLang('ja')"
+          style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+          onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇯🇵 日本語</span>
+      </div>
+    </div>
   </nav>
 
   <main id="main-content" style="padding-top: 100px;">
     <!-- Sleek Back Button -->
-    <a href="index.html" style="position: fixed; top: 30px; left: 30px; width: 45px; height: 45px; border-radius: 50%; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); display: flex; justify-content: center; align-items: center; z-index: 9999; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" title="이전 화면으로" onmouseover="this.style.background='var(--hanwha-orange)'; this.style.borderColor='var(--hanwha-orange)'; this.style.transform='scale(1.1)';" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.borderColor='rgba(255,255,255,0.2)'; this.style.transform='scale(1)';">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    <a href="index.html"
+      style="position: fixed; top: 30px; left: 30px; width: 45px; height: 45px; border-radius: 50%; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); display: flex; justify-content: center; align-items: center; z-index: 9999; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.3);"
+      title="이전 화면으로"
+      onmouseover="this.style.background='var(--hanwha-orange)'; this.style.borderColor='var(--hanwha-orange)'; this.style.transform='scale(1.1)';"
+      onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.borderColor='rgba(255,255,255,0.2)'; this.style.transform='scale(1)';">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
     </a>
     <!-- Step 5: Section 3 - DISCOVER: Innovation & Future -->
     <section id="discover">
@@ -64,13 +95,13 @@
       <blockquote
         style="max-width: 800px; margin: 0 auto 4rem; font-style: italic; color: var(--hanwha-orange); font-size: 1.1rem; border-left: 2px solid var(--hanwha-orange); padding-left: 1.5rem; text-align: left;"
         class="i18n"
-        data-kr="&ldquo;구문 오류에 시간을 쓰는 대신, 한화의 생산 라인 효율을 15% 높이겠다는 '설계의 의도'에 집중하여 AI 에이전트와 협업합니다. 저는 단순한 코더가 아닌, 복잡한 시스템을 지휘하는 시스템 설계자입니다.&rdquo;"
-        data-en="&ldquo;Instead of fixing syntax, I focus on the 'Intent' to boost Hanwha's efficiency by 15% with AI agents. I am not a coder, but a System Architect.&rdquo;">
-        "구문 오류에 시간을 쓰는 대신, 한화의 생산 라인 효율을 15% 높이겠다는 '설계의 의도'에 집중하여 AI 에이전트와 협업합니다. 저는 단순한 코더가 아닌, 복잡한 시스템을 지휘하는 시스템
+        data-kr="&ldquo;'How to Code'가 아닌 'What to Build'에 집중합니다. AI 에이전트를 조율하여 제조 혁신의 청사진을 그립니다. 저는 기계적 모순을 넘어 시스템의 한계를 돌파하는 디지털 트윈 설계자입니다.&rdquo;"
+        data-en="&ldquo;Focus on 'What to Build', not 'How to Code'. Coordinating AI agents to blueprint manufacturing innovation. I am a Digital Twin Architect breaking system limits.&rdquo;">
+        "'How to Code'가 아닌 'What to Build'에 집중합니다. AI 에이전트를 조율하여 제조 혁신의 청사진을 그립니다. 저는 기계적 모순을 넘어 시스템의 한계를 돌파하는 디지털 트윈
         설계자입니다."
       </blockquote>
 
-      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); margin-bottom: 5rem;">
+      <div class="grid">
         <div class="card gsap-card">
           <div class="tech-id">FUTURE-01</div>
           <h4 class="neon-text">반도체 인공지능 실습</h4>
@@ -81,7 +112,7 @@
             지능화하여 한화의 Sustainable 가치를 실현합니다.
           </p>
         </div>
-        <div class="card gsap-card" style="border-color: #00d4ff;">
+        <div class="card gsap-card card-blue" style="border-color: #00d4ff;">
           <div class="tech-id" style="color: #00d4ff;">VIBE-01</div>
           <h4 class="neon-text" style="color: #00d4ff;">웹 프로그래밍 (Vibe Coding)</h4>
           <p class="i18n"
@@ -104,7 +135,7 @@
       </div>
 
       <!-- Achievement Highlight -->
-      <div class="card gsap-card" style="width: 100%; max-width: 1100px; padding: 4rem 2rem;">
+      <div id="automata" class="card gsap-card" style="width: 100%; max-width: 1100px; padding: 4rem 2rem;">
         <div class="tech-tag">AWARDED</div>
         <h3 class="i18n" data-kr="창의적 공학설계 경진대회 입상" data-en="Creative Engineering Design Award"
           style="font-weight: 300; margin-bottom: 2rem;">창의적 공학설계 경진대회 입상</h3>
@@ -114,48 +145,105 @@
           data-en="Proved practical problem-solving skills through TRIZ-based automata mechanism design.">TRIZ 기법을 적용한
           오토마타 기구 설계 및 실무 문제 해결 능력 증명</p>
 
-        <!-- Automata Images (Engineering Progression) -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(40%, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+        <!-- Part 1: Engineering Progression -->
+        <div
+          style="display: grid; grid-template-columns: repeat(auto-fit, minmax(45%, 1fr)); gap: 1.5rem; margin-bottom: 2rem; align-items: stretch;">
           <!-- 3D Concept -->
-          <div style="position: relative; overflow: hidden; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-            <img src="assets/automata_3d.jpg" style="width: 100%; height: 350px; object-fit: cover; cursor: pointer; transition: 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onclick="window.open(this.src)" alt="3D Automata Concept">
-            <div class="i18n" data-kr="STEP 1: 3D 컨셉 모델링" data-en="STEP 1: 3D Concept Modeling" style="position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.8); color: var(--hanwha-orange); padding: 10px; font-weight: bold; font-size: 0.9rem; text-align: center;">STEP 1: 3D 컨셉 모델링</div>
+          <div
+            style="position: relative; overflow: hidden; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <img src="assets/automata_3d.jpg"
+              style="width: 100%; height: 350px; object-fit: cover; cursor: pointer; transition: 0.3s;"
+              onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"
+              onclick="openImageModal(this.src)" alt="3D Automata Concept">
+            <div class="i18n" data-kr="STEP 1: 3D 컨셉 모델링" data-en="STEP 1: 3D Concept Modeling"
+              style="position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.8); color: var(--hanwha-orange); padding: 10px; font-weight: bold; font-size: 0.9rem; text-align: center;">
+              STEP 1: 3D 컨셉 모델링</div>
           </div>
           <!-- Precision Blueprint -->
-          <div style="position: relative; overflow: hidden; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-            <img src="assets/automata_assemble.jpg" style="width: 100%; height: 350px; object-fit: cover; cursor: pointer; transition: 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onclick="window.open(this.src)" alt="Detailed Assembly Blueprint">
-            <div class="i18n" data-kr="STEP 2: 어셈블리 상세 도면 (치수/공차)" data-en="STEP 2: Precision Assembly Blueprint" style="position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.8); color: var(--hanwha-orange); padding: 10px; font-weight: bold; font-size: 0.9rem; text-align: center;">STEP 2: 어셈블리 상세 도면 (치수/공차)</div>
-          </div>
-          <!-- Mechanics Analysis -->
-          <div style="position: relative; overflow: hidden; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-            <img src="assets/automata_moment.jpg" style="width: 100%; height: 350px; object-fit: cover; cursor: pointer; transition: 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onclick="window.open(this.src)" alt="Moment/Force Analysis">
-            <div class="i18n" data-kr="STEP 3: 모멘트(Moment) 및 하중 분석" data-en="STEP 3: Moment & Load Analysis" style="position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.8); color: var(--hanwha-orange); padding: 10px; font-weight: bold; font-size: 0.9rem; text-align: center;">STEP 3: 모멘트(Moment) 및 하중 분석</div>
-          </div>
-          <!-- Real Output -->
-          <div style="position: relative; overflow: hidden; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-            <img src="assets/automata.jpg" style="width: 100%; height: 350px; object-fit: cover; cursor: pointer; transition: 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onclick="window.open(this.src)" alt="Fabricated Output">
-            <div class="i18n" data-kr="STEP 4: 실제 구현 및 TRIZ 검증" data-en="STEP 4: Physical Output & TRIZ Validation" style="position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.8); color: var(--hanwha-orange); padding: 10px; font-weight: bold; font-size: 0.9rem; text-align: center;">STEP 4: 실제 구현 및 TRIZ 검증</div>
+          <div
+            style="position: relative; overflow: hidden; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <img src="assets/automata_assemble.jpg"
+              style="width: 100%; height: 350px; object-fit: cover; cursor: pointer; transition: 0.3s;"
+              onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"
+              onclick="openImageModal(this.src)" alt="Detailed Assembly Blueprint">
+            <div class="i18n" data-kr="STEP 2: 어셈블리 상세 도면 (치수/공차)" data-en="STEP 2: Precision Assembly Blueprint"
+              style="position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.8); color: var(--hanwha-orange); padding: 10px; font-weight: bold; font-size: 0.9rem; text-align: center;">
+              STEP 2: 어셈블리 상세 도면 (치수/공차)</div>
           </div>
         </div>
 
-        <div class="timeline gsap-timeline">
-          <div class="timeline-item">
-            <h3>STEP 01</h3>
-            <p class="i18n" data-kr="TRIZ 기법 적용: 기구적 모순 해결" data-en="Applied TRIZ for mechanical resolution">TRIZ 기법 적용:
-              기구적 모순 해결</p>
+        <!-- Part 2: Engineering Execution -->
+        <div
+          style="display: grid; grid-template-columns: repeat(auto-fit, minmax(45%, 1fr)); gap: 1.5rem; margin-bottom: 3rem; align-items: stretch;">
+          <!-- Mechanics Analysis -->
+          <div
+            style="position: relative; overflow: hidden; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <img src="assets/automata_moment.jpg"
+              style="width: 100%; height: 350px; object-fit: cover; cursor: pointer; transition: 0.3s;"
+              onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"
+              onclick="openImageModal(this.src)" alt="Moment/Force Analysis">
+            <div class="i18n" data-kr="STEP 3: 모멘트(Moment) 및 하중 분석" data-en="STEP 3: Moment & Load Analysis"
+              style="position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.8); color: var(--hanwha-orange); padding: 10px; font-weight: bold; font-size: 0.9rem; text-align: center;">
+              STEP 3: 모멘트(Moment) 및 하중 분석</div>
           </div>
-          <div class="timeline-item">
-            <h3>STEP 02</h3>
-            <p class="i18n" data-kr="오토마타 설계: 로봇 동력 구현" data-en="Automata design for robot power">오토마타 설계: 로봇 동력 구현</p>
-          </div>
-          <div class="timeline-item">
-            <h3>STEP 03</h3>
-            <p class="i18n" data-kr="실무 인재 입증: 한화 맞춤형 인재" data-en="Validated Pioneer Readiness for Hanwha">실무 인재 입증: 한화
-              맞춤형 인재</p>
+          <!-- Real Output -->
+          <div
+            style="position: relative; overflow: hidden; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <img src="assets/automata.jpg"
+              style="width: 100%; height: 350px; object-fit: cover; cursor: pointer; transition: 0.3s;"
+              onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"
+              onclick="openImageModal(this.src)" alt="Fabricated Output">
+            <div class="i18n" data-kr="STEP 4: 실제 구현 및 TRIZ 검증" data-en="STEP 4: Physical Output & TRIZ Validation"
+              style="position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.8); color: var(--hanwha-orange); padding: 10px; font-weight: bold; font-size: 0.9rem; text-align: center;">
+              STEP 4: 실제 구현 및 TRIZ 검증</div>
           </div>
         </div>
-      </div>
+
+        <!-- Automata Final Video (STEP 5) -->
+        <div
+          style="width: 100%; max-width: 850px; margin: 2rem auto 4rem; border-radius: 20px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.7); border: 1px solid var(--hanwha-orange);"
+          class="gsap-zoom">
+          <video src="assets/automataVideo.mp4"
+            style="width: 100%; display: block; cursor: pointer; filter: contrast(1.05) brightness(1.05); pointer-events: none;"
+            autoplay loop muted playsinline onclick="openImageModal(this.src)"></video>
+          <div
+            style="background: rgba(0,10,30,0.95); padding: 20px; color: var(--hanwha-orange); font-weight: bold; font-family: 'Outfit'; text-align: center; border-top: 1px solid rgba(243,115,33,0.3);">
+            <span class="i18n" data-kr="STEP 5: 최종 구현 결과 시연 (Final Demonstration)"
+              data-en="STEP 5: Final Implementation Demonstration">STEP 5: 최종 구현 결과 시연 (Final Demonstration)</span>
+          </div>
+        </div>
+        <!-- Image-only Showcase Gallery -->
+        <div
+          style="margin-top: 5rem; padding: 4rem 2rem; background: rgba(255,255,255,0.02); border-radius: 40px; border: 1px solid rgba(255,255,255,0.05);"
+          class="gsap-zoom">
+          <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+            <h3 class="i18n" data-kr="Behind the Scenes: 실무 문제 해결의 순간"
+              data-en="Behind the Scenes: Real-world Problem Solving"
+              style="color: var(--hanwha-orange); font-size: 2.2rem; font-weight: 200; letter-spacing: -1px; margin-bottom: 3.5rem;">
+              Behind the Scenes: 실무 문제 해결의 순간</h3>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+              <img src="assets/automata_contest4.png"
+                style="width: 100%; height: 380px; object-fit: cover; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);"
+                onclick="openImageModal(this.src)">
+              <img src="assets/automata_contest1.png"
+                style="width: 100%; height: 380px; object-fit: cover; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);"
+                onclick="openImageModal(this.src)">
+              <img src="assets/automata_contest2.png"
+                style="width: 100%; height: 380px; object-fit: cover; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);"
+                onclick="openImageModal(this.src)">
+              <img src="assets/automata_contest3.png"
+                style="width: 100%; height: 380px; object-fit: cover; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);"
+                onclick="openImageModal(this.src)">
+            </div>
+          </div>
+        </div>
+
     </section>
+    </div>
+  </main>
+
+  </div>
+  </section>
 
   </main>
 
@@ -163,10 +251,11 @@
   <div id="google_translate_element" style="display:none;"></div>
   <script type="text/javascript">
     function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'ko', includedLanguages: 'ko,en,zh-CN,ja,ar', autoDisplay: false}, 'google_translate_element');
+      new google.translate.TranslateElement({ pageLanguage: 'ko', includedLanguages: 'ko,en,zh-CN,ja,ar', autoDisplay: false }, 'google_translate_element');
     }
   </script>
-  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script type="text/javascript"
+    src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 
 </html>
