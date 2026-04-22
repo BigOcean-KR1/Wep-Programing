@@ -1210,14 +1210,19 @@ body>.skiptranslate {
   nav {
     height: 60px;
     grid-template-columns: auto 1fr auto; 
-    padding: 0 10px;
+    padding: 0 5px 0 10px; /* More room on right for globe */
   }
 
   .logo {
     display: block;
-    font-size: 0.6rem; /* Slightly smaller logo */
+    font-size: 0.85rem;
     white-space: nowrap;
-    opacity: 0.8;
+    opacity: 1;
+    font-weight: 700;
+  }
+
+  .logo-detail {
+    display: none; /* Hide 'AEROSPACE' on mobile */
   }
 
   nav ul {
@@ -1226,20 +1231,24 @@ body>.skiptranslate {
   }
 
   nav ul li a {
-    padding: 0 0.4rem;
-    font-size: 0.75rem; /* Increased font size for better readability */
+    padding: 0 0.35rem;
+    font-size: 0.7rem;
   }
 
-  /* Specific prominence for JOIN if needed, but keeping it balanced for now */
+  /* Only color JOIN when it is active */
   nav ul li:last-child a {
     font-weight: 700;
+    color: #fff;
+  }
+  
+  nav ul li:last-child a.active {
     color: var(--hanwha-orange);
   }
 
   .lang-btn {
-    padding: 0.2rem 0.5rem;
-    margin-left: 0.2rem;
-    font-size: 1.1rem !important; /* Emoji size */
+    padding: 0.2rem 0.3rem;
+    margin-left: 0.1rem;
+    font-size: 1.3rem !important; /* Larger globe, less padding */
   }
 
   section {
@@ -1309,6 +1318,23 @@ body>.skiptranslate {
   .post-full-body, .post-reply-box, .post-footer-actions {
     padding-left: 1.2rem;
     padding-right: 1.2rem;
+  }
+
+  .post-action-btns {
+    gap: 6px !important;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .post-action-btns span {
+    font-size: 0.65rem !important;
+    padding: 4px 8px !important;
+  }
+
+  /* Anonymity text fix */
+  #board-form-container label {
+    font-size: 0.75rem !important;
+    white-space: nowrap;
   }
 }
 
