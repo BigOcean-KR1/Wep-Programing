@@ -6,23 +6,11 @@ const lenis = new Lenis({
   easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
   smooth: true,
   wheelMultiplier: 1,
-  eventsTarget: document, // canvas DOM이 wheel 이벤트 가로채지 못하도록 document에서 수신
 });
-
-window.lenis = lenis; // 전역 노출 (togglePost 등에서 접근)
 
 lenis.on('scroll', ScrollTrigger.update);
 gsap.ticker.add((time) => { lenis.raf(time * 1000); });
 gsap.ticker.lagSmoothing(0);
-
-// Three.js canvas가 wheel/touch 이벤트를 막지 않도록 강제 처리
-window.addEventListener('DOMContentLoaded', () => {
-  const canvasContainer = document.getElementById('canvas-container');
-  if (canvasContainer) {
-    canvasContainer.style.pointerEvents = 'none';
-    canvasContainer.addEventListener('wheel', (e) => e.stopPropagation(), { passive: false });
-  }
-});
 // -----------------------------------------
 
 // 1. Particle System (The Universe of Hanwha)
@@ -279,7 +267,7 @@ if (boardList) {
     if (posts.length === 0) {
       posts = [
         { id: 3, name: "젠슨황", email: "jensen@nvidia.com", content: "잘봤어요~ 굳 ! 잘봤어요 미국에서 응원하고 있어요!", date: "2026. 4. 23.", likes: 316, comments: [{ author: "김대양", text: "엔비디아 늘 응원합니다~", date: "2026. 4. 23." }] },
-        { id: 2, name: "이준석 엔지니어 (동료)", email: "junseok.lee@eng.com", content: "대양님, 전시하셨던 프로젝트에서 TRIZ 기법으로 기구적 모순을 해결할 때, '시간에 의한 분리'를 선택하신 특별한 이유가 있나요?", date: "2026. 4. 14.", likes: 12, comments: [{ author: "김대양", text: "동력 피크 시점만 회피하도록 설계하여 효율을 높였습니다.", date: "2026. 4. 15." }] },
+        { id: 2, name: "이준석 엔지니어 (동료)", email: "junseok.lee@eng.com", content: "대양님, 오토마타 제작 당시 팀원들과의 불화나 의견 차이는 없었나요? 있었다면 어떤 방식으로 해결하셨나요?", date: "2026. 4. 14.", likes: 12, comments: [{ author: "김대양", text: "불화는 다행히 없었고, 의견 차이는 있었습니다. 다른 의견이 나왔을 때 각자의 방법으로 기계를 직접 구동시켜보며, 서로 합리적인 방향으로 나아가기 위해 지속적으로 소통했습니다.", date: "2026. 4. 15." }] },
         { id: 1, name: "익명(Anonymous)", email: "비공개 (Private)", content: "포트폴리오가 매우 훌륭합니다! 의도 중심 프로그래밍을 PLC 실무에 어떻게 적용하셨는지 궁금하네요.", date: "2026. 4. 13.", likes: 9, comments: [{ author: "김대양", text: "에이전트에게 반복 코딩을 맡기고 저는 시스템 검증에 집중했습니다.", date: "2026. 4. 13." }] }
       ];
       localStorage.setItem('board_posts', JSON.stringify(posts));
@@ -330,12 +318,9 @@ if (boardList) {
 
     // 모든 열린 것 닫기
     document.querySelectorAll('.post-row.expanded').forEach(r => {
-      const content = r.querySelector('.post-expanded-content');
-      if (content) {
-        content.style.height = content.scrollHeight + 'px';
-        requestAnimationFrame(() => { content.style.height = '0'; });
-      }
       r.classList.remove('expanded');
+      const content = r.querySelector('.post-expanded-content');
+      if (content) content.style.height = '0';
     });
 
     // 클릭한 것 열기
@@ -343,20 +328,22 @@ if (boardList) {
       row.classList.add('expanded');
       const content = row.querySelector('.post-expanded-content');
       if (content) {
+        content.style.height = 'auto';
+        const h = content.scrollHeight;
         content.style.height = '0';
         requestAnimationFrame(() => {
-          content.style.height = content.scrollHeight + 'px';
-        });
-        content.addEventListener('transitionend', function onEnd(e) {
-          if (e.propertyName !== 'height') return;
-          content.removeEventListener('transitionend', onEnd);
-          content.style.height = 'auto';
-          if (window.lenis) window.lenis.resize();
+          content.style.height = h + 'px';
         });
       }
-    } else {
-      setTimeout(() => { if (window.lenis) window.lenis.resize(); }, 420);
     }
+
+    // 트랜지션 끝난 후 Lenis 높이 재계산
+    setTimeout(() => {
+      if (window.lenis) {
+        window.lenis.start();
+        window.lenis.resize();
+      }
+    }, 450);
   };
 
   window.toggleLike = (id) => {
