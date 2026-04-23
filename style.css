@@ -864,7 +864,7 @@ body.light-theme .board-form {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--glass-border);
   border-radius: 12px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .post-row {
@@ -922,13 +922,14 @@ body.light-theme .board-form {
 .post-expanded-content {
   height: 0;
   overflow: hidden;
-  transition: height 0.4s ease;
+  transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   background: rgba(0, 0, 0, 0.2);
 }
 
 .post-row.expanded .post-expanded-content {
   border-top: 1px solid rgba(243, 115, 33, 0.1);
   padding: 2rem;
+  overflow: visible;
 }
 
 .post-expanded-content>div:first-child {
