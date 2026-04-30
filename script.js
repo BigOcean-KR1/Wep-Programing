@@ -1,16 +1,20 @@
-gsap.registerPlugin(ScrollTrigger);
+// --- Firebase SDK 및 초기화 ---
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, updateDoc, deleteDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// --- Lenis Premium Smooth Scroll Setup ---
-const lenis = new Lenis({
-  duration: 1.5,
-  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  smooth: true,
-  wheelMultiplier: 1,
-});
+const firebaseConfig = {
+  apiKey: "AIzaSyA3BjewSvzUdNGLOlylj/FC84Bq3r/lycQ",
+  authDomain: "wep-programing.firebaseapp.com",
+  projectId: "wep-programing",
+  storageBucket: "wep-programing.firebasestorage.app",
+  messagingSenderId: "1087368931594",
+  appId: "1:1087368931594:web:92b26c2348641e5c7432f3",
+  measurementId: "G-GOGVR9FV3B"
+};
 
-lenis.on('scroll', ScrollTrigger.update);
-gsap.ticker.add((time) => { lenis.raf(time * 1000); });
-gsap.ticker.lagSmoothing(0);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 // -----------------------------------------
 
 // 1. Particle System (The Universe of Hanwha)
@@ -130,8 +134,8 @@ window.addEventListener('resize', () => {
 });
 
 // Modals
-function openModal(id) { document.getElementById(id).classList.add('active'); }
-function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+window.openModal = function(id) { document.getElementById(id).classList.add('active'); }
+window.closeModal = function(id) { document.getElementById(id).classList.remove('active'); }
 
 // GSAP Animations
 gsap.to(solarSystem.position, {
@@ -239,7 +243,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 // ----------------------------------------------------
-// Board Logic (Lounge) - Fully Redesigned into List
+// Board Logic (Lounge) - Firebase Firestore Version
 // ----------------------------------------------------
 const boardList = document.getElementById('board-list');
 if (boardList) {
@@ -253,62 +257,64 @@ if (boardList) {
   let editingId = null;
 
   window.loadPosts = function () {
-    let posts = JSON.parse(localStorage.getItem('board_posts') || '[]');
-    boardList.innerHTML = '';
+    const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
 
-    // List Header
-    const listHeader = document.createElement('div');
-    listHeader.className = 'post-header-summary';
-    listHeader.style.background = 'rgba(243, 115, 33, 0.15)';
-    listHeader.style.borderRadius = '10px 10px 0 0';
-    listHeader.innerHTML = `<span>No.</span><span>${isEnglish ? 'Subject' : '제목'}</span><span>${isEnglish ? 'Author' : '작성자'}</span><span>${isEnglish ? 'Date' : '날짜'}</span><span>${isEnglish ? 'Likes' : '추천'}</span>`;
-    boardList.appendChild(listHeader);
+    // 실시간 데이터 감시 (onSnapshot)
+    onSnapshot(q, (snapshot) => {
+      boardList.innerHTML = '';
 
-    if (posts.length === 0) {
-      posts = [
-        { id: 3, name: "젠슨황", email: "jensen@nvidia.com", content: "잘봤어요~ 굳 ! 잘봤어요 미국에서 응원하고 있어요!", date: "2026. 4. 23.", likes: 316, comments: [{ author: "김대양", text: "엔비디아 늘 응원합니다~", date: "2026. 4. 23." }] },
-        { id: 2, name: "이준석 엔지니어 (동료)", email: "junseok.lee@eng.com", content: "대양님, 오토마타 제작 당시 팀원들과의 불화나 의견 차이는 없었나요? 있었다면 어떤 방식으로 해결하셨나요?", date: "2026. 4. 14.", likes: 12, comments: [{ author: "김대양", text: "불화는 다행히 없었고, 의견 차이는 있었습니다. 다른 의견이 나왔을 때 각자의 방법으로 기계를 직접 구동시켜보며, 서로 합리적인 방향으로 나아가기 위해 지속적으로 소통했습니다.", date: "2026. 4. 15." }] },
-        { id: 1, name: "익명(Anonymous)", email: "비공개 (Private)", content: "포트폴리오가 매우 훌륭합니다! 의도 중심 프로그래밍을 PLC 실무에 어떻게 적용하셨는지 궁금하네요.", date: "2026. 4. 13.", likes: 9, comments: [{ author: "김대양", text: "에이전트에게 반복 코딩을 맡기고 저는 시스템 검증에 집중했습니다.", date: "2026. 4. 13." }] }
-      ];
-      localStorage.setItem('board_posts', JSON.stringify(posts));
-    }
+      // List Header
+      const listHeader = document.createElement('div');
+      listHeader.className = 'post-header-summary';
+      listHeader.style.background = 'rgba(243, 115, 33, 0.15)';
+      listHeader.style.borderRadius = '10px 10px 0 0';
+      listHeader.innerHTML = `<span>No.</span><span>${isEnglish ? 'Subject' : '제목'}</span><span>${isEnglish ? 'Author' : '작성자'}</span><span>${isEnglish ? 'Date' : '날짜'}</span><span>${isEnglish ? 'Likes' : '추천'}</span>`;
+      boardList.appendChild(listHeader);
 
-    posts.sort((a, b) => b.id - a.id).forEach(post => {
-      const row = document.createElement('div');
-      row.className = 'post-row';
-      row.id = `post-row-${post.id}`;
-      row.onclick = () => window.togglePost(post.id);
+      if (snapshot.empty) {
+        // 데이터가 없을 때 표시할 내용 (선택 사항)
+      }
 
-      let commentsHTML = '';
-      (post.comments || []).forEach(c => {
-        commentsHTML += `<div class="post-reply-box"><span style="color:var(--hanwha-orange); font-weight:700;">💬 ${c.author}</span>: ${c.text}<span style="font-size:0.75rem; color:#888; display:block; margin-top:5px;">${c.date}</span></div>`;
-      });
+      snapshot.forEach((docSnap) => {
+        const post = { id: docSnap.id, ...docSnap.data() };
+        const dateStr = post.createdAt ? post.createdAt.toDate().toLocaleDateString() : '...';
 
-      row.innerHTML = `
-        <div class="post-header-summary">
-          <span class="post-id">${post.id}</span>
-          <span class="post-title-summary">${post.content.substring(0, 50)}...</span>
-          <span class="post-author-summary" style="${post.name === '젠슨황' ? 'color: #76B900; font-weight: 700;' : ''}">
-            ${post.name} ${post.name === '젠슨황' ? '<span title="Verified CEO" style="margin-left:5px;">✅</span>' : ''}
-          </span>
-          <span class="post-date-summary">${post.date}</span>
-          <span class="post-likes-summary">👍 ${post.likes || 0}</span>
-        </div>
-        <div class="post-expanded-content">
-          <div class="post-full-body">${post.content.replace(/\n/g, '<br>')}</div>
-          ${commentsHTML}
-          <div class="post-footer-actions">
-            <span style="font-size: 0.8rem; opacity: 0.6;">📧 ${post.email.includes('비공개') ? (isEnglish ? '🔒 Private' : '🔒 비공개') : post.email}</span>
-            <div class="post-action-btns">
-              <span onclick="event.stopPropagation(); window.toggleLike(${post.id})">👍 ${isEnglish ? 'Like' : '추천'}</span>
-              <span onclick="event.stopPropagation(); window.addComment(${post.id})">💬 ${isEnglish ? 'Reply' : '답글달기'}</span>
-              <span onclick="event.stopPropagation(); window.editPost(${post.id})">✏️ ${isEnglish ? 'Edit' : '수정'}</span>
-              <span onclick="event.stopPropagation(); window.deletePost(${post.id})" style="color:#ff6b6b;">🗑️ ${isEnglish ? 'Delete' : '삭제'}</span>
+        const row = document.createElement('div');
+        row.className = 'post-row';
+        row.id = `post-row-${post.id}`;
+        row.onclick = () => window.togglePost(post.id);
+
+        let commentsHTML = '';
+        (post.comments || []).forEach(c => {
+          commentsHTML += `<div class="post-reply-box"><span style="color:var(--hanwha-orange); font-weight:700;">💬 ${c.author}</span>: ${c.text}<span style="font-size:0.75rem; color:#888; display:block; margin-top:5px;">${c.date}</span></div>`;
+        });
+
+        row.innerHTML = `
+          <div class="post-header-summary">
+            <span class="post-id">${post.id.substring(0, 4)}</span>
+            <span class="post-title-summary">${post.content.substring(0, 50)}...</span>
+            <span class="post-author-summary" style="${post.name === '젠슨황' ? 'color: #76B900; font-weight: 700;' : ''}">
+              ${post.name} ${post.name === '젠슨황' ? '<span title="Verified CEO" style="margin-left:5px;">✅</span>' : ''}
+            </span>
+            <span class="post-date-summary">${dateStr}</span>
+            <span class="post-likes-summary">👍 ${post.likes || 0}</span>
+          </div>
+          <div class="post-expanded-content">
+            <div class="post-full-body">${post.content.replace(/\n/g, '<br>')}</div>
+            ${commentsHTML}
+            <div class="post-footer-actions">
+              <span style="font-size: 0.8rem; opacity: 0.6;">📧 ${post.email.includes('Private') || post.email.includes('비공개') ? (isEnglish ? '🔒 Private' : '🔒 비공개') : post.email}</span>
+              <div class="post-action-btns">
+                <span onclick="event.stopPropagation(); window.toggleLike('${post.id}')">👍 ${isEnglish ? 'Like' : '추천'}</span>
+                <span onclick="event.stopPropagation(); window.addComment('${post.id}')">💬 ${isEnglish ? 'Reply' : '답글달기'}</span>
+                <span onclick="event.stopPropagation(); window.editPost('${post.id}')">✏️ ${isEnglish ? 'Edit' : '수정'}</span>
+                <span onclick="event.stopPropagation(); window.deletePost('${post.id}')" style="color:#ff6b6b;">🗑️ ${isEnglish ? 'Delete' : '삭제'}</span>
+              </div>
             </div>
           </div>
-        </div>
-      `;
-      boardList.appendChild(row);
+        `;
+        boardList.appendChild(row);
+      });
     });
   };
 
@@ -316,14 +322,12 @@ if (boardList) {
     const row = document.getElementById(`post-row-${id}`);
     const expanded = row.classList.contains('expanded');
 
-    // 모든 열린 것 닫기
     document.querySelectorAll('.post-row.expanded').forEach(r => {
       r.classList.remove('expanded');
       const content = r.querySelector('.post-expanded-content');
       if (content) content.style.height = '0';
     });
 
-    // 클릭한 것 열기
     if (!expanded) {
       row.classList.add('expanded');
       const content = row.querySelector('.post-expanded-content');
@@ -337,7 +341,6 @@ if (boardList) {
       }
     }
 
-    // 트랜지션 끝난 후 Lenis 높이 재계산
     setTimeout(() => {
       if (window.lenis) {
         window.lenis.start();
@@ -346,28 +349,50 @@ if (boardList) {
     }, 450);
   };
 
-  window.toggleLike = (id) => {
-    let ps = JSON.parse(localStorage.getItem('board_posts') || '[]');
-    let i = ps.findIndex(p => p.id === id);
-    if (i !== -1) { ps[i].likes = (ps[i].likes || 0) + 1; localStorage.setItem('board_posts', JSON.stringify(ps)); window.loadPosts(); window.togglePost(id); }
-  };
-
-  window.addComment = (id) => {
-    const author = prompt(isEnglish ? "Name:" : "이름:");
-    const text = author ? prompt(isEnglish ? "Reply:" : "내용:") : null;
-    if (text) {
-      let ps = JSON.parse(localStorage.getItem('board_posts') || '[]');
-      let i = ps.findIndex(p => p.id === id);
-      if (i !== -1) { if (!ps[i].comments) ps[i].comments = []; ps[i].comments.push({ author, text, date: new Date().toLocaleDateString() }); localStorage.setItem('board_posts', JSON.stringify(ps)); window.loadPosts(); window.togglePost(id); }
+  window.toggleLike = async (id) => {
+    const postRef = doc(db, "posts", id);
+    const postSnap = await getDoc(postRef);
+    if (postSnap.exists()) {
+      await updateDoc(postRef, {
+        likes: (postSnap.data().likes || 0) + 1
+      });
     }
   };
 
-  window.deletePost = (id) => { if (confirm(isEnglish ? "Delete?" : "삭제할까요?")) { let ps = JSON.parse(localStorage.getItem('board_posts') || '[]').filter(p => p.id !== id); localStorage.setItem('board_posts', JSON.stringify(ps)); window.loadPosts(); } };
+  window.addComment = async (id) => {
+    const author = prompt(isEnglish ? "Name:" : "이름:");
+    const text = author ? prompt(isEnglish ? "Reply:" : "내용:") : null;
+    if (text) {
+      const postRef = doc(db, "posts", id);
+      const postSnap = await getDoc(postRef);
+      if (postSnap.exists()) {
+        const comments = postSnap.data().comments || [];
+        comments.push({ author, text, date: new Date().toLocaleDateString() });
+        await updateDoc(postRef, { comments });
+      }
+    }
+  };
 
-  window.editPost = (id) => {
-    let ps = JSON.parse(localStorage.getItem('board_posts') || '[]');
-    let p = ps.find(x => x.id === id);
-    if (p) { editingId = id; msgName.value = p.name; msgEmail.value = p.email; msgContent.value = p.content; formContainer.style.display = 'flex'; toggleFormBtn.style.display = 'none'; formContainer.scrollIntoView({ behavior: 'smooth' }); }
+  window.deletePost = async (id) => {
+    if (confirm(isEnglish ? "Delete?" : "삭제할까요?")) {
+      await deleteDoc(doc(db, "posts", id));
+      showToast(isEnglish ? "Deleted successfully" : "삭제되었습니다.");
+    }
+  };
+
+  window.editPost = async (id) => {
+    const postRef = doc(db, "posts", id);
+    const postSnap = await getDoc(postRef);
+    if (postSnap.exists()) {
+      const p = postSnap.data();
+      editingId = id;
+      msgName.value = p.name;
+      msgEmail.value = p.email;
+      msgContent.value = p.content;
+      formContainer.style.display = 'flex';
+      toggleFormBtn.style.display = 'none';
+      formContainer.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   toggleFormBtn.onclick = () => {
@@ -399,17 +424,44 @@ if (boardList) {
 
   window.toggleAnonMode = (checked) => {
     const group = document.getElementById('user-info-group');
-    if (group) { group.style.display = checked ? 'none' : 'flex'; if (checked) { msgName.value = 'Anonymous'; msgEmail.value = 'Private'; } }
+    if (group) {
+      group.style.display = checked ? 'none' : 'flex';
+      if (checked) {
+        msgName.value = 'Anonymous';
+        msgEmail.value = 'Private';
+      }
+    }
   };
 
-  submitPostBtn.onclick = () => {
+  submitPostBtn.onclick = async () => {
     const content = msgContent.value.trim();
     if (!content) return alert(isEnglish ? "Write content" : "내용을 입력하세요");
-    let ps = JSON.parse(localStorage.getItem('board_posts') || '[]');
-    if (editingId) { let i = ps.findIndex(p => p.id === editingId); ps[i] = { ...ps[i], name: msgName.value, email: msgEmail.value, content }; }
-    else { ps.push({ name: msgName.value || 'Someone', email: msgEmail.value || 'Unknown', content, date: new Date().toLocaleDateString(), id: Date.now(), likes: 0, comments: [] }); }
-    localStorage.setItem('board_posts', JSON.stringify(ps));
-    formContainer.style.display = 'none'; toggleFormBtn.style.display = 'block'; window.loadPosts();
+
+    try {
+      if (editingId) {
+        const postRef = doc(db, "posts", editingId);
+        await updateDoc(postRef, {
+          name: msgName.value,
+          email: msgEmail.value,
+          content: content
+        });
+      } else {
+        await addDoc(collection(db, "posts"), {
+          name: msgName.value || 'Someone',
+          email: msgEmail.value || 'Unknown',
+          content: content,
+          createdAt: serverTimestamp(),
+          likes: 0,
+          comments: []
+        });
+      }
+      formContainer.style.display = 'none';
+      toggleFormBtn.style.display = 'block';
+      showToast(isEnglish ? "Post saved!" : "게시글이 저장되었습니다!");
+    } catch (e) {
+      console.error("Error adding/updating document: ", e);
+      alert("Error: " + e.message);
+    }
   };
 
   window.loadPosts();
@@ -450,7 +502,7 @@ if (contactForm) {
 }
 
 // Global Toast System
-function showToast(message) {
+window.showToast = function(message) {
   let toast = document.getElementById('global-toast');
   if (!toast) {
     toast = document.createElement('div');
@@ -466,15 +518,15 @@ function showToast(message) {
 }
 
 // Image Modal Functions
-function openImageModal(src) {
+window.openImageModal = function(src) {
   let modal = document.getElementById('image-lightbox');
   if (!modal) {
     modal = document.createElement('div');
     modal.id = 'image-lightbox';
     modal.className = 'image-modal';
-    modal.innerHTML = `<span class="image-modal-close" onclick="closeImageModal()">&times;</span><div id="lightbox-content-container" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center;"></div>`;
+    modal.innerHTML = `<span class="image-modal-close" onclick="window.closeImageModal()">&times;</span><div id="lightbox-content-container" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center;"></div>`;
     document.body.appendChild(modal);
-    modal.addEventListener('click', (e) => { if (e.target === modal) closeImageModal(); });
+    modal.addEventListener('click', (e) => { if (e.target === modal) window.closeImageModal(); });
   }
 
   const container = document.getElementById('lightbox-content-container');
@@ -490,7 +542,7 @@ function openImageModal(src) {
   if (window.lenis) window.lenis.stop();
 }
 
-function closeImageModal() {
+window.closeImageModal = function() {
   const modal = document.getElementById('image-lightbox');
   if (modal) modal.classList.remove('active');
   if (window.lenis) window.lenis.start();
