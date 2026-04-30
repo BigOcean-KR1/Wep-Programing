@@ -1,50 +1,23 @@
-// --- Firebase 동적 초기화 (전역 THREE/gsap와 충돌 방지) ---
-let db, firestoreModules;
-(async () => {
-  const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js");
-  const fs = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
-  firestoreModules = fs;
+// --- Firebase SDK 및 초기화 ---
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, updateDoc, deleteDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyA3BjewSvzUdNGLOlylj/FC84Bq3r/lycQ",
-    authDomain: "wep-programing.firebaseapp.com",
-    projectId: "wep-programing",
-    storageBucket: "wep-programing.firebasestorage.app",
-    messagingSenderId: "1087368931594",
-    appId: "1:1087368931594:web:92b26c2348641e5c7432f3",
-    measurementId: "G-GOGVR9FV3B"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyA3BjewSvzUdNGLOlylj/FC84Bq3r/lycQ",
+  authDomain: "wep-programing.firebaseapp.com",
+  projectId: "wep-programing",
+  storageBucket: "wep-programing.firebasestorage.app",
+  messagingSenderId: "1087368931594",
+  appId: "1:1087368931594:web:92b26c2348641e5c7432f3",
+  measurementId: "G-GOGVR9FV3B"
+};
 
-  const app = initializeApp(firebaseConfig);
-  db = fs.getFirestore(app);
-
-  // Firebase 준비 완료 후 게시판 로드
-  if (typeof window.loadPosts === 'function') window.loadPosts();
-})();
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 // -----------------------------------------
 
 // 1. Particle System (The Universe of Hanwha)
-gsap.registerPlugin(ScrollTrigger);
-
-const lenis = new Lenis({
-  duration: 1.5,
-  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  smooth: true,
-  wheelMultiplier: 1,
-  touchMultiplier: 2,
-  eventsTarget: document,
-});
-window.lenis = lenis;
-lenis.on('scroll', ScrollTrigger.update);
-gsap.ticker.add((time) => { lenis.raf(time * 1000); });
-gsap.ticker.lagSmoothing(0);
-
-window.addEventListener('DOMContentLoaded', () => {
-  const canvasContainer = document.getElementById('canvas-container');
-  if (canvasContainer) canvasContainer.style.pointerEvents = 'none';
-});
-// -----------------------------------------
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
@@ -138,10 +111,12 @@ planetsData.forEach(data => {
   planets.push({ mesh: orbitGroup, speed: data.speed, planet: planet });
 });
 
-scene.add(new THREE.AmbientLight(0xffffff, 1.2)); // 광원 대폭 강화
-camera.position.set(0, 2, 18); // 카메라 위치 미세 조정
+scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+camera.position.set(0, 8, 22); // 카메라 위로 올려서 부감 시점
 camera.lookAt(0, 0, 0);
-solarSystem.position.set(0, 0, 0); // 초기 위치 강제
+solarSystem.position.set(0, 0, 0);
+solarSystem.rotation.x = 0.38; // 약 22도 기울기 — 수평 탈피, 입체감 확보
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); // 화질 살짝 낮춰 렉 감소
 
 document.addEventListener('mousemove', (e) => {
   const mouseX = (e.clientX / window.innerWidth) - 0.5;
@@ -152,7 +127,7 @@ document.addEventListener('mousemove', (e) => {
 const animate = () => {
   requestAnimationFrame(animate);
   points.rotation.y += 0.0005;
-  planets.forEach(p => { p.mesh.rotation.y += p.speed; p.planet.rotation.y += 0.01; });
+  planets.forEach(p => { p.mesh.rotation.y += p.speed; p.planet.rotation.y += 0.005; }); // 자전 속도 절반으로
   sun.rotation.y += 0.002;
   // 중복되는 수동 위치 계산 삭제
   renderer.render(scene, camera);
@@ -301,20 +276,23 @@ if (boardList) {
   let editingId = null;
 
   window.loadPosts = function () {
-    if (!db || !firestoreModules) return; // Firebase 아직 안 준비됐으면 대기
-    const { collection, query, orderBy, onSnapshot, doc, getDoc, updateDoc, deleteDoc, addDoc, serverTimestamp } = firestoreModules;
-
     const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
 
+    // 실시간 데이터 감시 (onSnapshot)
     onSnapshot(q, (snapshot) => {
       boardList.innerHTML = '';
 
+      // List Header
       const listHeader = document.createElement('div');
       listHeader.className = 'post-header-summary';
       listHeader.style.background = 'rgba(243, 115, 33, 0.15)';
       listHeader.style.borderRadius = '10px 10px 0 0';
       listHeader.innerHTML = `<span>No.</span><span>${isEnglish ? 'Subject' : '제목'}</span><span>${isEnglish ? 'Author' : '작성자'}</span><span>${isEnglish ? 'Date' : '날짜'}</span><span>${isEnglish ? 'Likes' : '추천'}</span>`;
       boardList.appendChild(listHeader);
+
+      if (snapshot.empty) {
+        // 데이터가 없을 때 표시할 내용 (선택 사항)
+      }
 
       const totalPosts = snapshot.size;
       snapshot.docs.forEach((docSnap, index) => {
@@ -367,38 +345,43 @@ if (boardList) {
     const expanded = row.classList.contains('expanded');
 
     document.querySelectorAll('.post-row.expanded').forEach(r => {
-      const content = r.querySelector('.post-expanded-content');
-      if (content) { content.style.height = content.scrollHeight + 'px'; requestAnimationFrame(() => { content.style.height = '0'; }); }
       r.classList.remove('expanded');
+      const content = r.querySelector('.post-expanded-content');
+      if (content) content.style.height = '0';
     });
 
     if (!expanded) {
       row.classList.add('expanded');
       const content = row.querySelector('.post-expanded-content');
       if (content) {
+        content.style.height = 'auto';
+        const h = content.scrollHeight;
         content.style.height = '0';
-        requestAnimationFrame(() => { content.style.height = content.scrollHeight + 'px'; });
-        content.addEventListener('transitionend', function onEnd(e) {
-          if (e.propertyName !== 'height') return;
-          content.removeEventListener('transitionend', onEnd);
-          content.style.height = 'auto';
-          if (window.lenis) window.lenis.resize();
+        requestAnimationFrame(() => {
+          content.style.height = h + 'px';
         });
       }
-    } else {
-      setTimeout(() => { if (window.lenis) window.lenis.resize(); }, 420);
     }
+
+    setTimeout(() => {
+      if (window.lenis) {
+        window.lenis.start();
+        window.lenis.resize();
+      }
+    }, 450);
   };
 
   window.toggleLike = async (id) => {
-    const { doc, getDoc, updateDoc } = firestoreModules;
     const postRef = doc(db, "posts", id);
     const postSnap = await getDoc(postRef);
-    if (postSnap.exists()) await updateDoc(postRef, { likes: (postSnap.data().likes || 0) + 1 });
+    if (postSnap.exists()) {
+      await updateDoc(postRef, {
+        likes: (postSnap.data().likes || 0) + 1
+      });
+    }
   };
 
   window.addComment = async (id) => {
-    const { doc, getDoc, updateDoc } = firestoreModules;
     const author = prompt(isEnglish ? "Name:" : "이름:");
     const text = author ? prompt(isEnglish ? "Reply:" : "내용:") : null;
     if (text) {
@@ -413,7 +396,6 @@ if (boardList) {
   };
 
   window.deletePost = async (id) => {
-    const { doc, deleteDoc } = firestoreModules;
     if (confirm(isEnglish ? "Delete?" : "삭제할까요?")) {
       await deleteDoc(doc(db, "posts", id));
       showToast(isEnglish ? "Deleted successfully" : "삭제되었습니다.");
@@ -421,7 +403,6 @@ if (boardList) {
   };
 
   window.editPost = async (id) => {
-    const { doc, getDoc } = firestoreModules;
     const postRef = doc(db, "posts", id);
     const postSnap = await getDoc(postRef);
     if (postSnap.exists()) {
@@ -438,47 +419,73 @@ if (boardList) {
 
   toggleFormBtn.onclick = () => {
     editingId = null;
-    msgName.value = ''; msgEmail.value = ''; msgContent.value = '';
+    msgName.value = '';
+    msgEmail.value = '';
+    msgContent.value = '';
     formContainer.style.display = 'flex';
     toggleFormBtn.style.display = 'none';
     setTimeout(() => {
-      if (window.lenis) { window.lenis.resize(); window.lenis.scrollTo(formContainer, { offset: -100, duration: 1.2 }); }
+      if (window.lenis) {
+        window.lenis.start();
+        window.lenis.resize();
+        window.lenis.scrollTo(formContainer, { offset: -100, duration: 1.2 });
+      }
     }, 100);
   };
 
   cancelPostBtn.onclick = () => {
     formContainer.style.display = 'none';
     toggleFormBtn.style.display = 'block';
-    setTimeout(() => { if (window.lenis) window.lenis.resize(); }, 100);
+    setTimeout(() => {
+      if (window.lenis) {
+        window.lenis.start();
+        window.lenis.resize();
+      }
+    }, 100);
   };
 
   window.toggleAnonMode = (checked) => {
     const group = document.getElementById('user-info-group');
-    if (group) { group.style.display = checked ? 'none' : 'flex'; if (checked) { msgName.value = 'Anonymous'; msgEmail.value = 'Private'; } }
+    if (group) {
+      group.style.display = checked ? 'none' : 'flex';
+      if (checked) {
+        msgName.value = 'Anonymous';
+        msgEmail.value = 'Private';
+      }
+    }
   };
 
   submitPostBtn.onclick = async () => {
-    const { collection, addDoc, doc, updateDoc, serverTimestamp } = firestoreModules;
     const content = msgContent.value.trim();
     if (!content) return alert(isEnglish ? "Write content" : "내용을 입력하세요");
+
     try {
       if (editingId) {
-        await updateDoc(doc(db, "posts", editingId), { name: msgName.value, email: msgEmail.value, content });
+        const postRef = doc(db, "posts", editingId);
+        await updateDoc(postRef, {
+          name: msgName.value,
+          email: msgEmail.value,
+          content: content
+        });
       } else {
         await addDoc(collection(db, "posts"), {
-          name: msgName.value || 'Someone', email: msgEmail.value || 'Unknown',
-          content, createdAt: serverTimestamp(), likes: 0, comments: []
+          name: msgName.value || 'Someone',
+          email: msgEmail.value || 'Unknown',
+          content: content,
+          createdAt: serverTimestamp(),
+          likes: 0,
+          comments: []
         });
       }
       formContainer.style.display = 'none';
       toggleFormBtn.style.display = 'block';
       showToast(isEnglish ? "Post saved!" : "게시글이 저장되었습니다!");
     } catch (e) {
+      console.error("Error adding/updating document: ", e);
       alert("Error: " + e.message);
     }
   };
 
-  // Firebase 준비 완료 대기 후 로드
   window.loadPosts();
 }
 
