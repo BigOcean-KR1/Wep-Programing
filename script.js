@@ -1,41 +1,70 @@
-// --- Firebase SDK 및 초기화 ---
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, updateDoc, deleteDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+// --- Firebase 동적 초기화 (전역 THREE/gsap와 충돌 방지) ---
+let db, firestoreModules;
+(async () => {
+  const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js");
+  const fs = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+  firestoreModules = fs;
 
-const firebaseConfig = {
-  apiKey: "AIzaSyA3BjewSvzUdNGLOlylj/FC84Bq3r/lycQ",
-  authDomain: "wep-programing.firebaseapp.com",
-  projectId: "wep-programing",
-  storageBucket: "wep-programing.firebasestorage.app",
-  messagingSenderId: "1087368931594",
-  appId: "1:1087368931594:web:92b26c2348641e5c7432f3",
-  measurementId: "G-GOGVR9FV3B"
-};
+  const firebaseConfig = {
+    apiKey: "AIzaSyA3BjewSvzUdNGLOlylj/FC84Bq3r/lycQ",
+    authDomain: "wep-programing.firebaseapp.com",
+    projectId: "wep-programing",
+    storageBucket: "wep-programing.firebasestorage.app",
+    messagingSenderId: "1087368931594",
+    appId: "1:1087368931594:web:92b26c2348641e5c7432f3",
+    measurementId: "G-GOGVR9FV3B"
+  };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+  const app = initializeApp(firebaseConfig);
+  db = fs.getFirestore(app);
+
+  // Firebase 준비 완료 후 게시판 로드
+  if (typeof window.loadPosts === 'function') window.loadPosts();
+})();
 
 // -----------------------------------------
 
 // 1. Particle System (The Universe of Hanwha)
+gsap.registerPlugin(ScrollTrigger);
+
+const lenis = new Lenis({
+  duration: 1.5,
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  smooth: true,
+  wheelMultiplier: 1,
+  touchMultiplier: 2,
+  eventsTarget: document,
+});
+window.lenis = lenis;
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+gsap.ticker.lagSmoothing(0);
+
+window.addEventListener('DOMContentLoaded', () => {
+  const canvasContainer = document.getElementById('canvas-container');
+  if (canvasContainer) canvasContainer.style.pointerEvents = 'none';
+});
+// -----------------------------------------
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // 고해상도 기기에서 렉 방지
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('canvas-container').appendChild(renderer.domElement);
 
+const isHomePage = !!document.getElementById('hero'); // 홈 화면 판별 개선
+
 const geometry = new THREE.BufferGeometry();
-const particlesCount = 2000;
+const particlesCount = isHomePage ? 1500 : 800;
 const posArray = new Float32Array(particlesCount * 3);
 for (let i = 0; i < particlesCount * 3; i += 3) {
-  posArray[i] = (Math.random() - 0.5) * 100; // x
-  posArray[i + 1] = (Math.random() - 0.5) * 100; // y
-  posArray[i + 2] = (Math.random() - 0.5) * 100; // z
+  posArray[i] = (Math.random() - 0.5) * 120; // 범위 소폭 확장
+  posArray[i + 1] = (Math.random() - 0.5) * 120;
+  posArray[i + 2] = (Math.random() - 0.5) * 120;
 }
 geometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
-// Updated particle color to Hanwha Orange with soft opacity for 'Lounge' atmosphere
-const material = new THREE.PointsMaterial({ size: 0.008, color: '#F37321', transparent: true, opacity: 0.35 });
+const material = new THREE.PointsMaterial({ size: 0.008, color: '#F37321', transparent: true, opacity: 0.3 });
 const points = new THREE.Points(geometry, material);
 scene.add(points);
 
@@ -58,7 +87,7 @@ function createGlowTexture(color) {
   return new THREE.CanvasTexture(canvas);
 }
 
-const sunGeometry = new THREE.SphereGeometry(1.5, 64, 64);
+const sunGeometry = new THREE.SphereGeometry(1.5, 32, 32); // 세그먼트 감소 (64 -> 32)
 const sunMaterial = new THREE.MeshBasicMaterial({
   map: textureLoader.load('https://upload.wikimedia.org/wikipedia/commons/9/99/Map_of_the_full_sun.jpg'),
 });
@@ -76,17 +105,20 @@ sun.add(sunGlow);
 const sunLight = new THREE.PointLight('#F37321', 5, 50);
 sun.add(sunLight);
 
-const planetsData = [
+const planetsData = isHomePage ? [
   { color: '#A0A0A0', dist: 4, size: 0.2, speed: 0.008 },
   { color: '#E3BB76', dist: 6, size: 0.35, speed: 0.005 },
   { color: '#ffffff', dist: 9, size: 0.5, speed: 0.003, texture: 'https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg' },
   { color: '#E27B58', dist: 12, size: 0.3, speed: 0.002 },
   { color: '#ffffff', dist: 16, size: 0.9, speed: 0.001, hasRing: true, texture: 'https://threejs.org/examples/textures/planets/jupiter.jpg' },
-];
+] : [
+  { color: '#ffffff', dist: 9, size: 0.5, speed: 0.003, texture: 'https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg' },
+  { color: '#E27B58', dist: 12, size: 0.3, speed: 0.002 },
+]; // 홈이 아니면 행성 수 대폭 감소
 
 const planets = [];
 planetsData.forEach(data => {
-  const planetGeo = new THREE.SphereGeometry(data.size, 64, 64);
+  const planetGeo = new THREE.SphereGeometry(data.size, 32, 32); // 세그먼트 감소
   const planetMat = new THREE.MeshStandardMaterial({
     color: data.color,
     map: data.texture ? textureLoader.load(data.texture) : null,
@@ -98,7 +130,7 @@ planetsData.forEach(data => {
   planet.position.x = data.dist;
   orbitGroup.rotation.y = Math.random() * Math.PI * 2;
   if (data.hasRing) {
-    const ring = new THREE.Mesh(new THREE.RingGeometry(data.size * 1.4, data.size * 2.8, 64), new THREE.MeshBasicMaterial({ color: '#D2B48C', side: THREE.DoubleSide, transparent: true, opacity: 0.5 }));
+    const ring = new THREE.Mesh(new THREE.RingGeometry(data.size * 1.4, data.size * 2.8, 32), new THREE.MeshBasicMaterial({ color: '#D2B48C', side: THREE.DoubleSide, transparent: true, opacity: 0.5 }));
     ring.rotation.x = Math.PI / 2;
     planet.add(ring);
   }
@@ -106,9 +138,10 @@ planetsData.forEach(data => {
   planets.push({ mesh: orbitGroup, speed: data.speed, planet: planet });
 });
 
-scene.add(new THREE.AmbientLight(0xffffff, 0.4));
-camera.position.set(0, 5, 15);
+scene.add(new THREE.AmbientLight(0xffffff, 1.2)); // 광원 대폭 강화
+camera.position.set(0, 2, 18); // 카메라 위치 미세 조정
 camera.lookAt(0, 0, 0);
+solarSystem.position.set(0, 0, 0); // 초기 위치 강제
 
 document.addEventListener('mousemove', (e) => {
   const mouseX = (e.clientX / window.innerWidth) - 0.5;
@@ -121,8 +154,7 @@ const animate = () => {
   points.rotation.y += 0.0005;
   planets.forEach(p => { p.mesh.rotation.y += p.speed; p.planet.rotation.y += 0.01; });
   sun.rotation.y += 0.002;
-  solarSystem.position.y = -window.scrollY * 0.0015;
-  points.position.y = -window.scrollY * 0.002;
+  // 중복되는 수동 위치 계산 삭제
   renderer.render(scene, camera);
 };
 animate();
@@ -134,14 +166,26 @@ window.addEventListener('resize', () => {
 });
 
 // Modals
-window.openModal = function(id) { document.getElementById(id).classList.add('active'); }
-window.closeModal = function(id) { document.getElementById(id).classList.remove('active'); }
+window.openModal = function (id) { document.getElementById(id).classList.add('active'); }
+window.closeModal = function (id) { document.getElementById(id).classList.remove('active'); }
 
-// GSAP Animations
-gsap.to(solarSystem.position, {
-  scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true },
-  z: -20
-});
+// GSAP Animations (Home Only) - 스크롤에 따른 자연스러운 이동 통합
+if (isHomePage) {
+  gsap.to(solarSystem.position, {
+    scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true },
+    z: -15,
+    y: -8
+  });
+  gsap.to(points.position, {
+    scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true },
+    y: -10
+  });
+} else {
+  // 홈이 아닌 다른 페이지에서도 약간의 시차 효과
+  window.addEventListener('scroll', () => {
+    solarSystem.position.y = -window.scrollY * 0.005;
+  });
+}
 
 gsap.utils.toArray('section').forEach((sec) => {
   gsap.from(sec, {
@@ -257,13 +301,14 @@ if (boardList) {
   let editingId = null;
 
   window.loadPosts = function () {
+    if (!db || !firestoreModules) return; // Firebase 아직 안 준비됐으면 대기
+    const { collection, query, orderBy, onSnapshot, doc, getDoc, updateDoc, deleteDoc, addDoc, serverTimestamp } = firestoreModules;
+
     const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
 
-    // 실시간 데이터 감시 (onSnapshot)
     onSnapshot(q, (snapshot) => {
       boardList.innerHTML = '';
 
-      // List Header
       const listHeader = document.createElement('div');
       listHeader.className = 'post-header-summary';
       listHeader.style.background = 'rgba(243, 115, 33, 0.15)';
@@ -271,14 +316,10 @@ if (boardList) {
       listHeader.innerHTML = `<span>No.</span><span>${isEnglish ? 'Subject' : '제목'}</span><span>${isEnglish ? 'Author' : '작성자'}</span><span>${isEnglish ? 'Date' : '날짜'}</span><span>${isEnglish ? 'Likes' : '추천'}</span>`;
       boardList.appendChild(listHeader);
 
-      if (snapshot.empty) {
-        // 데이터가 없을 때 표시할 내용 (선택 사항)
-      }
-
       const totalPosts = snapshot.size;
       snapshot.docs.forEach((docSnap, index) => {
         const post = { id: docSnap.id, ...docSnap.data() };
-        const postNumber = totalPosts - index; 
+        const postNumber = totalPosts - index;
         const dateStr = post.createdAt ? post.createdAt.toDate().toLocaleDateString() : '...';
 
         const row = document.createElement('div');
@@ -311,6 +352,7 @@ if (boardList) {
                 <span onclick="event.stopPropagation(); window.addComment('${post.id}')">💬 ${isEnglish ? 'Reply' : '답글달기'}</span>
                 <span onclick="event.stopPropagation(); window.editPost('${post.id}')">✏️ ${isEnglish ? 'Edit' : '수정'}</span>
                 <span onclick="event.stopPropagation(); window.deletePost('${post.id}')" style="color:#ff6b6b;">🗑️ ${isEnglish ? 'Delete' : '삭제'}</span>
+                <span onclick="event.stopPropagation(); window.togglePost('${post.id}')" style="background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 4px;">❌ ${isEnglish ? 'Close' : '접기'}</span>
               </div>
             </div>
           </div>
@@ -325,43 +367,38 @@ if (boardList) {
     const expanded = row.classList.contains('expanded');
 
     document.querySelectorAll('.post-row.expanded').forEach(r => {
-      r.classList.remove('expanded');
       const content = r.querySelector('.post-expanded-content');
-      if (content) content.style.height = '0';
+      if (content) { content.style.height = content.scrollHeight + 'px'; requestAnimationFrame(() => { content.style.height = '0'; }); }
+      r.classList.remove('expanded');
     });
 
     if (!expanded) {
       row.classList.add('expanded');
       const content = row.querySelector('.post-expanded-content');
       if (content) {
-        content.style.height = 'auto';
-        const h = content.scrollHeight;
         content.style.height = '0';
-        requestAnimationFrame(() => {
-          content.style.height = h + 'px';
+        requestAnimationFrame(() => { content.style.height = content.scrollHeight + 'px'; });
+        content.addEventListener('transitionend', function onEnd(e) {
+          if (e.propertyName !== 'height') return;
+          content.removeEventListener('transitionend', onEnd);
+          content.style.height = 'auto';
+          if (window.lenis) window.lenis.resize();
         });
       }
+    } else {
+      setTimeout(() => { if (window.lenis) window.lenis.resize(); }, 420);
     }
-
-    setTimeout(() => {
-      if (window.lenis) {
-        window.lenis.start();
-        window.lenis.resize();
-      }
-    }, 450);
   };
 
   window.toggleLike = async (id) => {
+    const { doc, getDoc, updateDoc } = firestoreModules;
     const postRef = doc(db, "posts", id);
     const postSnap = await getDoc(postRef);
-    if (postSnap.exists()) {
-      await updateDoc(postRef, {
-        likes: (postSnap.data().likes || 0) + 1
-      });
-    }
+    if (postSnap.exists()) await updateDoc(postRef, { likes: (postSnap.data().likes || 0) + 1 });
   };
 
   window.addComment = async (id) => {
+    const { doc, getDoc, updateDoc } = firestoreModules;
     const author = prompt(isEnglish ? "Name:" : "이름:");
     const text = author ? prompt(isEnglish ? "Reply:" : "내용:") : null;
     if (text) {
@@ -376,6 +413,7 @@ if (boardList) {
   };
 
   window.deletePost = async (id) => {
+    const { doc, deleteDoc } = firestoreModules;
     if (confirm(isEnglish ? "Delete?" : "삭제할까요?")) {
       await deleteDoc(doc(db, "posts", id));
       showToast(isEnglish ? "Deleted successfully" : "삭제되었습니다.");
@@ -383,6 +421,7 @@ if (boardList) {
   };
 
   window.editPost = async (id) => {
+    const { doc, getDoc } = firestoreModules;
     const postRef = doc(db, "posts", id);
     const postSnap = await getDoc(postRef);
     if (postSnap.exists()) {
@@ -399,73 +438,47 @@ if (boardList) {
 
   toggleFormBtn.onclick = () => {
     editingId = null;
-    msgName.value = '';
-    msgEmail.value = '';
-    msgContent.value = '';
+    msgName.value = ''; msgEmail.value = ''; msgContent.value = '';
     formContainer.style.display = 'flex';
     toggleFormBtn.style.display = 'none';
     setTimeout(() => {
-      if (window.lenis) {
-        window.lenis.start();
-        window.lenis.resize();
-        window.lenis.scrollTo(formContainer, { offset: -100, duration: 1.2 });
-      }
+      if (window.lenis) { window.lenis.resize(); window.lenis.scrollTo(formContainer, { offset: -100, duration: 1.2 }); }
     }, 100);
   };
 
   cancelPostBtn.onclick = () => {
     formContainer.style.display = 'none';
     toggleFormBtn.style.display = 'block';
-    setTimeout(() => {
-      if (window.lenis) {
-        window.lenis.start();
-        window.lenis.resize();
-      }
-    }, 100);
+    setTimeout(() => { if (window.lenis) window.lenis.resize(); }, 100);
   };
 
   window.toggleAnonMode = (checked) => {
     const group = document.getElementById('user-info-group');
-    if (group) {
-      group.style.display = checked ? 'none' : 'flex';
-      if (checked) {
-        msgName.value = 'Anonymous';
-        msgEmail.value = 'Private';
-      }
-    }
+    if (group) { group.style.display = checked ? 'none' : 'flex'; if (checked) { msgName.value = 'Anonymous'; msgEmail.value = 'Private'; } }
   };
 
   submitPostBtn.onclick = async () => {
+    const { collection, addDoc, doc, updateDoc, serverTimestamp } = firestoreModules;
     const content = msgContent.value.trim();
     if (!content) return alert(isEnglish ? "Write content" : "내용을 입력하세요");
-
     try {
       if (editingId) {
-        const postRef = doc(db, "posts", editingId);
-        await updateDoc(postRef, {
-          name: msgName.value,
-          email: msgEmail.value,
-          content: content
-        });
+        await updateDoc(doc(db, "posts", editingId), { name: msgName.value, email: msgEmail.value, content });
       } else {
         await addDoc(collection(db, "posts"), {
-          name: msgName.value || 'Someone',
-          email: msgEmail.value || 'Unknown',
-          content: content,
-          createdAt: serverTimestamp(),
-          likes: 0,
-          comments: []
+          name: msgName.value || 'Someone', email: msgEmail.value || 'Unknown',
+          content, createdAt: serverTimestamp(), likes: 0, comments: []
         });
       }
       formContainer.style.display = 'none';
       toggleFormBtn.style.display = 'block';
       showToast(isEnglish ? "Post saved!" : "게시글이 저장되었습니다!");
     } catch (e) {
-      console.error("Error adding/updating document: ", e);
       alert("Error: " + e.message);
     }
   };
 
+  // Firebase 준비 완료 대기 후 로드
   window.loadPosts();
 }
 
@@ -504,7 +517,7 @@ if (contactForm) {
 }
 
 // Global Toast System
-window.showToast = function(message) {
+window.showToast = function (message) {
   let toast = document.getElementById('global-toast');
   if (!toast) {
     toast = document.createElement('div');
@@ -520,7 +533,7 @@ window.showToast = function(message) {
 }
 
 // Image Modal Functions
-window.openImageModal = function(src) {
+window.openImageModal = function (src) {
   let modal = document.getElementById('image-lightbox');
   if (!modal) {
     modal = document.createElement('div');
@@ -544,7 +557,7 @@ window.openImageModal = function(src) {
   if (window.lenis) window.lenis.stop();
 }
 
-window.closeImageModal = function() {
+window.closeImageModal = function () {
   const modal = document.getElementById('image-lightbox');
   if (modal) modal.classList.remove('active');
   if (window.lenis) window.lenis.start();
