@@ -46,13 +46,28 @@
       <li><a href="index.html#contact">JOIN</a></li>
     </ul>
     <div class="lang-dropdown" style="position: relative; justify-self: end;">
-      <button id="lang-toggle" class="lang-btn" style="background: transparent; border: none; font-size: 1.5rem; cursor: pointer; outline: none; padding: 0.5rem 1rem;" title="Select Language">🌍</button>
-      <div id="lang-menu" style="display: none; position: absolute; right: 0; top: 60px; background: rgba(0,0,0,0.9); border: 1px solid var(--hanwha-orange); border-radius: 10px; padding: 10px; flex-direction: column; gap: 10px; z-index: 10000; min-width: 140px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-align: left;">
-        <span onclick="setLang('kr')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇰🇷 한국어</span>
-        <span onclick="setLang('en')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇺🇸 English</span>
-        <span onclick="setLang('ar')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇸🇦 العربية</span>
-        <span onclick="setLang('zh')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇨🇳 中문</span>
-        <span onclick="setLang('ja')" style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇯🇵 日本語</span>
+      <button id="lang-toggle" class="lang-btn"
+        style="background: transparent; border: none; font-size: 1.5rem; cursor: pointer; outline: none; padding: 0.5rem 1rem;"
+        title="Select Language">🌍</button>
+      <div id="lang-menu"
+        style="display: none; position: absolute; right: 0; top: 60px; background: rgba(0,0,0,0.9); border: 1px solid var(--hanwha-orange); border-radius: 10px; padding: 10px; flex-direction: column; gap: 10px; z-index: 10000; min-width: 140px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-align: left;">
+        <span onclick="setLang('kr')"
+          style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+          onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇰🇷 한국어</span>
+        <span onclick="setLang('en')"
+          style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+          onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇺🇸
+          English</span>
+        <span onclick="setLang('ar')"
+          style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+          onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇸🇦
+          العربية</span>
+        <span onclick="setLang('zh')"
+          style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+          onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇨🇳 中文</span>
+        <span onclick="setLang('ja')"
+          style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
+          onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇯🇵 日本語</span>
       </div>
     </div>
   </nav>
@@ -98,7 +113,8 @@
       </h3>
       <span style="cursor: pointer; color: #fff; font-size: 2rem;" onclick="closeModal('modal-cad')">&times;</span>
     </div>
-    <img src="assets/robot_arm.png" style="width: 100%; border-radius: 15px; margin-bottom: 1.5rem; cursor: pointer;" onclick="openImageModal(this.src)" alt="CAD Model">
+    <img src="assets/robot_arm.png" style="width: 100%; border-radius: 15px; margin-bottom: 1.5rem; cursor: pointer;"
+      onclick="openImageModal(this.src)" alt="CAD Model">
     <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem;" class="i18n"
       data-kr="AutoCAD 및 Solidworks를 통한 KS 규격 정밀 도면 해독 역량입니다. K9 자주포 및 레드백 장갑차의 복잡한 기구부 설계를 이해하고, 한화에어로스페이스의 스마트 팩토리 생산 라인 레이아웃을 최적화하여 공정 정확성을 극대화합니다."
       data-en="KS standard precision blueprint decryption via AutoCAD & Solidworks. Expert in understanding K9/REDBACK complex mechanisms and maximizing Hanwha Aerospace's smart factory efficiency through layout optimization.">

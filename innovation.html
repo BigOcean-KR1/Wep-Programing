@@ -64,7 +64,7 @@
           العربية</span>
         <span onclick="setLang('zh')"
           style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
-          onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇨🇳 中문</span>
+          onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇨🇳 中文</span>
         <span onclick="setLang('ja')"
           style="color: white; cursor: pointer; font-size: 0.9rem; padding: 5px; transition: 0.2s;"
           onmouseover="this.style.color='var(--hanwha-orange)'" onmouseout="this.style.color='white'">🇯🇵 日本語</span>
@@ -197,56 +197,56 @@
               style="position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.8); color: var(--hanwha-orange); padding: 10px; font-weight: bold; font-size: 0.9rem; text-align: center;">
               STEP 4: 실제 구현 및 TRIZ 검증</div>
           </div>
-          </div>
         </div>
+      </div>
 
-        <!-- Problem Solving Highlight -->
-        <div style="max-width: 850px; margin: 0 auto 2rem; text-align: center;" class="gsap-zoom">
-          <p class="i18n" style="font-size: 1.1rem; color: var(--hanwha-orange); font-weight: 500; line-height: 1.6;"
-             data-kr="발판 마찰력 문제를 고무장갑 손가락 부분 활용으로 해결, 구동 시간을 12초에서 9.8초로 18% 단축시켰습니다."
-             data-en="Solved foot friction issues using rubber glove fingers, reducing operation time from 12s to 9.8s (18% reduction).">
-             발판 마찰력 문제를 고무장갑 손가락 부분 활용으로 해결, 구동 시간을 12초에서 9.8초로 18% 단축시켰습니다.
-          </p>
-        </div>
+      <!-- Problem Solving Highlight -->
+      <div style="max-width: 850px; margin: 0 auto 2rem; text-align: center;" class="gsap-zoom">
+        <p class="i18n" style="font-size: 1.1rem; color: var(--hanwha-orange); font-weight: 500; line-height: 1.6;"
+          data-kr="발판 마찰력 문제를 고무장갑 손가락 부분 활용으로 해결, 구동 시간을 12초에서 9.8초로 18% 단축시켰습니다."
+          data-en="Solved foot friction issues using rubber glove fingers, reducing operation time from 12s to 9.8s (18% reduction).">
+          발판 마찰력 문제를 고무장갑 손가락 부분 활용으로 해결, 구동 시간을 12초에서 9.8초로 18% 단축시켰습니다.
+        </p>
+      </div>
 
-        <!-- Automata Final Video (STEP 5) -->
+      <!-- Automata Final Video (STEP 5) -->
+      <div
+        style="width: 100%; max-width: 850px; margin: 2rem auto 4rem; border-radius: 20px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.7); border: 1px solid var(--hanwha-orange);"
+        class="gsap-zoom">
+        <video src="assets/automataVideo.mp4"
+          style="width: 100%; display: block; cursor: pointer; filter: contrast(1.05) brightness(1.05); pointer-events: none;"
+          autoplay loop muted playsinline onclick="openImageModal(this.src)"></video>
         <div
-          style="width: 100%; max-width: 850px; margin: 2rem auto 4rem; border-radius: 20px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.7); border: 1px solid var(--hanwha-orange);"
-          class="gsap-zoom">
-          <video src="assets/automataVideo.mp4"
-            style="width: 100%; display: block; cursor: pointer; filter: contrast(1.05) brightness(1.05); pointer-events: none;"
-            autoplay loop muted playsinline onclick="openImageModal(this.src)"></video>
-          <div
-            style="background: rgba(0,10,30,0.95); padding: 20px; color: var(--hanwha-orange); font-weight: bold; font-family: 'Outfit'; text-align: center; border-top: 1px solid rgba(243,115,33,0.3);">
-            <span class="i18n" data-kr="STEP 5: 최종 구현 결과 시연 (Final Demonstration)"
-              data-en="STEP 5: Final Implementation Demonstration">STEP 5: 최종 구현 결과 시연 (Final Demonstration)</span>
+          style="background: rgba(0,10,30,0.95); padding: 20px; color: var(--hanwha-orange); font-weight: bold; font-family: 'Outfit'; text-align: center; border-top: 1px solid rgba(243,115,33,0.3);">
+          <span class="i18n" data-kr="STEP 5: 최종 구현 결과 시연 (Final Demonstration)"
+            data-en="STEP 5: Final Implementation Demonstration">STEP 5: 최종 구현 결과 시연 (Final Demonstration)</span>
+        </div>
+      </div>
+      <!-- Image-only Showcase Gallery -->
+      <div
+        style="margin-top: 5rem; padding: 4rem 2rem; background: rgba(255,255,255,0.02); border-radius: 40px; border: 1px solid rgba(255,255,255,0.05);"
+        class="gsap-zoom">
+        <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+          <h3 class="i18n" data-kr="Behind the Scenes: 실무 문제 해결의 순간"
+            data-en="Behind the Scenes: Real-world Problem Solving"
+            style="color: var(--hanwha-orange); font-size: 2.2rem; font-weight: 200; letter-spacing: -1px; margin-bottom: 3.5rem;">
+            Behind the Scenes: 실무 문제 해결의 순간</h3>
+          <div class="gallery-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+            <img src="assets/automata_contest4.png"
+              style="width: 100%; height: 380px; object-fit: cover; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);"
+              onclick="openImageModal(this.src)">
+            <img src="assets/automata_contest1.png"
+              style="width: 100%; height: 380px; object-fit: cover; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);"
+              onclick="openImageModal(this.src)">
+            <img src="assets/automata_contest2.png"
+              style="width: 100%; height: 380px; object-fit: cover; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);"
+              onclick="openImageModal(this.src)">
+            <img src="assets/automata_contest3.png"
+              style="width: 100%; height: 380px; object-fit: cover; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);"
+              onclick="openImageModal(this.src)">
           </div>
         </div>
-        <!-- Image-only Showcase Gallery -->
-        <div
-          style="margin-top: 5rem; padding: 4rem 2rem; background: rgba(255,255,255,0.02); border-radius: 40px; border: 1px solid rgba(255,255,255,0.05);"
-          class="gsap-zoom">
-          <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
-            <h3 class="i18n" data-kr="Behind the Scenes: 실무 문제 해결의 순간"
-              data-en="Behind the Scenes: Real-world Problem Solving"
-              style="color: var(--hanwha-orange); font-size: 2.2rem; font-weight: 200; letter-spacing: -1px; margin-bottom: 3.5rem;">
-              Behind the Scenes: 실무 문제 해결의 순간</h3>
-            <div class="gallery-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
-              <img src="assets/automata_contest4.png"
-                style="width: 100%; height: 380px; object-fit: cover; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);"
-                onclick="openImageModal(this.src)">
-              <img src="assets/automata_contest1.png"
-                style="width: 100%; height: 380px; object-fit: cover; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);"
-                onclick="openImageModal(this.src)">
-              <img src="assets/automata_contest2.png"
-                style="width: 100%; height: 380px; object-fit: cover; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);"
-                onclick="openImageModal(this.src)">
-              <img src="assets/automata_contest3.png"
-                style="width: 100%; height: 380px; object-fit: cover; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);"
-                onclick="openImageModal(this.src)">
-            </div>
-          </div>
-        </div>
+      </div>
 
     </section>
     </div>
