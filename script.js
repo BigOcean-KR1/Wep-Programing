@@ -275,8 +275,10 @@ if (boardList) {
         // 데이터가 없을 때 표시할 내용 (선택 사항)
       }
 
-      snapshot.forEach((docSnap) => {
+      const totalPosts = snapshot.size;
+      snapshot.forEach((docSnap, index) => {
         const post = { id: docSnap.id, ...docSnap.data() };
+        const postNumber = totalPosts - index; // 순차적 번호 (역순)
         const dateStr = post.createdAt ? post.createdAt.toDate().toLocaleDateString() : '...';
 
         const row = document.createElement('div');
@@ -291,7 +293,7 @@ if (boardList) {
 
         row.innerHTML = `
           <div class="post-header-summary">
-            <span class="post-id">${post.id.substring(0, 4)}</span>
+            <span class="post-id">${postNumber}</span>
             <span class="post-title-summary">${post.content.substring(0, 50)}...</span>
             <span class="post-author-summary" style="${post.name === '젠슨황' ? 'color: #76B900; font-weight: 700;' : ''}">
               ${post.name} ${post.name === '젠슨황' ? '<span title="Verified CEO" style="margin-left:5px;">✅</span>' : ''}
