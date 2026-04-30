@@ -1,27 +1,49 @@
-// --- Firebase SDK 및 초기화 ---
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, updateDoc, deleteDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+// --- Firebase 동적 초기화 (type="module" 없이도 작동) ---
+let db, _fs;
+(async () => {
+  const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js");
+  _fs = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+  const firebaseConfig = {
+    apiKey: "AIzaSyA3BjewSvzUdNGLOlylj/FC84Bq3r/lycQ",
+    authDomain: "wep-programing.firebaseapp.com",
+    projectId: "wep-programing",
+    storageBucket: "wep-programing.firebasestorage.app",
+    messagingSenderId: "1087368931594",
+    appId: "1:1087368931594:web:92b26c2348641e5c7432f3",
+    measurementId: "G-GOGVR9FV3B"
+  };
+  const app = initializeApp(firebaseConfig);
+  db = _fs.getFirestore(app);
+  if (typeof window.loadPosts === 'function') window.loadPosts();
+})();
 
-const firebaseConfig = {
-  apiKey: "AIzaSyA3BjewSvzUdNGLOlylj/FC84Bq3r/lycQ",
-  authDomain: "wep-programing.firebaseapp.com",
-  projectId: "wep-programing",
-  storageBucket: "wep-programing.firebasestorage.app",
-  messagingSenderId: "1087368931594",
-  appId: "1:1087368931594:web:92b26c2348641e5c7432f3",
-  measurementId: "G-GOGVR9FV3B"
-};
+// -----------------------------------------
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
+// --- Lenis Smooth Scroll ---
+gsap.registerPlugin(ScrollTrigger);
+const lenis = new Lenis({
+  duration: 1.5,
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  smooth: true,
+  wheelMultiplier: 1,
+  touchMultiplier: 2,
+  eventsTarget: document,
+});
+window.lenis = lenis;
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+gsap.ticker.lagSmoothing(0);
+window.addEventListener('DOMContentLoaded', () => {
+  const cc = document.getElementById('canvas-container');
+  if (cc) cc.style.pointerEvents = 'none';
+});
 // -----------------------------------------
 
 // 1. Particle System (The Universe of Hanwha)
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // 고해상도 기기에서 렉 방지
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); // 렉 감소
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('canvas-container').appendChild(renderer.domElement);
 
@@ -112,11 +134,10 @@ planetsData.forEach(data => {
 });
 
 scene.add(new THREE.AmbientLight(0xffffff, 1.2));
-camera.position.set(0, 8, 22); // 카메라 위로 올려서 부감 시점
+camera.position.set(0, 8, 22); // 부감 시점
 camera.lookAt(0, 0, 0);
 solarSystem.position.set(0, 0, 0);
-solarSystem.rotation.x = 0.38; // 약 22도 기울기 — 수평 탈피, 입체감 확보
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); // 화질 살짝 낮춰 렉 감소
+solarSystem.rotation.x = 0.38; // 약 22도 기울기
 
 document.addEventListener('mousemove', (e) => {
   const mouseX = (e.clientX / window.innerWidth) - 0.5;
@@ -127,7 +148,7 @@ document.addEventListener('mousemove', (e) => {
 const animate = () => {
   requestAnimationFrame(animate);
   points.rotation.y += 0.0005;
-  planets.forEach(p => { p.mesh.rotation.y += p.speed; p.planet.rotation.y += 0.005; }); // 자전 속도 절반으로
+  planets.forEach(p => { p.mesh.rotation.y += p.speed; p.planet.rotation.y += 0.005; });
   sun.rotation.y += 0.002;
   // 중복되는 수동 위치 계산 삭제
   renderer.render(scene, camera);
@@ -276,6 +297,8 @@ if (boardList) {
   let editingId = null;
 
   window.loadPosts = function () {
+    if (!db || !_fs) return;
+    const { collection, query, orderBy, onSnapshot } = _fs;
     const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
 
     // 실시간 데이터 감시 (onSnapshot)
@@ -372,6 +395,7 @@ if (boardList) {
   };
 
   window.toggleLike = async (id) => {
+    const { doc, getDoc, updateDoc } = _fs;
     const postRef = doc(db, "posts", id);
     const postSnap = await getDoc(postRef);
     if (postSnap.exists()) {
@@ -382,6 +406,7 @@ if (boardList) {
   };
 
   window.addComment = async (id) => {
+    const { doc, getDoc, updateDoc } = _fs;
     const author = prompt(isEnglish ? "Name:" : "이름:");
     const text = author ? prompt(isEnglish ? "Reply:" : "내용:") : null;
     if (text) {
@@ -396,6 +421,7 @@ if (boardList) {
   };
 
   window.deletePost = async (id) => {
+    const { doc, deleteDoc } = _fs;
     if (confirm(isEnglish ? "Delete?" : "삭제할까요?")) {
       await deleteDoc(doc(db, "posts", id));
       showToast(isEnglish ? "Deleted successfully" : "삭제되었습니다.");
@@ -403,6 +429,7 @@ if (boardList) {
   };
 
   window.editPost = async (id) => {
+    const { doc, getDoc } = _fs;
     const postRef = doc(db, "posts", id);
     const postSnap = await getDoc(postRef);
     if (postSnap.exists()) {
@@ -456,6 +483,7 @@ if (boardList) {
   };
 
   submitPostBtn.onclick = async () => {
+    const { collection, addDoc, doc, updateDoc, serverTimestamp } = _fs;
     const content = msgContent.value.trim();
     if (!content) return alert(isEnglish ? "Write content" : "내용을 입력하세요");
 
