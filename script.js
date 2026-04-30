@@ -276,9 +276,9 @@ if (boardList) {
       }
 
       const totalPosts = snapshot.size;
-      snapshot.forEach((docSnap, index) => {
+      snapshot.docs.forEach((docSnap, index) => {
         const post = { id: docSnap.id, ...docSnap.data() };
-        const postNumber = totalPosts - index; // 순차적 번호 (역순)
+        const postNumber = totalPosts - index; 
         const dateStr = post.createdAt ? post.createdAt.toDate().toLocaleDateString() : '...';
 
         const row = document.createElement('div');
